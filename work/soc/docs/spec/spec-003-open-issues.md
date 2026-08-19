@@ -27,7 +27,7 @@
 ## 3. 说明
 
 - **AI 不代猜需求**：以上问题均为需求级歧义，由人类答复；AI 提供影响分析与选项建议，决策归属人类。
-- 关闭后状态更新为 `closed`，并同步更新 `PRD.md` / `use-cases.md` 相关条目（REQ-011/REQ-018/REQ-019/REQ-020 等）。
+- 关闭后状态更新为 `closed`，并同步更新 `spec-001-PRD.md` / `spec-002-use-cases.md` 相关条目（REQ-011/REQ-018/REQ-019/REQ-020 等）。
 - 所有涉及 tinyRISCV 核的契约细节（版本 pin、RIB↔AXI 桥实现、Debug Module 对 JTAG 的影响）在文档中标注"待 C0 验证"并移交 B6/C0 处理，不影响 A1 需求层面收敛。
 - A1 判据"场景无未决 open issue"：当前 0 项 open，已满足。
 

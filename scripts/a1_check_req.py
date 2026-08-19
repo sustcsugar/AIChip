@@ -3,9 +3,9 @@
 """A1 需求完整性校验脚本 (node A1: 需求与场景定义)
 
 用法:
-    python scripts/a1_check_req.py --prd work/soc/docs/spec/PRD.md \
-                                --scen work/soc/docs/spec/use-cases.md \
-                                [--oi work/soc/docs/spec/open-issues.md]
+    python scripts/a1_check_req.py --prd work/soc/docs/spec/spec-001-PRD.md \
+                                --scen work/soc/docs/spec/spec-002-use-cases.md \
+                                [--oi work/soc/docs/spec/spec-003-open-issues.md]
 
 输出:
     REQ/SC/UC/OI 条目数

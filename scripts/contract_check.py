@@ -6,7 +6,7 @@
 自动比对；复杂比对建议扩展为解析 Regmap/端口清单的 JSON 格式。
 
 用法:
-    python scripts/contract_check.py --ip mipi --soc-spec work/soc/docs/spec/接口规格.md
+    python scripts/contract_check.py --ip mipi --soc-spec work/soc/docs/spec/spec-NNN-接口规格.md
     python scripts/contract_check.py --list
 """
 import argparse
