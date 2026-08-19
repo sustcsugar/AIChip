@@ -5,9 +5,9 @@
 ## 流程入口
 
 - **总纲 SOP**：`doc/SOP.md` — 流程模型、收敛关口、节点索引
-- **设计基线**：`doc/2026-08-19-ai-chip-sop-design.md`
-- **收敛判据速查**：`doc/90-收敛判据速查表.md`
-- **人机职责矩阵**：`doc/91-人机职责分配矩阵.md`
+- **设计基线**：`doc/设计/2026-08-19-ai-chip-sop-design.md`
+- **收敛判据速查**：`doc/辅助文档/90-收敛判据速查表.md`
+- **人机职责矩阵**：`doc/辅助文档/91-人机职责分配矩阵.md`
 
 ## 如何使用
 
@@ -21,7 +21,7 @@
 
 | 路径 | 内容 |
 |------|------|
-| `doc/` | SOP 总纲 + 节点详章 + 速查表 + 职责矩阵 + 设计文档 |
+| `doc/` | 按阶段+节点分类：`SOP.md` 总纲 + `阶段A–H/` 每节点独立文件夹 + `辅助文档/`（90/91）+ `设计/` |
 | `.opencode/skills/` | 节点级 skill（`node-<ID>-<slug>`）+ 跨切面 skill（review-gate / convergence-judge / ip-discipline） |
 | `.opencode/agent/` | 7 个 agent：orchestrator + 6 领域 agent |
 | `templates/` | 节点输入/输出模板 |

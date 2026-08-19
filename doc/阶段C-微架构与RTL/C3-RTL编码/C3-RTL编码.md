@@ -16,7 +16,7 @@
 - [ ] C1 微架构规格（passed）：状态机/握手/流水线/Regmap 定义
 - [ ] C2 模块接口契约（passed）：端口方向/位宽/时钟域/时序约束
 - [ ] B2 地址映射（passed）：Regmap 偏移与访问属性
-- [ ] 编码规范（项目约定：SystemVerilog 可综合子集、命名规则、注释要求）— 存于 skill `node-C3-rtl-coding` 或 `templates/` 下
+- [ ] 编码规范（唯一真相源）：`doc/阶段C-微架构与RTL/C3-RTL编码/C3-编码规范.md` — 可综合子集、命名、位宽、同步设计、CDC、注释、违规分级
 - [ ] C0 的 `ip_manifest.json`（filelist 生成依据，供编译脚本引用）
 - [ ] 目标工作区已存在：`work/soc/rtl/<mod>/`（SoC）、`work/ip/<ip>/rtl/`（IP）
 
@@ -27,14 +27,14 @@
 - 每个模块规划文件组织：单模块单文件 `<module>.sv`，公共参数/宏独立 `defines.svh`。
 
 ### Execute
-- 按模块执行编码循环：
+- **编码前先读 `doc/阶段C-微架构与RTL/C3-RTL编码/C3-编码规范.md`**（规范唯一真相源），按模块执行编码循环：
   1. **端口框架**：从 C2 契约生成完整端口声明（方向/位宽/时钟域一致）。
   2. **寄存器**：按 C1 Regmap 表实现读写逻辑（同步写、复位值、W1C/RO 等访问属性）。
   3. **状态机**：按 C1 状态表编码（`typedef enum` 状态、`always_comb` 次态、`always_ff` 现态、缺省分支显式处理非法状态）。
   4. **数据通路/握手**：按 C1 流水线与握手实现 valid/ready、停顿/背压。
   5. **CDC 隔离**：跨时钟域信号只经同步器/异步 FIFO 交接，禁止跨域组合直连。
 - 遵守可综合子集纪律：只用 `always_ff`/`always_comb`（禁 `always_latch` 遗留）、无混合边沿触发、无 `initial` 进综合、禁止块内阻塞赋值混用、位宽显式匹配、避免不可综合构造（`fork/join`、`$display` 仅限 TB）。
-- 每模块完成后独立编译（lint-only + 编译）确认无语法/声明错误。
+- 每模块完成后**用 `templates/c3-selfcheck.md` 复制为 `work/soc/docs/reports/c3-selfcheck-<mod>.md` 逐项自检**（对照 `doc/阶段C-微架构与RTL/C3-RTL编码/C3-编码规范.md` 十节），随后独立编译（lint-only + 编译）确认无语法/声明错误。
 
 ### Measure
 - 每模块：RTL 行数、模块数、端口数、寄存器实现条数（与 C1 Regmap 比对）、状态机实现条数。
@@ -63,7 +63,7 @@
   - SoC 自研模块：`work/soc/rtl/<mod>/<mod>.sv`
   - IP 项目内模块：`work/ip/<ip>/rtl/<mod>.sv`
   - 公共定义：`work/soc/rtl/common/defines.svh`
-- 参考：C1 微架构文档、C2 接口契约、编码规范清单（skill 内）
+- 参考：`doc/阶段C-微架构与RTL/C3-RTL编码/C3-编码规范.md`（规范）、C1 微架构文档、C2 接口契约
 
 ## 5. 人机职责分配
 

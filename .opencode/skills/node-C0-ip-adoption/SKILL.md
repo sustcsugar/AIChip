@@ -5,7 +5,7 @@ description: 验证 IP 接口合同（AXI/regmap/复位/时钟/中断）与 SoC 
 
 # Node C0: IP接入与合同验证
 
-> 本 skill 承载节点 C0 的执行工作流。节点完整定义（含人机职责）见 `doc/C0-IP接入与合同验证.md`。
+> 本 skill 承载节点 C0 的执行工作流。节点完整定义（含人机职责）见 `doc/阶段C-微架构与RTL/C0-IP接入与合同验证/C0-IP接入与合同验证.md`。
 > 归属 agent：rtl-agent。执行前必须先读 `state/tracker.md` 确认节点处于 in_progress 且前置输入完整。
 
 ## 1. 目的
@@ -22,6 +22,7 @@ description: 验证 IP 接口合同（AXI/regmap/复位/时钟/中断）与 SoC 
 ### Plan
 1. 读取输入产物，确认理解目标
 2. 若存在模板（`templates/`），先复制模板为工作文件
+3. **读取本节点的规范/标准文档**（如 `doc/阶段C-微架构与RTL/C3-RTL编码/C3-编码规范.md`，若详章指明存在），作为执行约束
 
 ### Execute
 3. 按输入产物执行本节点工作
@@ -61,6 +62,6 @@ description: 验证 IP 接口合同（AXI/regmap/复位/时钟/中断）与 SoC 
 
 ## 9. 参考
 
-- 节点详章：`doc/C0-IP接入与合同验证.md`
-- 速查表：`doc/90-收敛判据速查表.md`
-- 职责矩阵：`doc/91-人机职责分配矩阵.md`
+- 节点详章：`doc/阶段C-微架构与RTL/C0-IP接入与合同验证/C0-IP接入与合同验证.md`
+- 速查表：`doc/辅助文档/90-收敛判据速查表.md`
+- 职责矩阵：`doc/辅助文档/91-人机职责分配矩阵.md`

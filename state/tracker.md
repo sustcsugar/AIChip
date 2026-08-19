@@ -6,7 +6,7 @@
 | 阶段 | 节点 | 状态 |
 |------|------|------|
 | A | 5 | 全部 pending |
-| B | 6 | 全部 pending |
+| B | 7 | 全部 pending |
 | C | 8 | 全部 pending |
 | D | 7 | 全部 pending |
 | E | 6 | 全部 pending |
@@ -77,6 +77,12 @@
 - 质量门: 待人工签字
 
 ## B6 集成规划
+- 状态: pending
+- 前置: TBD
+- 收敛指标: TBD
+- 质量门: 待人工签字
+
+## B7 参考模型开发
 - 状态: pending
 - 前置: TBD
 - 收敛指标: TBD

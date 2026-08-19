@@ -6,15 +6,17 @@
 
 搭建 UVM/cocotb 验证环境与共享组件。本节点将 D1 vplan 的环境规划落实为可编译、可运行的仿真骨架，作为 D3–D6 所有用例的载体。
 
-范围（两级环境 + 共享层）：
+范围（两级环境 + 共享层 + 参考模型/Scoreboard）：
 - **模块级**：`verif/block/<mod>/`，DUT = 单个模块，不得实例化其他设计模块。
 - **系统级**：`verif/sys/`，DUT = `soc_top`，挂 AXI VIP + memory model。
 - **共享组件**：`verif/common/`，包括 VIP（AXI 等）、行为模型、memory model、公共 sequence/utility 库。
+- **参考模型集成（B7 golden）**：把 B7 冻结的系统级/模块级参考模型接入两级环境，构建 **scoreboard 自动比对通路**——同一激励同时驱动 DUT 与参考模型，输出自动比对。
 - 覆盖工具链接入：Verilator 代码覆盖率、cocotb 功能覆盖率开关在环境中预置。
 
 ## 2. 输入产物（前置条件）
 
 - [ ] D1 vplan passed（含两级环境规划、复用资产清单）
+- [ ] B7 参考模型冻结 passed（golden 模型 + 版本，供 scoreboard 集成）
 - [ ] C2 模块接口契约 passed（端口、时序、握手，用于 TB 顶层连线）
 - [ ] C6 模块级 smoke passed（`state/tracker.md` 确认）
 - [ ] C7 RTL 冻结 passed（feature complete，RTL 版本锁定）
@@ -32,16 +34,20 @@
 4. 搭建 `verif/common/`：AXI VIP、memory model、行为模型、sequence 库、时钟/复位公共组件。
 5. 搭建模块级环境 `verif/block/<mod>/`：TB 顶层、DUT 实例化、时钟复位生成、cocotb 入口 / UVM env、`tests/` 目录、Makefile 与编译文件清单。
 6. 搭建系统级环境 `verif/sys/`：`soc_top` 实例化 + AXI VIP + memory model 挂载，按 manifest mode（model / rtl）选择挂载对象。
-7. 编写编译/运行脚本（Makefile + runner），打开覆盖率收集开关。
-8. 编写 smoke 用例（每个环境至少一个）跑通编译与运行闭环。
+7. **参考模型 + Scoreboard 集成**：
+   - 模块级：实例化 `work/soc/model/block/<mod>/` 的 golden 模型，与 DUT 同激励同输入，scoreboard 比对模块输出。
+   - 系统级：实例化 `work/soc/model/sys/` 的系统级模型，scoreboard 比对系统输出（含容差策略）。
+   - 封装参考模型为仿真可用形态（SV 行为模型或 DPI-C），比对结果统一记录（mismatch 计数 + 日志）。
+8. 编写编译/运行脚本（Makefile + runner），打开覆盖率收集开关。
+9. 编写 smoke 用例（每个环境至少一个）跑通编译与运行闭环，**含 scoreboard 冒烟比对通过**。
 
 ### Measure
-9. 记录度量：编译时间、各环境 smoke 用例通过数、覆盖率收集文件是否生成。
-10. 运行 `python scripts/check_tracker.py --node D2`。
+10. 记录度量：编译时间、各环境 smoke 用例通过数、覆盖率收集文件是否生成、scoreboard 冒烟比对 mismatch 数（应为 0）。
+11. 运行 `python scripts/check_tracker.py --node D2`。
 
 ### Judge
-11. 对照收敛判据逐项检查（见第 6 节）。
-12. 不满足 → 修正编译错误 / 环境缺陷后重测；满足 → 进入质量门。
+12. 对照收敛判据逐项检查（见第 6 节）。
+13. 不满足 → 修正编译错误 / 环境缺陷后重测；满足 → 进入质量门。
 
 ## 4. 工具与命令
 
@@ -59,6 +65,7 @@
   - `verif/common/`：AXI VIP、memory model、行为模型
   - `verif/block/<mod>/`：模块级 TB + `tests/`
   - `verif/sys/`：系统级 TB（`soc_top` + VIP + memory model）
+  - 参考模型（B7 golden，只读引用）：`work/soc/model/sys/`、`work/soc/model/block/<mod>/`、`work/ip/<ip>/model/`
 - 状态校验：`python scripts/check_tracker.py --node D2`。
 
 ## 5. 人机职责分配
@@ -80,6 +87,7 @@
 可操作判定方法：
 - 两级环境（block + sys）编译均无 error（warning 记录不阻断）。
 - 每个环境的 smoke 用例运行通过：cocotb 输出 `Passed` 或 `0 errors`，进程 exit code 0。
+- **scoreboard 冒烟比对通过：参考模型 vs RTL 比对 mismatch = 0（block 与 sys 各一例）。**
 - 覆盖率收集开关生效：运行后 `coverage.dat` / 功能覆盖 report 文件非空。
 - `verif/common/` 共享组件被 block 与 sys 至少各一处引用。
 - `python scripts/check_tracker.py --node D2` 通过。

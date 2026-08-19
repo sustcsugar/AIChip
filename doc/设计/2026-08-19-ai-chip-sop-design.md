@@ -54,6 +54,7 @@ G 签核与交付 → H 物理设计（可选扩展）
 | B4 | 性能/面积/功耗建模 | 估算报告 | 估算满足 A2 指标 |
 | B5 | 架构评审 | 评审纪要 | 架构冻结，签字 |
 | B6 | 集成规划 | IP 选型表（自研/复用）、版本基线、复用策略 | 每个功能块明确来源 |
+| B7 | 参考模型开发 | 系统级/模块级 golden 模型、模型规格、冻结版本 | 模型行为与规格一致，冻结为 golden |
 
 ### 阶段 C 微架构与 RTL
 
@@ -141,7 +142,7 @@ G 签核与交付 → H 物理设计（可选扩展）
 
 ## 5. 两级验证环境区分
 
-| | 模块级验证 `work/ip/<mod>/tb` 或 `work/soc/verif/block/` | 系统级验证 `work/soc/verif/sys/` |
+| | 模块级验证 `work/ip/<ip>/tb` 或 `work/soc/verif/block/` | 系统级验证 `work/soc/verif/sys/` |
 |---|---|---|
 | DUT | 单个模块 | 顶层 soc_top |
 | 依赖 | 行为模型/VIP（来自 `verif/common/`） | 真实总线 VIP + memory model |
@@ -150,13 +151,20 @@ G 签核与交付 → H 物理设计（可选扩展）
 
 关键约束：block TB 不实例化其他设计模块；sys TB 只实例化 soc_top。
 
+## 5.1 参考模型与 Scoreboard（B7 → D 阶段）
+
+- **B7 参考模型开发**（B 阶段）：系统级模型 `work/soc/model/sys/` + 模块级模型 `work/soc/model/block/<mod>/`（模块级统一用 `block` 命名），IP 自带模型随 IP 交付（`work/ip/<ip>/model/`，对应 manifest `mode: model`）。
+- **双重用途**：前期算法/性能评估（B 阶段）；后期作为 golden 比对数据（D 阶段）。
+- **Scoreboard 集成**（D2）：两级环境各实例化 `DUT + 参考模型 + scoreboard`，同激励驱动、输出自动比对。
+- **收敛判据**（D6/D7）：全量回归中 scoreboard 比对 **mismatch = 0** 纳入功能收敛判据，实现仿真自检闭环。
+
 ## 6. Agent 架构
 
 | Agent | 负责阶段 | 挂载 skills | 关键职责 | 输出落点 |
 |-------|---------|------------|---------|---------|
 | orchestrator | 全局 | review-gate, convergence-judge | 维护收敛看板、按 SOP 调度、收敛判据检查、评审门控、决策记录 | state/* |
 | spec-agent | A (A1–A5) | node-a1…a5 | PRD/系统规格/接口规格/RTM | doc/*, work/* |
-| arch-agent | B (B1–B6) | node-b1…b6 | 架构、memory map、总线选型、B6 集成规划 | doc/*, work/* |
+| arch-agent | B (B1–B7) | node-b1…b7 | 架构、memory map、总线选型、B6 集成规划、B7 参考模型 | doc/*, work/* |
 | rtl-agent | C (C0–C7) | node-c0…c7, ip-discipline | 微架构规格、C0 IP 合同验证、RTL 编码、lint/CDC、模块 smoke、freeze | work/*/rtl |
 | verify-agent | D (D1–D7) | node-d1…d7 | vplan、TB、用例、覆盖率收敛、model↔rtl 切换、子系统集成验证 | work/*/verif |
 | syn-agent | E (E1–E6) | node-e1…e6 | SDC、综合脚本、综合、LEC、门级仿真 | work/soc/syn |
