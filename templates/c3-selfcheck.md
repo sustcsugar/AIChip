@@ -1,7 +1,7 @@
 # C3 模块自检记录 — <module>
 
 > 模板：每模块复制一份为 `work/soc/docs/reports/c3-selfcheck-<mod>.md`，编码后逐项勾选。
-> 依据：`doc/阶段C-微架构与RTL/C3-RTL编码/C3-编码规范.md`。违规分级：Blocker 必修复 / Warning 必修复或 waiver / Info 可选。
+> 依据：`doc/阶段C-微架构与RTL/C3-编码规范.md`。违规分级：Blocker 必修复 / Warning 必修复或 waiver / Info 可选。
 
 ## 模块信息
 - 模块名 / 文件路径 / 时钟域 / 复位策略

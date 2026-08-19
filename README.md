@@ -21,7 +21,7 @@
 
 | 路径 | 内容 |
 |------|------|
-| `doc/` | 按阶段+节点分类：`SOP.md` 总纲 + `阶段A–H/` 每节点独立文件夹 + `辅助文档/`（90/91）+ `设计/` |
+| `doc/` | 按阶段+节点分类：`SOP.md` 总纲 + `阶段A–H/` 节点详章平铺 + `辅助文档/`（90/91）+ `设计/` |
 | `.opencode/skills/` | 节点级 skill（`node-<ID>-<slug>`）+ 跨切面 skill（review-gate / convergence-judge / ip-discipline） |
 | `.opencode/agent/` | 7 个 agent：orchestrator + 6 领域 agent |
 | `templates/` | 节点输入/输出模板 |
