@@ -1,0 +1,9 @@
+{
+  "soc_version": "soc_v0.1",
+  "ips": {
+    "mipi_dsi": { "path": "../ip/mipi", "version": "mipi_v1.0", "mode": "model" },
+    "usb":      { "path": "../ip/usb",  "version": "usb_v1.0",  "mode": "model" },
+    "ddr":      { "path": "../ip/ddr",  "version": "ddr_v1.0",  "mode": "model" },
+    "axi_uart": { "path": "../ip/axi_uart", "version": "au_v0.9", "mode": "model" }
+  }
+}
