@@ -5,7 +5,7 @@
 ## 阶段汇总
 | 阶段 | 节点 | 状态 |
 |------|------|------|
-| A | 5 | 3 passed / 2 pending |
+| A | 5 | 4 passed / 1 pending |
 | B | 7 | 全部 pending |
 | C | 8 | 全部 pending |
 | D | 7 | 全部 pending |
@@ -35,16 +35,16 @@
 - 质量门: 已签字（2026-08-20，三项评审决策：AXI4 统一总线 / 引脚复用确认 / M-013≤100ms，详见 ADR-009）
 
 ## A4 需求可追溯矩阵
-- 状态: waiting_review
+- 状态: passed
 - 前置: A1, A2, A3
 - 收敛指标: RTM 双向覆盖 100%（REQ 20/20 → SPEC 40/40、TP 34/34，孤儿 0；a4_check_rtm.py PASS）
-- 质量门: 待人工签字（2026-08-21 产出 spec-006-rtm + report）
+- 质量门: 已签字（2026-08-21，双向覆盖 100% + 孤儿清单为空 + 缺口裁定确认）
 
 ## A5 规格评审冻结
-- 状态: pending
-- 前置: TBD
-- 收敛指标: TBD
-- 质量门: 待人工签字
+- 状态: waiting_review
+- 前置: A1, A2, A3, A4
+- 收敛指标: 预审通过（a1-a4 校验全 PASS，Blocking=0，Non-blocking 6 项已登记责任人/目标节点）
+- 质量门: 待人工签字（2026-08-21 产出 spec-007 评审纪要；签字后冻结 spec-v1.0 基线）
 
 ## B1 系统架构
 - 状态: pending
