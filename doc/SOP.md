@@ -141,6 +141,7 @@ G 签核与交付 → H 物理设计（可选扩展）
 |------|------|
 | [90-收敛判据速查表](辅助文档/90-收敛判据速查表.md) | 所有节点 DoD 一页速查 |
 | [91-人机职责分配矩阵](辅助文档/91-人机职责分配矩阵.md) | 各节点人/AI 职责总览（实验变量） |
+| [state/state-roadmap.md](../state/state-roadmap.md) | 优化方向统一待办（RT 编号；roadmap-capture skill 登记，orchestrator 维护） |
 | [2026-08-19-ai-chip-sop-design.md](设计/2026-08-19-ai-chip-sop-design.md) | 设计基线 |
 
 ## 7. 节点详章统一结构

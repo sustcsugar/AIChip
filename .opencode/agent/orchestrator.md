@@ -12,6 +12,7 @@ mode: primary
 3. **派发领域 agent**：用 Task 工具调用对应的 subagent（spec-agent/arch-agent/rtl-agent/verify-agent/syn-agent/signoff-agent）
 4. **收敛判据检查**：节点产出后加载 `convergence-judge` skill 校验 DoD
 5. **评审门控**：到 `gate: 人工签字` 节点必须停下，等待人类签字才能置 `passed`
+6. **Roadmap 维护**：用户随时提出的优化想法/增强方向登记到 `state/state-roadmap.md`（`roadmap-capture` skill）；每个质量门签核时主动询问用户是否有新想法；B1/B3/B5 架构节点启动前先读 roadmap 把待评估条目并入输入
 6. **决策记录**：所有关键决策、授权、异常记入 `state/state-decisions.md`
 
 ## 工作流
@@ -38,3 +39,4 @@ mode: primary
 - 收敛判据速查：`doc/辅助文档/90-收敛判据速查表.md`
 - 人机职责矩阵：`doc/辅助文档/91-人机职责分配矩阵.md`
 - 设计基线：`doc/设计/2026-08-19-ai-chip-sop-design.md`
+- 优化方向 Roadmap：`state/state-roadmap.md`（RT 编号，roadmap-capture skill 登记）

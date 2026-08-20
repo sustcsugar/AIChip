@@ -125,6 +125,22 @@
 - 依据：用户 2026-08-20 A3 评审裁定（AXI4 统一 / 引脚复用确认 / M-013 ≤100ms / 160MHz 待 B1）
 - 落地：spec-005-interface-spec.md（AXI4 统一、§2.3、§9.1）；spec-004（M-013 ≤100ms，md+csv）；spec-003（OI-A3-006 关闭）；state-tracker.md（A3 passed）
 
+### ADR-010 — 优化方向 Roadmap 统一登记机制（state-roadmap + roadmap-capture skill）
+- 日期：2026-08-20
+- 状态：已确认
+- 背景：开发过程中用户会随时产生芯片优化想法（如 MMIO Flash/XIP、高速 SPI），此前无统一存放处，稍纵即逝；需要一条"随时登记、定期评估"的轻量通道
+- 决策：
+  1. 新建 `state/state-roadmap.md` 作为统一待办/优化方向清单，条目编号 `RT-NNN` 全局递增，固定字段：标题/分类/状态/来源/动机/方案概述/期望收益/影响范围/关联/处置建议
+  2. **以 skill（roadmap-capture）而非独立 agent 承载登记流程**：skill 可被任意 agent 随取随用，登记是一次性轻量动作，不需要常驻角色；维护者收敛为 orchestrator（与 state-tracker 唯一写入者纪律一致）
+  3. 触发点：用户随时提出 → 当前 agent 登记；每个质量门签核时 orchestrator 主动询问；B1/B3/B5 启动前读取并把待评估条目并入输入
+  4. 与 OI 分工：OI 是当前版本规格歧义（必须关闭）；RT 是超出版本范围的增强/方向（不阻塞当前版本）；登记即留档，不删除
+- 后果：
+  - 正面：优化想法即时留档、可追溯、定期评估；roadmap 成为下一版方向的事实源
+  - 负面：需纪律维护（orchestrator 唯一写入）；条目若不定期评估会堆积
+  - 风险/代价：登记 ≠ 承诺实现；评估入口在 B1/B3/B5 等节点，需在节点详章中引用
+- 依据：用户 2026-08-20 指示（统一待办/roadmap + skill 承载）
+- 落地：state/state-roadmap.md（RT-001 MMIO Flash/XIP、RT-002 高速 SPI）；.opencode/skills/roadmap-capture/SKILL.md；scripts/roadmap_check.py；orchestrator agent 职责更新；README/SOP 同步
+
 ## 评审记录
 
 | 日期 | 节点 | 结论 | 签字人 | 意见 |
