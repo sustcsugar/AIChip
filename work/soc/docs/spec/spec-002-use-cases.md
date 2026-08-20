@@ -4,7 +4,7 @@
 > 配套文档：`PRD.md`（需求）、`open-issues.md`（未决问题，v0.2 已全部关闭）
 > 结构：SC（场景清单）→ UC（用例清单，按功能域归组，正常/边界/异常）→ 覆盖矩阵 → 度量
 > v0.3 变更：UC 编号二级化 `UC-<功能域>-NNN`（11 功能域，与 PRD REQ 功能域对应）；全量 UC 引用/矩阵/度量同步；REQ→UC 矩阵修正 REQ-002 冗余引用
-> v0.2 变更：OI-001~005 关闭折入——新增 SC-10/11/12 与 UC-027~032（Flash 启动、固件更新写 Flash、RIB↔AXI 桥外设访问、GPIO、验收演示）
+> v0.2 变更：OI-A1-001~005 关闭折入——新增 SC-10/11/12 与 UC-027~032（Flash 启动、固件更新写 Flash、RIB↔AXI 桥外设访问、GPIO、验收演示）
 
 ## 1. 场景清单（SC）
 
@@ -19,9 +19,9 @@
 | SC-07 | PWM 驱动输出 | 应用配置 PWM 通道输出驱动（电机/LED/蜂鸣器），支持边界占空比 | PWM、核 | REQ-007 | UC-PWM-001, UC-PWM-002 |
 | SC-08 | 中断驱动实时响应 | 外部事件/定时器/软件中断触发 ISR，实现实时响应与多中断协同 | 中断模块、定时器、核 | REQ-008, REQ-009 | UC-INT-001, UC-INT-002, UC-INT-003, UC-INT-004, UC-INT-005 |
 | SC-09 | 低功耗运行 | 系统空闲时进入低功耗模式，事件唤醒后恢复（Should 级场景） | 时钟复位、中断、功耗域 | REQ-014 | UC-PWR-001 |
-| SC-10 | AXI 总线访问（RIB↔AXI 桥） | 核经 RIB↔AXI 桥访问 AXI 侧存储（AXI_SRAM）与 AXI 外设，验证桥接正确性（OI-002 决策） | RIB↔AXI 桥、核、AXI_SRAM、AXI 外设 | REQ-018, REQ-011 | UC-BUS-001 |
-| SC-11 | GPIO 外设与引脚复用 | 配置 GPIO 输出（LED）/输入（外部事件），与 SPI/IIC/PWM 引脚复用协同（OI-003 决策） | GPIO、核、中断 | REQ-019, REQ-012, REQ-008 | UC-GPIO-001, UC-GPIO-002 |
-| SC-12 | 验收演示 | 最终验收演示：LED 点灯 + 串口打印日志 + SPI/IIC/PWM 外设联动（OI-005 决策） | 全系统 | REQ-020 | UC-DEMO-001 |
+| SC-10 | AXI 总线访问（RIB↔AXI 桥） | 核经 RIB↔AXI 桥访问 AXI 侧存储（AXI_SRAM）与 AXI 外设，验证桥接正确性（OI-A1-002 决策） | RIB↔AXI 桥、核、AXI_SRAM、AXI 外设 | REQ-018, REQ-011 | UC-BUS-001 |
+| SC-11 | GPIO 外设与引脚复用 | 配置 GPIO 输出（LED）/输入（外部事件），与 SPI/IIC/PWM 引脚复用协同（OI-A1-003 决策） | GPIO、核、中断 | REQ-019, REQ-012, REQ-008 | UC-GPIO-001, UC-GPIO-002 |
+| SC-12 | 验收演示 | 最终验收演示：LED 点灯 + 串口打印日志 + SPI/IIC/PWM 外设联动（OI-A1-005 决策） | 全系统 | REQ-020 | UC-DEMO-001 |
 
 ### 关键场景流程图（Mermaid）
 
@@ -243,7 +243,7 @@ flowchart LR
 | 需求条目数（REQ） | 20 |
 | 场景数（SC） | 12 |
 | 用例数（UC） | 32（11 功能域，见 §2.0） |
-| open issue 数（OI） | 0（OI-001~005 已于 2026-08-19 关闭，见 `open-issues.md`） |
+| open issue 数（OI） | 0（OI-A1-001~005 已于 2026-08-19 关闭，见 `open-issues.md`） |
 
 ### 用例路径分布
 
@@ -260,5 +260,5 @@ flowchart LR
 | 版本 | 日期 | 变更 | 作者 |
 |------|------|------|------|
 | v0.1 | 2026-08-19 | 初稿：9 SC / 26 UC | spec-agent |
-| v0.2 | 2026-08-19 | OI-001~005 关闭折入：新增 SC-10（AXI 总线访问）、SC-11（GPIO 外设）、SC-12（验收演示）与 UC-027~032（Flash 启动、固件更新写 Flash、RIB↔AXI 桥外设访问、GPIO 输出/中断、验收演示联动）；SC-01/SC-03 更新 Flash 存储路径；覆盖矩阵与度量同步；12 SC / 32 UC | spec-agent |
+| v0.2 | 2026-08-19 | OI-A1-001~005 关闭折入：新增 SC-10（AXI 总线访问）、SC-11（GPIO 外设）、SC-12（验收演示）与 UC-027~032（Flash 启动、固件更新写 Flash、RIB↔AXI 桥外设访问、GPIO 输出/中断、验收演示联动）；SC-01/SC-03 更新 Flash 存储路径；覆盖矩阵与度量同步；12 SC / 32 UC | spec-agent |
 | v0.3 | 2026-08-19 | 评审修复：UC 编号二级化 `UC-<功能域>-NNN`（11 功能域：BOOT/UART/JTAG/SPI/IIC/PWM/INT/PWR/BUS/GPIO/DEMO，与 PRD REQ 功能域对应）；用例清单按功能域归组；SC 表派生用例、SC→UC 矩阵、REQ→UC 矩阵、度量路径分布全部同步；REQ→UC 矩阵修正 REQ-002 冗余引用（UC-006 实为 REQ-003 域）；UC 总数 32 不变 | spec-agent |

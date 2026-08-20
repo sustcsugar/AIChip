@@ -29,7 +29,8 @@ SC_RE = re.compile(r"\bSC-\d{2}\b")
 # UC 编号二级结构: UC-<功能域>-NNN（功能域 = 短 slug，英文可含下划线；同域内 3 位递增）
 # 负例保持不放松: 旧扁平格式 UC-001 / UC-01 等均不匹配（无功能域段或非 3 位序号）
 UC_RE = re.compile(r"\bUC-[A-Z][A-Z0-9_]*-\d{3}\b")
-OI_RE = re.compile(r"\bOI-\d{3}\b")
+# 格式: OI-<节点ID>-<全局序号>，如 OI-A1-001、OI-A2-006（ADR-008）
+OI_RE = re.compile(r"\bOI-[A-Z]\d-\d{3}\b")
 
 # 约束性/流程性需求关键词：此类需求不要求行为用例覆盖（由检查项追溯）
 CONSTRAINT_KEYWORDS = ("合规", "流程性", "约束性", "License")

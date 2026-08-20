@@ -12,7 +12,7 @@
 | 文档 | 产品需求文档（PRD） |
 | 项目 | AIChip — 人机协同芯片开发实验 |
 | 产品 | 基于 tinyRISCV 的 MCU 级 SoC |
-| 版本 | v0.3（A1 草案，OI-001~005 已关闭，待评审冻结） |
+| 版本 | v0.3（A1 草案，OI-A1-001~005 已关闭，待评审冻结） |
 | 日期 | 2026-08-19 |
 | 作者 | spec-agent（AI），人类需求输入与决策 |
 
@@ -20,20 +20,20 @@
 
 本产品是基于开源 **tinyRISCV** 处理器核（liangkangnan/tinyriscv，Apache-2.0 许可，RV32IM，3 级流水线，私有 RIB 总线）构建的 **MCU 级 SoC**，面向嵌入式控制类应用，提供串口通信、调试、存储、外设扩展（SPI/IIC/PWM/GPIO）与中断驱动的实时响应能力。
 
-**必选功能模块**（人类已确认，含 OI-003 决策）：
+**必选功能模块**（人类已确认，含 OI-A1-003 决策）：
 - UART（串口，含固件更新能力）
 - JTAG（调试，openocd 内存读写；无标准 Debug Module 的影响待 C0 评估）
 - SPI（master）
 - IIC
 - PWM
-- GPIO（独立外设，引脚复用，OI-003 决策纳入）
+- GPIO（独立外设，引脚复用，OI-A1-003 决策纳入）
 - 中断模块（外部 / 定时器 / 软件中断）
 
-**存储与总线方案**（OI-001/OI-002 决策）：
+**存储与总线方案**（OI-A1-001/OI-A1-002 决策）：
 - 存储：**SPI Flash**（固件非易失存储，启动取指经 SPI 加载，固件更新写入）+ **AXI_SRAM**（运行数据，落在 AXI 侧）
 - 总线：tinyRISCV **保留 RIB 总线**；SoC 层**自研 RIB↔AXI 桥**接入标准 AXI 外设与 AXI_SRAM（自研 SoC 级 IP，见 REQ-018）
 
-**验收演示形态**（OI-005 决策）：LED 点灯 + 串口打印日志 + SPI/IIC/PWM 外设联动（见 REQ-020）。
+**验收演示形态**（OI-A1-005 决策）：LED 点灯 + 串口打印日志 + SPI/IIC/PWM 外设联动（见 REQ-020）。
 
 ## 3. 需求输入来源
 
@@ -42,7 +42,7 @@
 | 人类立项输入 | 功能模块清单（UART/JTAG/SPI/IIC/PWM/中断）、核选型（tinyRISCV） |
 | 参考报告（tinyRISCV 特性） | 6 外设 × 256MB 映射、RIB 私有总线 req/resp 协议、M 模式无缓存、CoreMark 2.4@50MHz、无标准 Debug Module |
 | SOP 设计基线 | 两层项目模型（IP 层 / SoC 层）、工具链、收敛关口 |
-| ADR-002（2026-08-19） | OI-001~005 人类决策：SPI Flash + AXI_SRAM、RIB↔AXI 桥、GPIO、工艺待定、验收演示形态 |
+| ADR-002（2026-08-19） | OI-A1-001~005 人类决策：SPI Flash + AXI_SRAM、RIB↔AXI 桥、GPIO、工艺待定、验收演示形态 |
 
 > **契约声明**：所有涉及 tinyRISCV 核的契约信息（RIB 总线协议、无 Debug Module 对 JTAG 方案的影响、版本选择与 pin 定、License 合规）一律标注 **待 C0 合同验证 / B6 集成规划确认**（其中版本 pin 标注"待 C0 定"、JTAG 影响标注"待 C0 评估"），本节点不假设已接入、不编造接口细节。RIB↔AXI 桥为 SoC 层自研 IP，其内部实现由 B/C 阶段定义，A1 仅声明需求。
 
@@ -65,16 +65,16 @@
 | REQ-008 | 中断模块 | 统一中断管理，支持外部中断、定时器中断、软件中断（含 GPIO 外部中断路径）：可使能/屏蔽/挂起/清除，中断向量可达 ISR | 立项 | Must | 各类中断源均可触发并进入对应 ISR；屏蔽生效；中断可清除 | UC-UART-002, UC-INT-001, UC-INT-002, UC-INT-003, UC-INT-004, UC-INT-005, UC-GPIO-002 |
 | REQ-009 | 定时器 | 提供可编程定时器作为定时器中断源（实现来源：tinyRISCV 自带或自研，待 B6/C0 验证） | 隐含（REQ-008 依赖） | Must | 定时器可产生周期中断并进入 ISR | UC-INT-002 |
 | REQ-010 | 时钟与复位管理 | 提供片上时钟生成与统一复位，保证系统上电可启动 | 隐含 | Must | 复位释放后系统进入已知启动状态并稳定运行 | UC-BOOT-003 |
-| REQ-011 | 片上存储 | **SPI Flash（固件非易失存储，启动取指经 SPI 加载，固件更新写入）+ AXI_SRAM（运行数据，落在 AXI 侧）**；容量方案 B 阶段量化 | 隐含（OI-001 决策） | Must | 固件可存储于 SPI Flash 并在复位后经 SPI 加载启动执行；AXI_SRAM 可被核读写 | UC-BOOT-001, UC-BOOT-002, UC-BOOT-003, UC-BOOT-004, UC-UART-004, UC-UART-005, UC-UART-006, UC-UART-007, UC-BUS-001 |
+| REQ-011 | 片上存储 | **SPI Flash（固件非易失存储，启动取指经 SPI 加载，固件更新写入）+ AXI_SRAM（运行数据，落在 AXI 侧）**；容量方案 B 阶段量化 | 隐含（OI-A1-001 决策） | Must | 固件可存储于 SPI Flash 并在复位后经 SPI 加载启动执行；AXI_SRAM 可被核读写 | UC-BOOT-001, UC-BOOT-002, UC-BOOT-003, UC-BOOT-004, UC-UART-004, UC-UART-005, UC-UART-006, UC-UART-007, UC-BUS-001 |
 | REQ-012 | 芯片级引脚接口 | UART/JTAG/SPI/IIC/PWM/GPIO 信号可达芯片引脚（引脚映射与复用 A3 定义） | 隐含 | Must | 所有外设信号具备对外引出路径，无内部悬空；引脚复用可配置 | UC-UART-001, UC-SPI-001, UC-PWM-001, UC-GPIO-001 |
-| REQ-018 | RIB↔AXI 桥（自研 SoC 级 IP） | SoC 层自研 RIB↔AXI 桥，将 tinyRISCV 私有 RIB 总线桥接至标准 AXI，使核可访问 AXI 侧外设与 AXI_SRAM（OI-002 决策） | OI-002 决策 | Must | 核经 RIB↔AXI 桥可完成对 AXI 侧外设/存储的读写访问，数据一致；桥自身可综合 | UC-BOOT-004, UC-BUS-001 |
-| REQ-019 | GPIO 外设 | 提供独立 GPIO 外设：多路可配输入/输出，支持引脚复用（SPI/IIC/PWM 与 GPIO 协同）与 GPIO 中断（OI-003 决策） | OI-003 决策 | Must | GPIO 输出电平可控；输入状态可读；引脚复用可配置；GPIO 事件可触发外部中断 | UC-GPIO-001, UC-DEMO-001, UC-GPIO-002 |
+| REQ-018 | RIB↔AXI 桥（自研 SoC 级 IP） | SoC 层自研 RIB↔AXI 桥，将 tinyRISCV 私有 RIB 总线桥接至标准 AXI，使核可访问 AXI 侧外设与 AXI_SRAM（OI-A1-002 决策） | OI-A1-002 决策 | Must | 核经 RIB↔AXI 桥可完成对 AXI 侧外设/存储的读写访问，数据一致；桥自身可综合 | UC-BOOT-004, UC-BUS-001 |
+| REQ-019 | GPIO 外设 | 提供独立 GPIO 外设：多路可配输入/输出，支持引脚复用（SPI/IIC/PWM 与 GPIO 协同）与 GPIO 中断（OI-A1-003 决策） | OI-A1-003 决策 | Must | GPIO 输出电平可控；输入状态可读；引脚复用可配置；GPIO 事件可触发外部中断 | UC-GPIO-001, UC-DEMO-001, UC-GPIO-002 |
 
 ### 4.2 性能需求
 
 | REQ | 需求名称 | 描述 | 来源 | 优先级 | 接受准则（可测） | 覆盖用例 |
 |-----|---------|------|------|--------|-----------------|---------|
-| REQ-013 | 处理性能 | MCU 级处理性能；参考 CoreMark ≈ 2.4 @ 50MHz；**工艺/库未定（OI-004），口径与目标频率以 A2 量化为准，仿真可验证** | 参考报告 | Should | CoreMark 跑分达到 A2 定义的性能指标（仿真可测口径） | UC-BOOT-001 |
+| REQ-013 | 处理性能 | MCU 级处理性能；参考 CoreMark ≈ 2.4 @ 50MHz；**工艺/库未定（OI-A1-004），口径与目标频率以 A2 量化为准，仿真可验证** | 参考报告 | Should | CoreMark 跑分达到 A2 定义的性能指标（仿真可测口径） | UC-BOOT-001 |
 
 ### 4.3 功耗 / 成本需求
 
@@ -87,9 +87,9 @@
 
 | REQ | 需求名称 | 描述 | 来源 | 优先级 | 接受准则（可测） | 覆盖用例 |
 |-----|---------|------|------|--------|-----------------|---------|
-| REQ-016 | 可综合 / 可测试 | 设计可逻辑综合；**工艺/库暂不定（OI-004），功能收敛以仿真为主，E/F 阶段前再定工艺库**；具备基础可测试性（复位/可观测） | 项目约束 | Must | E3 综合 DRC clean（工艺库确定后）；验证环境可观测内部状态 | （约束性需求，由 A4 检查项追溯至验证环境可观测性） |
+| REQ-016 | 可综合 / 可测试 | 设计可逻辑综合；**工艺/库暂不定（OI-A1-004），功能收敛以仿真为主，E/F 阶段前再定工艺库**；具备基础可测试性（复位/可观测） | 项目约束 | Must | E3 综合 DRC clean（工艺库确定后）；验证环境可观测内部状态 | （约束性需求，由 A4 检查项追溯至验证环境可观测性） |
 | REQ-017 | 软件工具链支持 | 固件可用 RISC-V 开源工具链（编译/链接）构建并加载运行 | 生态 | Should | 固件经工具链编译、链接、加载后可运行 | UC-BOOT-001, UC-BOOT-003 |
-| REQ-020 | 验收演示 | **验收演示形态 = LED 点灯 + 串口打印日志 + SPI/IIC/PWM 外设联动**（OI-005 决策）；作为功能收敛验证终点与演示基准 | OI-005 决策 | Must | 演示全流程在目标上可复现：LED 受控点亮、UART 输出日志、SPI/IIC/PWM 联动工作 | UC-DEMO-001 |
+| REQ-020 | 验收演示 | **验收演示形态 = LED 点灯 + 串口打印日志 + SPI/IIC/PWM 外设联动**（OI-A1-005 决策）；作为功能收敛验证终点与演示基准 | OI-A1-005 决策 | Must | 演示全流程在目标上可复现：LED 受控点亮、UART 输出日志、SPI/IIC/PWM 联动工作 | UC-DEMO-001 |
 
 ## 5. 需求分类与优先级统计
 
@@ -113,12 +113,12 @@
 | RIB 总线选型与互联拓扑 | B3 总线选型 |
 | 内存映射与地址分配（SPI Flash / AXI_SRAM 地址） | B2 地址映射 |
 | tinyRISCV 接入方式、版本 pin（"待 C0 定"）、合同验证、Debug Module 影响（"待 C0 评估"） | B6 集成规划 / C0 合同验证 |
-| 工艺/库选择 | E/F 阶段前（OI-004） |
+| 工艺/库选择 | E/F 阶段前（OI-A1-004） |
 
 ## 7. 变更记录
 
 | 版本 | 日期 | 变更 | 作者 |
 |------|------|------|------|
 | v0.1 | 2026-08-19 | 初稿：需求条目化（17 条 REQ） | spec-agent |
-| v0.2 | 2026-08-19 | OI-001~005 关闭折入：REQ-011 明确 SPI Flash + AXI_SRAM；REQ-001/004 更新核契约标注（待 C0 定/评估）；REQ-003 明确固件写入 Flash；REQ-012 纳入 GPIO；REQ-013/016 明确"仿真可验证"口径；新增 REQ-018（RIB↔AXI 桥，自研 SoC 级 IP）、REQ-019（独立 GPIO）、REQ-020（验收演示）；合计 17→20 条 REQ | spec-agent |
+| v0.2 | 2026-08-19 | OI-A1-001~005 关闭折入：REQ-011 明确 SPI Flash + AXI_SRAM；REQ-001/004 更新核契约标注（待 C0 定/评估）；REQ-003 明确固件写入 Flash；REQ-012 纳入 GPIO；REQ-013/016 明确"仿真可验证"口径；新增 REQ-018（RIB↔AXI 桥，自研 SoC 级 IP）、REQ-019（独立 GPIO）、REQ-020（验收演示）；合计 17→20 条 REQ | spec-agent |
 | v0.3 | 2026-08-19 | 评审修复：UC 引用编号随 `use-cases.md` 同步二级化 `UC-<功能域>-NNN`（BOOT/UART/JTAG/SPI/IIC/PWM/INT/PWR/BUS/GPIO/DEMO）；全部 REQ 覆盖用例列同步更新，与 use-cases.md §3.2 矩阵一致；REQ 条目数 20 不变 | spec-agent |

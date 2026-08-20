@@ -42,9 +42,12 @@ def parse_tracker() -> dict:
                 sections[current]["status"] = sm.group(1)
             dm = re.match(r"^-\s*前置:\s*(.*)$", line.strip())
             if dm:
-                sections[current]["deps"] = [
-                    d.strip() for d in dm.group(1).split(",") if d.strip()
-                ]
+                raw = dm.group(1).strip()
+                deps = [d.strip() for d in raw.split(",") if d.strip()]
+                # 前置为"无/TBD/None/—"等非节点 ID 文本时视为无依赖
+                if not deps or deps[0] in ("无", "TBD", "None", "-", "—"):
+                    deps = []
+                sections[current]["deps"] = deps
     return sections
 
 
@@ -54,9 +57,11 @@ def main() -> None:
     ap.add_argument("--summary", action="store_true")
     args = ap.parse_args()
 
-    sections = parse_tracker()
+    all_sections = parse_tracker()
     if args.node:
-        sections = {k: v for k, v in sections.items() if k.startswith(args.node.upper())}
+        sections = {k: v for k, v in all_sections.items() if k.startswith(args.node.upper())}
+    else:
+        sections = all_sections
 
     if args.summary:
         for node, sec in sections.items():
@@ -71,7 +76,7 @@ def main() -> None:
             continue
         if sec["status"] in ("passed", "waiting_review"):
             for dep in sec["deps"]:
-                d = sections.get(dep)
+                d = all_sections.get(dep)
                 if d is None:
                     errors.append(f"{node}: 前置节点 {dep} 未在 tracker 中定义")
                 elif d["status"] != "passed":
