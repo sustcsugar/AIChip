@@ -1,6 +1,6 @@
 # 微架构规格模板（Node C1）
 
-> 用途：每模块一份，指导 RTL 编码。存入 `work/soc/docs/microarch/<module>.md` 或 `work/ip/<ip>/doc/microarch.md`。
+> 用途：每模块一份，指导 RTL 编码。存入 `docs/microarch/<module>.md` 或 `ip/<ip>/AIFlow/doc/microarch.md`。
 
 ## 1. 模块概述
 - 功能 / 在系统中的位置 / 挂载总线

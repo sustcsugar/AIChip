@@ -1,7 +1,7 @@
 # IP 接口合同模板（Node C0）
 
 > 用途：IP 与 SoC 的接口合同，C0 节点用于合同验证比对。IP 项目维护，SoC 引用。
-> 存放：`work/ip/<ip>/doc/interface-contract.md`
+> 存放：`ip/<ip>/AIFlow/doc/interface-contract.md`
 
 ## 1. IP 标识
 - IP 名称 / 版本 / 维护项目路径

@@ -1,6 +1,6 @@
 # 验证计划模板 vplan（Node D1）
 
-> 用途：验证计划节点输出。存入 `work/soc/docs/vplan/`。
+> 用途：验证计划节点输出。存入 `docs/vplan/`。
 
 ## 1. 验证范围
 - DUT 与层级（模块级 / 系统级）
@@ -13,7 +13,7 @@
 
 ## 3. 验证环境
 - 层次：block / sys
-- 组件：VIP、模型、agent（对应 `work/soc/verif/common/`）
+- 组件：VIP、模型、agent（对应 `verif/common/`）
 - 复用资产（IP 自带 VIP）
 
 ## 4. 场景清单

@@ -5,8 +5,8 @@ description: 分析产品需求，定义使用场景与用例清单，作为系�
 
 # Node A1: 需求与场景定义
 
-> 本 skill 承载节点 A1 的执行工作流。节点完整定义（含人机职责）见 `doc/阶段A-需求与规格/A1-需求与场景定义.md`。
-> 归属 agent：spec-agent。执行前必须先读 `state/state-tracker.md` 确认节点处于 in_progress 且前置输入完整。
+> 本 skill 承载节点 A1 的执行工作流。节点完整定义（含人机职责）见 `AIFlow/doc/阶段A-需求与规格/A1-需求与场景定义.md`。
+> 归属 agent：spec-agent。执行前必须先读 `AIFlow/state/state-tracker.md` 确认节点处于 in_progress 且前置输入完整。
 
 ## 1. 目的
 
@@ -22,11 +22,11 @@ description: 分析产品需求，定义使用场景与用例清单，作为系�
 ### Plan
 1. 读取输入产物，确认理解目标
 2. 若本 skill 的 `assets/templates/` 存在模板，先复制为工作文件
-3. **读取本节点的规范/标准文档**（如 `doc/阶段C-微架构与RTL/C3-编码规范.md`，若详章指明存在），作为执行约束
+3. **读取本节点的规范/标准文档**（如 `AIFlow/doc/阶段C-微架构与RTL/C3-编码规范.md`，若详章指明存在），作为执行约束
 
 ### Execute
 3. 按输入产物执行本节点工作
-4. 产物写入 `work/`（或 `doc/`）对应路径；**生成项目文档前先查 `work/soc/docs/00-文档编号登记.md` 取全局序号（`<前缀>-<NNN>-<名称>.md`），生成后登记**（规范见 ADR-003）
+4. 产物写入根目录对应路径（`docs/`、`rtl/`、`verif/`、`model/`、`build/`、`ip/` 等，或 `AIFlow/doc/`）；**生成项目文档前先查 `docs/00-文档编号登记.md` 取全局序号（`<前缀>-<NNN>-<名称>.md`），生成后登记**（规范见 ADR-003）
 5. **OI 编号规范（ADR-008）**：open issue 统一 `OI-<节点ID>-<全局序号>` 格式（本节点为 OI-A1-001~005，序号项目全局递增不随节点重置）；OI 为全流程需求/规格歧义澄清编号，不限定 A1
 
 ### Measure
@@ -39,7 +39,7 @@ description: 分析产品需求，定义使用场景与用例清单，作为系�
 ## 4. 工具与命令
 
 - 由节点详章定义（开源工具 / 商用工具脚本 / 校验脚本）
-- 校验脚本：`python scripts/check_tracker.py --node A1`
+- 校验脚本：`python AIFlow/scripts/check_tracker.py --node A1`
 
 ## 5. 收敛判据（DoD）
 
@@ -63,6 +63,6 @@ description: 分析产品需求，定义使用场景与用例清单，作为系�
 
 ## 9. 参考
 
-- 节点详章：`doc/阶段A-需求与规格/A1-需求与场景定义.md`
-- 速查表：`doc/辅助文档/90-收敛判据速查表.md`
-- 职责矩阵：`doc/辅助文档/91-人机职责分配矩阵.md`
+- 节点详章：`AIFlow/doc/阶段A-需求与规格/A1-需求与场景定义.md`
+- 速查表：`AIFlow/doc/辅助文档/90-收敛判据速查表.md`
+- 职责矩阵：`AIFlow/doc/辅助文档/91-人机职责分配矩阵.md`

@@ -5,7 +5,7 @@ description: 质量门评审通用流程：评审清单、签字机制、评审�
 
 # Review Gate — 质量门评审通用流程
 
-> 应用于所有 `gate: 评审` / `gate: 人工签字` 的节点。评审结果必须记录到 `state/state-decisions.md`。
+> 应用于所有 `gate: 评审` / `gate: 人工签字` 的节点。评审结果必须记录到 `AIFlow/state/state-decisions.md`。
 
 ## 触发时机
 
@@ -16,7 +16,7 @@ description: 质量门评审通用流程：评审清单、签字机制、评审�
 
 1. **准备评审材料**
    - 节点产出物清单（路径 + 摘要）
-   - 收敛判据自检结果（对照 `doc/辅助文档/90-收敛判据速查表.md`）
+   - 收敛判据自检结果（对照 `AIFlow/doc/辅助文档/90-收敛判据速查表.md`）
    - 已知风险与遗留问题清单
 
 2. **执行评审清单**
@@ -29,8 +29,8 @@ description: 质量门评审通用流程：评审清单、签字机制、评审�
    - 不通过（fail）→ 节点置 `iterating`，返回执行步骤修复
 
 4. **记录**
-   - 评审结论写入 `state/state-decisions.md`
-   - 更新 `state/state-tracker.md` 对应节点状态
+   - 评审结论写入 `AIFlow/state/state-decisions.md`
+   - 更新 `AIFlow/state/state-tracker.md` 对应节点状态
    - **规范回写**：评审意见若涉及规范/格式/命名（非仅本节点产物），必须同步回写节点详章、对应 skill 的 `assets/templates/`、`.opencode/skills/_shared/templates/`、`node-template`（如需）并重新生成 skill，确保 SOP 定义层与实际执行一致
 
 ## 签字规则

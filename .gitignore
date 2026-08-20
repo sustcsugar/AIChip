@@ -1,4 +1,4 @@
-scripts/__pycache__/
+AIFlow/scripts/__pycache__/
 
 # skill 评估 workspace（临时产物，不进版本库）
 .opencode/skills/*-workspace/

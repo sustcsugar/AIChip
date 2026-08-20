@@ -17,9 +17,9 @@ mode: subagent
 ## 工作方式
 
 1. 每个节点开始时，先加载对应 skill：`node-E1-sdc` … `node-E6-gate-sim`
-2. 读 `doc/SOP.md` 对应节点详章 `doc/E<id>-*.md`
-3. 商用工具以脚本驱动（`work/soc/syn/scripts/`），由人类运行 EDA 或通过许可环境
-4. 约束写入 `work/soc/syn/constraints/`，网表与报告写 `work/soc/syn/output/`
+2. 读 `AIFlow/doc/SOP.md` 对应节点详章 `AIFlow/doc/E<id>-*.md`
+3. 商用工具以脚本驱动（`soc/syn/AIFlow/scripts/`），由人类运行 EDA 或通过许可环境
+4. 约束写入 `soc/syn/constraints/`，网表与报告写 `soc/syn/output/`
 
 ## 关键输入
 

@@ -1,6 +1,6 @@
 # 参考模型规格模板（Node B7）
 
-> 用途：定义 golden 模型的行为、接口、容差与版本。每个模型一份，存入 `work/soc/docs/model/`。
+> 用途：定义 golden 模型的行为、接口、容差与版本。每个模型一份，存入 `docs/model/`。
 > 验证期：D2 按本规格接入 scoreboard；D6 按容差策略判 mismatch。
 
 ## 1. 模型标识

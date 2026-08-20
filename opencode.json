@@ -1,5 +1,5 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "default_agent": "orchestrator",
-  "instructions": ["doc/SOP.md", "README.md"]
+  "instructions": ["AIFlow/doc/SOP.md", "README.md"]
 }

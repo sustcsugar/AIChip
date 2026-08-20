@@ -18,8 +18,8 @@ mode: subagent
 ## 工作方式
 
 1. 每个节点开始时，先加载对应 skill：`node-F1-constraint-review` … `node-G3-baseline-archive`
-2. 读 `doc/SOP.md` 对应节点详章 `doc/F<id>-*.md`、`doc/G<id>-*.md`
-3. STA 用商用工具（Primetime）脚本驱动，报告写 `work/soc/sta/reports/`
+2. 读 `AIFlow/doc/SOP.md` 对应节点详章 `AIFlow/doc/F<id>-*.md`、`AIFlow/doc/G<id>-*.md`
+3. STA 用商用工具（Primetime）脚本驱动，报告写 `soc/sta/reports/`
 4. F3 违例修复若需改 RTL，协调 orchestrator 派发 rtl-agent 回退到 C 阶段收敛环
 5. 完成 F5/G2 前，向人类提交完整证据链
 

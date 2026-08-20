@@ -5,8 +5,8 @@ description: 编写系统规格书：功能规格、性能指标（Fmax/吞吐/�
 
 # Node A2: 系统规格
 
-> 本 skill 承载节点 A2 的执行工作流。节点完整定义（含人机职责）见 `doc/阶段A-需求与规格/A2-系统规格.md`。
-> 归属 agent：spec-agent。执行前必须先读 `state/state-tracker.md` 确认节点处于 in_progress 且前置输入完整。
+> 本 skill 承载节点 A2 的执行工作流。节点完整定义（含人机职责）见 `AIFlow/doc/阶段A-需求与规格/A2-系统规格.md`。
+> 归属 agent：spec-agent。执行前必须先读 `AIFlow/state/state-tracker.md` 确认节点处于 in_progress 且前置输入完整。
 
 ## 1. 目的
 
@@ -23,11 +23,11 @@ description: 编写系统规格书：功能规格、性能指标（Fmax/吞吐/�
 1. 读取输入产物，确认理解目标
 2. 若本 skill 的 `assets/templates/` 存在模板，先复制为工作文件
    - 本节点模板：`assets/templates/spec-system.md`（系统规格书模板，章节结构必须遵循）
-3. **读取本节点的规范/标准文档**（如 `doc/阶段C-微架构与RTL/C3-编码规范.md`，若详章指明存在），作为执行约束
+3. **读取本节点的规范/标准文档**（如 `AIFlow/doc/阶段C-微架构与RTL/C3-编码规范.md`，若详章指明存在），作为执行约束
 
 ### Execute
 3. 按输入产物执行本节点工作
-4. 产物写入 `work/`（或 `doc/`）对应路径；**生成项目文档前先查 `work/soc/docs/00-文档编号登记.md` 取全局序号（`<前缀>-<NNN>-<名称>.md`），生成后登记**（规范见 ADR-003）
+4. 产物写入根目录对应路径（`docs/`、`rtl/`、`verif/`、`model/`、`build/`、`ip/` 等，或 `AIFlow/doc/`）；**生成项目文档前先查 `docs/00-文档编号登记.md` 取全局序号（`<前缀>-<NNN>-<名称>.md`），生成后登记**（规范见 ADR-003）
 5. **编号体系规范（ADR-008，必须遵守，详见详章 §8.1）**：
    - 产物头部必须含「编号体系总览」：缩写全称速查表（REQ/SC/UC/FS/M/FP/CP/BLOCK/OI）+ 主脉络图（REQ 为根 → 设计侧 REQ→FS→M、验证侧 REQ→SC→UC→FP，BLOCK 结构层，OI 贯穿）
    - FS 是 REQ 的规格化细化，**不新增需求**；新增功能先改 PRD 增补 REQ 再补 FS
@@ -47,7 +47,7 @@ description: 编写系统规格书：功能规格、性能指标（Fmax/吞吐/�
 ## 4. 工具与命令
 
 - 由节点详章定义（开源工具 / 商用工具脚本 / 校验脚本）
-- 校验脚本：`python scripts/check_tracker.py --node A2`
+- 校验脚本：`python AIFlow/scripts/check_tracker.py --node A2`
 
 ## 5. 收敛判据（DoD）
 
@@ -71,6 +71,6 @@ description: 编写系统规格书：功能规格、性能指标（Fmax/吞吐/�
 
 ## 9. 参考
 
-- 节点详章：`doc/阶段A-需求与规格/A2-系统规格.md`
-- 速查表：`doc/辅助文档/90-收敛判据速查表.md`
-- 职责矩阵：`doc/辅助文档/91-人机职责分配矩阵.md`
+- 节点详章：`AIFlow/doc/阶段A-需求与规格/A2-系统规格.md`
+- 速查表：`AIFlow/doc/辅助文档/90-收敛判据速查表.md`
+- 职责矩阵：`AIFlow/doc/辅助文档/91-人机职责分配矩阵.md`

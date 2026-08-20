@@ -11,7 +11,7 @@ description: 收敛判据检查：校验节点 DoD 是否满足、收集度量�
 
 ## 判定流程
 
-1. **读取判据**：从 `doc/辅助文档/90-收敛判据速查表.md` 读取该节点 DoD
+1. **读取判据**：从 `AIFlow/doc/辅助文档/90-收敛判据速查表.md` 读取该节点 DoD
 2. **收集证据**：从产出物提取度量数据（报告、日志、计数）
    - 覆盖率类：功能覆盖率 / 代码覆盖率百分比
    - 时序类：WNS / TNS / 违例路径数
@@ -20,12 +20,12 @@ description: 收敛判据检查：校验节点 DoD 是否满足、收集度量�
 4. **裁决**：
    - 全部达标 → `converged`，可进入质量门
    - 部分未达标 → `diverging`，列出差距项与修复建议
-5. **记录**：结果写入 `state/state-tracker.md` 对应节点的收敛指标字段
+5. **记录**：结果写入 `AIFlow/state/state-tracker.md` 对应节点的收敛指标字段
    - 正式收敛报告模板（D7/G2 填表）：`.opencode/skills/_shared/templates/convergence-report.md`
 
 ## 常用命令
 
-- `python scripts/check_tracker.py --node <ID>` — 校验节点前后置与判据
+- `python AIFlow/scripts/check_tracker.py --node <ID>` — 校验节点前后置与判据
 
 ## 输出格式
 

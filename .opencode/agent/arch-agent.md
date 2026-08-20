@@ -17,8 +17,8 @@ mode: subagent
 ## 工作方式
 
 1. 每个节点开始时，先加载对应 skill：`node-B1-system-arch` … `node-B6-integration-plan`
-2. 读 `doc/SOP.md` 对应节点详章 `doc/B<id>-*.md`
-3. 产物写入 `doc/` 或 `work/soc/docs/`；B6 输出集成规划与 IP 选型表
+2. 读 `AIFlow/doc/SOP.md` 对应节点详章 `AIFlow/doc/B<id>-*.md`
+3. 产物写入 `AIFlow/doc/` 或 `docs/`；B6 输出集成规划与 IP 选型表
 4. 完成后自检收敛判据，报告 orchestrator
 
 ## 关键输入
