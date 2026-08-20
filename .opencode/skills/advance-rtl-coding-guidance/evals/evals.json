@@ -1,0 +1,23 @@
+{
+  "skill_name": "advance-rtl-coding-guidance",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "帮我评审这段 Verilog 代码是否符合商用规范：always @(posedge clk or negedge rst_n) begin if(!rst_n) cnt <= 0; else cnt <= nxtcnt; end; always @(*) begin if(en) nxtcnt = cnt + 1; end —— 这个 nxtcnt 组合块有没有 latch 风险？应该怎么改？",
+      "expected_output": "指出组合块 nxtcnt 无默认值存在 latch 风险，给出先赋默认值 nxtcnt = cnt 再覆盖的改法，引用 B1 检查项",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "我要写一个跨时钟域同步器模块，把单 bit 信号从 rxbyteclkhs 域同步到 pclk 域，两级同步，带异步复位。给我标准 Verilog 代码。",
+      "expected_output": "给出参数化两级同步器模板，含 posedge clk_d or negedge rst_d_n 敏感列表、两级 DFF、assign data_d = d2，引用 reusable-modules.md 的 CDC 章节",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "我的状态机代码总是综合出 latch，状态转移用的是 if-else 嵌套，状态也只有 2 个。帮我按最佳实践重写，状态机应该怎么组织？",
+      "expected_output": "建议两段式状态机：时序段 state <= nxtstate + 组合段 case(state)，说明 case 用于互斥多路译码、if 用于优先级，组合块先默认值，引用 fsm-pattern.md",
+      "files": []
+    }
+  ]
+}
