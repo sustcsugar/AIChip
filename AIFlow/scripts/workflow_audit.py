@@ -308,6 +308,27 @@ def main() -> None:
     else:
         a.add(SEV_BLOCKER, "W17", "92-术语与缩写表 不存在")
 
+    # ---------- W18 自一致性：脚本 W 编号已在术语表登记 ----------
+    script_src = Path(__file__).read_text(encoding="utf-8")
+    script_w = set()
+    for m in re.finditer(r"# ---------- W(\d+) ", script_src):
+        script_w.add(int(m.group(1)))
+    if q92.exists():
+        t92 = q92.read_text(encoding="utf-8")
+        doc_w = set()
+        for m in re.finditer(r"\| (W\d+) \|", t92):
+            doc_w.add(int(m.group(1)[1:]))
+        for miss in sorted(script_w - doc_w):
+            a.add(SEV_BLOCKER, "W18", f"审计规则 W{miss} 已在脚本实现但未登记 92-术语表", f"W{miss}")
+        for extra in sorted(doc_w - script_w):
+            a.add(SEV_WARN, "W18", f"92-术语表登记了 W{extra} 但脚本未实现", f"W{extra}")
+        # 前缀 M/N/C/S 需在术语表登记（workflow-audit skill 使用）
+        for pre in ("M", "N", "C", "S"):
+            if not re.search(rf"\| {pre} \|", t92):
+                a.add(SEV_WARN, "W18", f"workflow-audit 前缀 {pre} 未登记 92-术语表（见 M/N/C/S 分类表）", pre)
+    else:
+        a.add(SEV_BLOCKER, "W18", "92-术语表不存在，无法自一致性校验")
+
     # ---------- W14 多余文档提示 ----------
     node_docs = {DOC / n["doc"] for n in load_nodes()}
     extra = []
