@@ -39,8 +39,8 @@
 graph LR
     CORE[BLOCK-01 tinyRISCV 核<br/>RIB inst/data 主接口]
     ROM[BLOCK-12 Boot ROM<br/>RIB 从]
-    BRIDGE[BLOCK-02 RIB↔AXI 桥<br/>RIB 从 + AXI4-Lite 主]
-    AXI[AXI4-Lite 总线]
+    BRIDGE[BLOCK-02 RIB↔AXI 桥<br/>RIB 从 + AXI4 主]
+    AXI[AXI4 总线]
     SRAM[BLOCK-14 AXI_SRAM]
     UART[BLOCK-03 UART]
     SPI[BLOCK-05 SPI]
@@ -53,7 +53,7 @@ graph LR
     CORE -->|RIB-INST| ROM
     CORE -->|RIB-DATA| ROM
     CORE -->|RIB-DATA| BRIDGE
-    BRIDGE -->|AXI4-Lite 主| AXI
+    BRIDGE -->|AXI4 主| AXI
     AXI --> SRAM
     AXI --> UART
     AXI --> SPI
@@ -80,9 +80,9 @@ graph LR
 | 2 | RIB-DATA | tinyRISCV RIB（同上） | BLOCK-01（主）→ BLOCK-12 / BLOCK-02（从） | 32 / 32 | — | 数据读写通道；地址 ≥ 0x2000_0000 转发桥 |
 | 3 | RIB-SLV-BOOTROM | RIB（从） | BLOCK-12 | 32 / 32 | — | Boot ROM 从端口（MEM-01），RO |
 | 4 | RIB-SLV-BRIDGE | RIB（从） | BLOCK-02 | 32 / 32 | — | 桥从端口；RIB 事务 → AXI 事务转换（REQ-018 / FS-016） |
-| 5 | AXI-M-BRIDGE | AMBA AXI4-Lite（B3 裁定是否升级 AXI4 全量） | BLOCK-02（主）→ AXI 从设备 | 32 / 32 | 1（单 ID，桥后无并发主） | 桥 AXI 主端口；M-014 单次读时延 ≤ 10 周期 |
-| 6 | AXI-S-SRAM | AXI4-Lite（从） | BLOCK-14 | 32 / 32 | 1 | AXI_SRAM 从端口（MEM-03）；固件加载目标 |
-| 7 | AXI-S-PERIPH | AXI4-Lite（从） | BLOCK-03/05/06/07/08/09/10/11（9 个从端口） | 32 / 32 | 1 | 每外设 4KB 译码窗口（MEM-05~12）；寄存器访问 |
+| 5 | AXI-M-BRIDGE | AMBA AXI4（A3 裁定统一 AXI4） | BLOCK-02（主）→ AXI 从设备 | 32 / 32 | 1（单 ID，桥后无并发主；突发/outstanding 深度 B3 细化） | 桥 AXI 主端口；M-014 单次读时延 ≤ 10 周期 |
+| 6 | AXI-S-SRAM | AXI4（从） | BLOCK-14 | 32 / 32 | 1 | AXI_SRAM 从端口（MEM-03）；固件加载目标 |
+| 7 | AXI-S-PERIPH | AXI4（从） | BLOCK-03/05/06/07/08/09/10/11（9 个从端口） | 32 / 32 | 1 | 每外设 4KB 译码窗口（MEM-05~12）；寄存器访问 |
 
 ### 2.3 带宽需求（对照 M 指标）
 
@@ -92,7 +92,7 @@ graph LR
 | SPI 通道（SPI master ↔ 外部从设备/Flash） | M-006, M-007 | SCLK ≥ 12.5 MHz（Fsys/4 分频配置）；1KB 连续传输零错误 | SPI FIFO 填充带宽 12.5 Mbps ≪ AXI 能力 ✓ |
 | UART 通道 | M-004, M-005 | 9600–921600 bps 可配；验收 115200 bps 双向连续 100KB 零丢失 | 中断/轮询双模式 + 收发 FIFO（初版 ≥16B，C1 细化）|
 | IIC 通道 | M-008 | 标准 100 kbps / 快速 400 kbps | 低速外设，无 AXI 压力 ✓ |
-| 固件启动加载（SPI Flash → AXI_SRAM） | M-013 | 复位释放 → 固件首指令 ≤ 5 ms（Flash 模型加载 64KB 镜像） | ⚠️ 单线 SPI 12.5MHz 读 64KB ≈ 41.9 ms > 5 ms，**见 OI-A3-006** |
+| 固件启动加载（SPI Flash → AXI_SRAM） | M-013 | 复位释放 → 固件首指令 ≤ 100 ms（Flash 模型加载 64KB 镜像） | 单线 SPI 12.5MHz 70% 评估 ≈ 60 ms < 100 ms ✓（OI-A3-006 已关闭） |
 
 ## 3. 引脚规格（数据源：spec-005-pins.csv）
 
@@ -207,7 +207,7 @@ graph LR
 
 ## 6. 寄存器接口初版（待 C1/C2 细化）
 
-> 初版仅供接口冻结与后续细化基线：偏移/读写/复位值已定，**位域级细节标注"待 C1/C2 细化"**，不阻塞本节点冻结。寄存器空间经 AXI4-Lite 访问，每外设 4KB 窗口（基地址见 §7.2）。
+> 初版仅供接口冻结与后续细化基线：偏移/读写/复位值已定，**位域级细节标注"待 C1/C2 细化"**，不阻塞本节点冻结。寄存器空间经 AXI4 访问，每外设 4KB 窗口（基地址见 §7.2）。
 
 ### 6.1 UART（BLOCK-03，基址 0x4000_0000）
 
@@ -382,7 +382,7 @@ graph LR
 
 | OI | 问题 | 影响 | 建议方案（供人工裁定） | 状态 |
 |----|------|------|----------------------|------|
-| OI-A3-006 | **SPI Flash 启动加载带宽 vs M-013 启动时延矛盾**：M-006 限 SCLK ≤ 12.5 MHz（Fsys/4），单线 SPI 读 64KB 镜像需 ≈ 41.9 ms，而 M-013 要求固件首指令 ≤ 5 ms。 | M-006/M-013 两指标冲突；BOOT 通路带宽需求（§2.3）；BLOCK-05/13 | ① 放宽 M-013 目标；② 提高 SCLK 上限（如 Fsys/2）；③ SPI 双/四线模式或加 DMA；④ M-013 口径改为"Boot ROM 首指令"。建议由 B4 建模量化后裁定 | open（待人工/B4 裁定，不阻塞 A3 冻结） |
+| OI-A3-006 | **SPI Flash 启动加载带宽 vs M-013 启动时延矛盾**：M-006 限 SCLK ≤ 12.5 MHz（Fsys/4），单线 SPI 读 64KB 镜像满速 ≈ 41.9 ms、70% 评估 ≈ 60 ms，原 M-013 要求 ≤ 5 ms。 | M-006/M-013 指标冲突；BOOT 通路带宽需求（§2.3）；BLOCK-05/13 | 人工裁定：M-013 放宽至 ≤ 100 ms（70% 评估 ≈ 60 ms 留裕量）；保持单线 SPI @ Fsys/4=12.5 MHz；高速 SPI（160 MHz 级 QSPI）登记为 B1 时钟架构评估项 | closed（2026-08-20，用户裁定） |
 
 ### 9.2 待细化清单（不阻塞冻结）
 
@@ -393,7 +393,7 @@ graph LR
 | 中断向量机制与核侧端口语义 | C0 合同验证 | tinyRISCV 中断契约，沿 PRD 契约声明 |
 | RIB 总线 req/resp 时序契约 | C0 合同验证 | tinyRISCV RIB 私有协议细节 |
 | JTAG 无标准 Debug Module 的访问机制 | C0 评估 | 影响 openocd 内存访问方案（REQ-004） |
-| AXI 选型（AXI4-Lite vs AXI4 全量） | B3 总线选型 | 本规格以 AXI4-Lite 为基线 |
+| AXI4 细节细化（突发长度/outstanding 深度/多 ID） | B3 总线选型 | A3 已裁定统一 AXI4；协议细节由 B3 量化细化 |
 | 地址映射细化（Boot ROM 容量、AXI_SRAM 容量） | B2 地址映射 | 64KB SRAM 支撑 M-013 镜像；Boot ROM 4KB 若超需调整 |
 | IO 电气参数（工艺库相关） | E/F 阶段前 | ADR-002 工艺未定，LVCMOS 3.3V 为参考 |
 

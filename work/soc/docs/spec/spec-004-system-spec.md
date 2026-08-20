@@ -124,7 +124,7 @@
 | M-010 | PWM 输出频率范围 | 1 kHz – 1 MHz | Hz | 仿真：周期配置遍历 + 波形测量 | REQ-007；SC-07（UC-PWM-001） |
 | M-011 | 中断响应时延 | ≤ 30 | 系统时钟周期（@50 MHz = 600 ns） | 仿真：外部中断置起 → ISR 首指令执行，时间戳差测量 | REQ-008；SC-08（UC-INT-001） |
 | M-012 | 定时器周期中断精度 | ±1 | 时钟周期 | 仿真：定时器配置周期 vs 中断触发时间戳差 | REQ-009；SC-08（UC-INT-002） |
-| M-013 | 固件启动时延 | ≤ 5 | ms | 仿真：复位释放 → 固件首指令执行（SPI Flash 模型加载 64 KB 镜像，@50 MHz） | REQ-011, REQ-010；SC-01（UC-BOOT-003/004） |
+| M-013 | 固件启动时延 | ≤ 100 | ms | 仿真：复位释放 → 固件首指令执行（SPI Flash 模型加载 64 KB 镜像，@50 MHz；单线 SPI 12.5MHz 70% 评估 ≈ 60 ms 留裕量） | REQ-011, REQ-010；SC-01（UC-BOOT-003/004） |
 | M-014 | AXI_SRAM 单次读时延（经 RIB↔AXI 桥） | ≤ 10 | 系统时钟周期 | 仿真：核发 RIB 读 → 数据返回，时延测量与比对 | REQ-018；SC-10（UC-BUS-001） |
 | M-015 | 逻辑面积预算（不含 SRAM） | ≤ 50,000 | 等效 NAND2 门 | 逻辑综合报告（E3，yosys/DC；含核 + 6 外设 + 中断 + 定时器 + 时钟复位 + 桥 + Boot ROM） | REQ-016；SC-01（UC-BOOT-001） |
 | M-016 | 运行态功耗预算 | ≤ 50 | mW | 功耗分析（F4 Primetime PX / 综合后功耗估算，工艺库就绪后正式测量；当前按活动率仿真 + 参考工艺功耗模型估算） | REQ-014；SC-09（UC-PWR-001） |
@@ -180,7 +180,7 @@
 |------|---------|
 | RISC-V ISA | RV32IM（tinyRISCV 核；ISA 规范版本与核 commit 待 C0 pin 定后确认） |
 | 软件工具链 | riscv-gnu-toolchain（RV32IM 目标），编译/链接/加载（REQ-017） |
-| 总线协议 | RIB（tinyRISCV 私有总线，契约待 C0 验证）；AXI：AMBA AXI4 / AXI4-Lite（RIB↔AXI 桥 AXI 侧，具体选型 B3/A3 裁定） |
+| 总线协议 | RIB（tinyRISCV 私有总线，契约待 C0 验证）；AXI：AMBA AXI4（RIB↔AXI 桥 AXI 侧，A3 裁定统一 AXI4；突发/outstanding 细节 B3 细化） |
 | UART | 异步串行 8N1（芯片侧逻辑电平，RS-232 电平转换由外部完成） |
 | SPI | Motorola SPI（SCLK/CS/MOSI/MISO），CPOL/CPHA 四模式可配 |
 | IIC | NXP I²C 规范 v2.1：标准模式 100 kbps / 快速模式 400 kbps，7-bit 寻址 |
