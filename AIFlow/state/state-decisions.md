@@ -205,6 +205,21 @@
 - 依据：用户 2026-08-21 询问"skill 是由谁来生成的"暴露职责未显式化
 - 落地：orchestrator.md 职责第 9 条 + review-gate 规范回写指向执行者
 
+### ADR-015 — skill 生成能力内化：skill-scaffold（orchestrator 自带能力）
+- 日期：2026-08-21
+- 状态：已确认
+- 背景：ADR-014 确定 orchestrator 为 skill 生命周期唯一执行者，但生成能力仍散落为 AIFlow/scripts/scaffold_skills.py + .opencode/skills/node-template/ 两个位置，与"能力随 skill 打包"的内化方向（ADR-011）不一致；用户提出将生成能力内化到 orchestrator
+- 决策：
+  1. **新增 orchestrator 专用 skill `skill-scaffold`**：SKILL.md（生成工作流 + 纪律）+ `assets/node-template/`（骨架模板 + 节点详章模板）+ `scripts/scaffold_skills.py`（生成脚本）+ `references/nodes-schema.md`（nodes.json 字段规范）
+  2. **迁移**：原 `.opencode/skills/node-template/`（含 node-doc-template.md）与 `AIFlow/scripts/scaffold_skills.py` 迁入 skill-scaffold；`nodes.json` 保持 `AIFlow/scripts/`（check_tracker/workflow_audit 共享的注册数据，单一事实源）
+  3. **引用同步**：workflow_audit W10 模板路径、orchestrator 职责 #9、review-gate 规范回写、README/AIFlow-README/设计文档/A1 详章/92-术语表全部迁移到新路径
+- 后果：
+  - 正面：生成能力自包含（模板 + 脚本 + 规范一站式随 skill 走）；orchestrator 加载 skill-scaffold 即可完成生成，不依赖散落脚本；与 ADR-011 资产内化方向一致
+  - 负面：脚本调用路径变长；nodes.json 仍驻留 AIFlow/scripts/（能力与数据分离，属有意保留——数据为多脚本共享）
+  - 风险/代价：路径引用面较广，需全量校验无残留；scaffold 脚本根路径回溯改为 parents[4]，随目录结构调整需同步
+- 依据：用户 2026-08-21 指示（"将生成skill的能力，内化到orchestrator中"）
+- 落地：本 commit（skill-scaffold 创建 + node-template/scaffold 脚本迁入 + 全量引用迁移）
+
 ## 评审记录
 
 | 日期 | 节点 | 结论 | 签字人 | 意见 |

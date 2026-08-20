@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """从 nodes.json + node-template 批量生成节点 skill。
 
-用法:
-    python AIFlow/scripts/scaffold_skills.py [--node C3]
-    python AIFlow/scripts/scaffold_skills.py [--force]
-    python AIFlow/scripts/scaffold_skills.py --force --yes   # 非交互（自动化）
+用法（本脚本随 skill-scaffold 打包，由 orchestrator 执行，ADR-014/015）:
+    python .opencode/skills/skill-scaffold/scripts/scaffold_skills.py [--node C3]
+    python .opencode/skills/skill-scaffold/scripts/scaffold_skills.py [--force]
+    python .opencode/skills/skill-scaffold/scripts/scaffold_skills.py --force --yes   # 非交互（自动化）
 
 输出: .opencode/skills/node-<id>-<slug>/SKILL.md
 
@@ -20,10 +20,10 @@ import os
 import re
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent  # AIFlow/（共治管理层）
-PROJECT_ROOT = ROOT.parent  # 芯片根
-NODES_JSON = ROOT / "scripts" / "nodes.json"
-TEMPLATE = PROJECT_ROOT / ".opencode" / "skills" / "node-template" / "SKILL.md"
+# 脚本位于 .opencode/skills/skill-scaffold/scripts/，向上回溯 4 级 = 芯片根
+PROJECT_ROOT = Path(__file__).resolve().parents[4]
+NODES_JSON = PROJECT_ROOT / "AIFlow" / "scripts" / "nodes.json"          # 节点注册（共享数据，保持原位）
+TEMPLATE = PROJECT_ROOT / ".opencode" / "skills" / "skill-scaffold" / "assets" / "node-template" / "SKILL.md"
 SKILLS_DIR = PROJECT_ROOT / ".opencode" / "skills"  # 根 .opencode/
 
 
@@ -82,7 +82,7 @@ def main() -> None:
             print(f"  - {f}")
         if not args.yes:
             print("若需查看差异，请用 git diff 检查；如定制被误覆盖，可从 git 恢复。")
-            print("提示：如需保留定制，请改用 node-template 增加公共步骤。")
+            print("提示：如需保留定制，请改用 skill-scaffold 的 assets/node-template/SKILL.md 增加公共步骤（公共步骤应写入骨架）。")
 
 
 if __name__ == "__main__":

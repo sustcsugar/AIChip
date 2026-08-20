@@ -9,7 +9,7 @@
 | 路径 | 内容 |
 |------|------|
 | `doc/` | 流程定义：`SOP.md` 总纲 + `阶段A–H/` 节点详章 + `辅助文档/`（90/91）+ `设计/`（设计基线） |
-| `scripts/` | 工具脚本：scaffold_skills / check_tracker / build_manifest / contract_check / roadmap_check / a1–a3 节点校验 |
+| `scripts/` | 工具脚本：check_tracker / build_manifest / contract_check / roadmap_check / workflow_audit / a1–a3 节点校验（scaffold_skills 已内化至 `.opencode/skills/skill-scaffold/`） |
 | `state/` | 运行状态：state-tracker / state-milestones / state-decisions（ADR）/ state-roadmap（RMP 优化方向） |
 
 ## 使用

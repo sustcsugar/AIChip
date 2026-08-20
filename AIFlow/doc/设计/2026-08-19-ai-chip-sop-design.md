@@ -177,7 +177,7 @@ G 签核与交付 → H 物理设计（可选扩展）
 
 - **节点级**：每个 SOP 节点一个 skill，命名 `node-<id>-<name>`。SKILL.md 模板：目的/输入产物/执行步骤/工具调用/收敛判据检查/输出产物/人机职责分配。
 - **跨切面**：`review-gate`（质量门评审）、`convergence-judge`（收敛判据检查）、`ip-discipline`（IP 只读纪律）。
-- **生成机制**：`node-template/` + 脚手架脚本批量生成，避免格式漂移。
+- **生成机制**：`skill-scaffold`（orchestrator 自带能力）——`nodes.json` × 骨架模板 → `scaffold_skills.py` 批量生成，避免格式漂移。
 
 ## 8. 状态跟踪
 
@@ -199,7 +199,10 @@ D:\work\AIChip\
 ├── .gitignore
 ├── .opencode/                        # ★ opencode 运行时配置（保留根目录：发现机制要求，ADR-012）
 │   ├── skills/                       # 节点级 + 跨切面 skill（自动加载）
-│   │   ├── node-template/SKILL.md        # 节点 skill 脚手架；assets/templates/ 含节点详章模板
+│   │   ├── skill-scaffold/SKILL.md       # orchestrator 专用：节点 skill 生成能力（ADR-014/015）
+│   │   │   ├── assets/node-template/     # 骨架模板 + 节点详章模板
+│   │   │   ├── scripts/scaffold_skills.py
+│   │   │   └── references/nodes-schema.md
 │   │   ├── node-<id>-<slug>/SKILL.md     …（每节点一个；专属模板内化于各 skill assets/templates/）
 │   │   ├── _shared/templates/            # 跨节点共享模板（单一归属）
 │   │   │   ├── review-checklist.md  adr-template.md
@@ -217,8 +220,8 @@ D:\work\AIChip\
 │   │   ├── 阶段A–H/                  # 节点详章平铺（每节点一文件）
 │   │   ├── 辅助文档/（90-收敛判据速查表、91-人机职责分配矩阵）
 │   │   └── 设计/2026-08-19-ai-chip-sop-design.md   # 本设计文档
-│   ├── scripts/                      # 工具脚本
-│   │   ├── scaffold_skills.py        # 从模板批量生成节点 skill
+│   ├── scripts/                      # 工具脚本（scaffold 已内化至 skill-scaffold）
+│   │   ├── workflow_audit.py         # 流程骨架审计（W1-W18）
 │   │   ├── build_manifest.py         # 解析 manifest → 文件列表
 │   │   ├── check_tracker.py          # 节点前后置/收敛判据校验
 │   │   └── contract_check.py         # IP 接口合同比对
@@ -243,7 +246,7 @@ D:\work\AIChip\
 ## 11. 待实现清单
 
 1. AIFlow/doc/SOP.md（总纲）+ AIFlow/doc/ 节点详章（每节点一文件）
-2. .opencode/skills/node-template + scaffold 脚本 + 全部节点 skill
+2. .opencode/skills/skill-scaffold（骨架模板 + scaffold 脚本 + nodes 规范）+ 全部节点 skill
 3. .opencode/agent/ 7 个 agent 定义
 4. AIFlow/scripts/ AIFlow/state/ 初始文件（节点/共享模板内化至 .opencode/skills/ 资产，无顶层 templates/）
 5. README.md（含对照实验记录方法）

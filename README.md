@@ -46,7 +46,7 @@ A 需求与规格 → B 架构 → [C 微架构与 RTL ⇄ D 验证] → 关口1
 ## 开发调试脚本
 
 ```bash
-python AIFlow/scripts/scaffold_skills.py            # 重新生成节点 skill
+python .opencode/skills/skill-scaffold/scripts/scaffold_skills.py   # 重新生成节点 skill（orchestrator）
 python AIFlow/scripts/check_tracker.py --summary    # 查看节点状态
 python AIFlow/scripts/build_manifest.py --ips       # 查看 IP 版本固定
 python AIFlow/scripts/contract_check.py --list      # 列出 IP

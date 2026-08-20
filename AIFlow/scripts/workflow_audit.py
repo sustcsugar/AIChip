@@ -215,7 +215,10 @@ def main() -> None:
             a.add(SEV_BLOCKER, "W12", f"阶段目录不存在: {phase_dirs[ph]}", n["id"])
 
     # ---------- W9 引用完整性（governance 引用路径存在）----------
-    ref_files = list(SKILLS.rglob("SKILL.md")) + list(AGENTS.glob("*.md")) + list(STATE.glob("*.md")) + [ROOT / "README.md"]
+    # 仅检查"操作性引用"（agent/skill 会读取执行的路径）；state-decisions.md 为历史决策记录，
+    # 其中"原 <路径>"描述迁移来源属正常（如 ADR-015 引用已迁走的 scaffold 旧路径），排除以避免误报
+    ref_files = list(SKILLS.rglob("SKILL.md")) + list(AGENTS.glob("*.md")) \
+        + [p for p in STATE.glob("*.md") if p.name != "state-decisions.md"] + [ROOT / "README.md"]
     for p in ref_files:
         if not p.exists():
             continue
@@ -241,7 +244,7 @@ def main() -> None:
 
     # ---------- W10 脚手架一致性 ----------
     try:
-        tpl = (SKILLS / "node-template" / "SKILL.md").read_text(encoding="utf-8")
+        tpl = (SKILLS / "skill-scaffold" / "assets" / "node-template" / "SKILL.md").read_text(encoding="utf-8")
         for n in load_nodes():
             if n["id"] in KNOWN_CUSTOM:
                 continue
