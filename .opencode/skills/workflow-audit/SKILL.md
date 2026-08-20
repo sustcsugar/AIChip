@@ -112,7 +112,7 @@ description: >-
 1. 任何 Blocker → 修复后重跑 M1，不得跳过
 2. Warning → 修复或写明理由（留档）
 3. 语义层结论 → 必须人工复核后才可作为放行依据
-4. 报告归档：写入 `AIFlow/state/`（如 `workflow-audit-<日期>.md`）或由 orchestrator 决定
+4. 报告归档：写入 `AIFlow/state/`，命名遵循 ADR-007 的 `state-` 前缀（如 `state-workflow-audit-<日期>.md`），由 orchestrator 落账
 5. 本 skill 自身属于治理资产，若审查发现流程/规范问题，按 review-gate 的"规范回写"纪律同步回写 SOP/详章/skill
 
 ## 参考
