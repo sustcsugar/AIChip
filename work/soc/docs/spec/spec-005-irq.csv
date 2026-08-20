@@ -1,0 +1,11 @@
+irq_id,irq_name,irq_num,source_block,trigger_signal,trigger_type,polarity,maskable,priority,event_semantics,uc_ref,note
+IRQ-01,UART_RX,1,BLOCK-03,uart_rx_int(内部),level,high,maskable,1,接收完成/数据可用 (FS-002),UC-UART-002,外部源=uart_rxd 引脚
+IRQ-02,UART_TX,2,BLOCK-03,uart_tx_int(内部),level,high,maskable,2,发送缓冲空 (FS-002),UC-UART-001,
+IRQ-03,SPI_DONE,3,BLOCK-05,spi_done_int(内部),level,high,maskable,3,传输完成 (FS-005),UC-SPI-001/002,含 SPI Flash 访问完成
+IRQ-04,IIC_DONE,4,BLOCK-06,iic_done_int(内部),level,high,maskable,4,传输完成/NACK 错误回报 (FS-006),UC-IIC-001~003,
+IRQ-05,TIMER0,5,BLOCK-10,timer0_int(内部),level,high,maskable,5,定时器周期中断 (FS-009, M-012),UC-INT-002,周期误差 ±1 时钟周期
+IRQ-06,SW_INT,6,BLOCK-09,sw_int(内部),level,high,maskable,6,软件中断 (FS-008),UC-INT-003,软件置位/清除
+IRQ-07,GPIO_EXT0,7,BLOCK-08,gpio_ext0_int(内部),edge,rise/fall 可配,maskable,7,GPIO[0:3] 事件→外部中断 (FS-008/017),UC-GPIO-002;UC-INT-001,外部源=gpio[0:3] 引脚
+IRQ-08,GPIO_EXT1,8,BLOCK-08,gpio_ext1_int(内部),edge,rise/fall 可配,maskable,8,GPIO[4:7] 事件→外部中断,UC-GPIO-002,外部源=gpio[4:7] 引脚
+IRQ-09,GPIO_EXT2,9,BLOCK-08,gpio_ext2_int(内部),edge,rise/fall 可配,maskable,9,GPIO[8:11] 事件→外部中断,UC-GPIO-002,外部源=gpio[8:11] 引脚
+IRQ-10,GPIO_EXT3,10,BLOCK-08,gpio_ext3_int(内部),edge,rise/fall 可配,maskable,10,GPIO[12:15] 事件→外部中断,UC-GPIO-002,外部源=gpio[12:15] 引脚

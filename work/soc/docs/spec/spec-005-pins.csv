@@ -1,0 +1,24 @@
+pin_id,pad_name,direction,width,io_type,drive,pull,reset_value,reset_source,default_fn,alt_fn,block,note
+PAD-01,clk_i,in,1,LVCMOS,-,-,0,POR,clk_i,-,BLOCK-11,外部时钟输入 10-50MHz; BLOCK-11 片上时钟管理生成 Fsys (FS-010,M-002)
+PAD-02,rst_n_i,in,1,LVCMOS,-,pull-up,1,POR,rst_n_i,-,BLOCK-11,外部复位输入 低有效; 全局异步复位/同步释放 (FS-010)
+PAD-03,jtag_tck,in,1,LVCMOS,-,pull-down,0,POR,jtag_tck,-,BLOCK-04,IEEE 1149.1 TCK; 异步时钟域经同步器处理 (C5 CDC 检查项)
+PAD-04,jtag_tms,in,1,LVCMOS,-,pull-up,1,POR,jtag_tms,-,BLOCK-04,IEEE 1149.1 TMS
+PAD-05,jtag_tdi,in,1,LVCMOS,-,pull-up,1,POR,jtag_tdi,-,BLOCK-04,IEEE 1149.1 TDI
+PAD-06,jtag_tdo,out,1,LVCMOS,4mA,-,hi-z,POR,jtag_tdo,-,BLOCK-04,IEEE 1149.1 TDO; TAP 未使能时三态
+PAD-07,jtag_trst_n,in,1,LVCMOS,-,pull-up,1,POR,jtag_trst_n,-,BLOCK-04,可选 TRST_N 低有效 (IEEE 1149.1 可选信号)
+PAD-08,gpio[0],inout,1,LVCMOS,cfg(2/4/8mA),pull-up,input,POR,gpio[0],uart_txd,BLOCK-08,AF0=GPIO0; AF1=UART_TXD (REQ-012/019)
+PAD-09,gpio[1],inout,1,LVCMOS,cfg(2/4/8mA),pull-up,input,POR,gpio[1],uart_rxd,BLOCK-08,AF0=GPIO1; AF1=UART_RXD
+PAD-10,gpio[2],inout,1,LVCMOS,cfg(2/4/8mA),pull-up,input,POR,gpio[2],spi_sclk,BLOCK-08,AF0=GPIO2; AF1=SPI_SCLK
+PAD-11,gpio[3],inout,1,LVCMOS,cfg(2/4/8mA),pull-up,input,POR,gpio[3],spi_cs_n[0],BLOCK-08,AF0=GPIO3; AF1=SPI_CS_N[0] (SPI Flash CS, 外部接 BLOCK-13)
+PAD-12,gpio[4],inout,1,LVCMOS,cfg(2/4/8mA),pull-up,input,POR,gpio[4],spi_cs_n[1],BLOCK-08,AF0=GPIO4; AF1=SPI_CS_N[1] (外部从设备)
+PAD-13,gpio[5],inout,1,LVCMOS,cfg(2/4/8mA),pull-up,input,POR,gpio[5],spi_mosi,BLOCK-08,AF0=GPIO5; AF1=SPI_MOSI
+PAD-14,gpio[6],inout,1,LVCMOS,cfg(2/4/8mA),pull-up,input,POR,gpio[6],spi_miso,BLOCK-08,AF0=GPIO6; AF1=SPI_MISO
+PAD-15,gpio[7],inout,1,LVCMOS,cfg(2/4/8mA),pull-up,input,POR,gpio[7],iic_scl,BLOCK-08,AF0=GPIO7; AF1=IIC_SCL (开漏, FS-006)
+PAD-16,gpio[8],inout,1,LVCMOS,cfg(2/4/8mA),pull-up,input,POR,gpio[8],iic_sda,BLOCK-08,AF0=GPIO8; AF1=IIC_SDA (开漏)
+PAD-17,gpio[9],inout,1,LVCMOS,cfg(2/4/8mA),pull-up,input,POR,gpio[9],pwm_out[0],BLOCK-08,AF0=GPIO9; AF1=PWM0 (M-009/010)
+PAD-18,gpio[10],inout,1,LVCMOS,cfg(2/4/8mA),pull-up,input,POR,gpio[10],pwm_out[1],BLOCK-08,AF0=GPIO10; AF1=PWM1
+PAD-19,gpio[11],inout,1,LVCMOS,cfg(2/4/8mA),pull-up,input,POR,gpio[11],-,BLOCK-08,AF0=GPIO11 (仅 GPIO)
+PAD-20,gpio[12],inout,1,LVCMOS,cfg(2/4/8mA),pull-up,input,POR,gpio[12],-,BLOCK-08,AF0=GPIO12 (仅 GPIO)
+PAD-21,gpio[13],inout,1,LVCMOS,cfg(2/4/8mA),pull-up,input,POR,gpio[13],-,BLOCK-08,AF0=GPIO13 (仅 GPIO)
+PAD-22,gpio[14],inout,1,LVCMOS,cfg(2/4/8mA),pull-up,input,POR,gpio[14],-,BLOCK-08,AF0=GPIO14 (仅 GPIO)
+PAD-23,gpio[15],inout,1,LVCMOS,cfg(2/4/8mA),pull-up,input,POR,gpio[15],-,BLOCK-08,AF0=GPIO15 (仅 GPIO)
