@@ -3,7 +3,7 @@ name: roadmap-capture
 description: >-
   优化方向统一登记 skill：当用户/团队在开发过程中提出任何芯片优化想法、增强方向、
   "下一版可以…"、流程改进或技术预研议题时，按 state/state-roadmap.md 的 RT 结构登记。
-  维护统一 roadmap 清单（RT-NNN 全局递增），登记后跑 scripts/roadmap_check.py 校验格式。
+  维护统一 roadmap 清单（RMP-NNN 全局递增），登记后跑 scripts/roadmap_check.py 校验格式。
 ---
 
 # Roadmap Capture — 优化方向统一登记
@@ -16,7 +16,7 @@ description: >-
 
 ## 工作流
 
-1. 读取 `state/state-roadmap.md`，确认下一个 RT 序号（**RT = Roadmap Topic，优化方向条目**；全局递增，不随节点重置）
+1. 读取 `state/state-roadmap.md`，确认下一个 RMP 序号（**RMP = Roadmap，优化方向条目**；全局递增，不随节点重置）
 2. 按"条目结构"逐字段登记：标题 / 分类 / 状态 / 来源 / 动机 / 方案概述 / 期望收益 / 影响范围 / 关联 / 处置建议
 3. 状态默认 `idea`；分类在 下一版增强 / 架构备选 / 流程改进 / 技术预研 中选择
 4. 登记后运行 `python scripts/roadmap_check.py` 校验（编号唯一、字段齐全、状态/分类合法）

@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""校验 state/state-roadmap.md 的结构（RT 编号唯一/连续、字段齐全、状态与分类合法）。
+"""校验 state/state-roadmap.md 的结构（RMP 编号唯一/连续、字段齐全、状态与分类合法）。
 
 用法:
     python scripts/roadmap_check.py            # 校验全部
-    python scripts/roadmap_check.py --node RT-001   # 指定条目
+    python scripts/roadmap_check.py --node RMP-001   # 指定条目
 
 退出码: 0 = 通过, 1 = 有错误
 """
@@ -20,7 +20,7 @@ FIELDS = ["标题", "分类", "状态", "来源", "动机", "方案概述", "期
 STATUS = {"idea", "planned", "in_progress", "adopted", "deferred", "rejected"}
 CATEGORY = {"下一版增强", "架构备选", "流程改进", "技术预研"}
 
-ENTRY_RE = re.compile(r"^###\s+(RT-\d+)\s+—\s*(.+)$")
+ENTRY_RE = re.compile(r"^###\s+(RMP-\d+)\s+—\s*(.+)$")
 FIELD_RE = re.compile(r"^-\s*([^：:]+)[：:]\s*(.*)$")
 
 
@@ -42,7 +42,7 @@ def parse_entries(text):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--node", help="只校验指定 RT 编号")
+    ap.add_argument("--node", help="只校验指定 RMP 编号")
     args = ap.parse_args()
 
     if not ROADMAP.exists():
@@ -62,10 +62,10 @@ def main():
 
     # 编号唯一 + 连续（全局递增）
     if len(set(ids)) != len(ids):
-        errors.append("RT 编号存在重复")
+        errors.append("RMP 编号存在重复")
     expected = list(range(1, len(ids) + 1))
     if nums != expected:
-        errors.append(f"RT 编号不连续: 实际 {nums}, 期望 {expected}")
+        errors.append(f"RMP 编号不连续: 实际 {nums}, 期望 {expected}")
 
     target = {args.node} if args.node else set(ids)
     for rid, ent in entries.items():
@@ -87,7 +87,7 @@ def main():
             print(f"  - {e}")
         return 1
 
-    print(f"检查通过: {len(entries)} 个 RT 条目, 编号唯一连续, 字段/状态/分类合法")
+    print(f"检查通过: {len(entries)} 个 RMP 条目, 编号唯一连续, 字段/状态/分类合法")
     return 0
 
 

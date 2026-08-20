@@ -26,7 +26,7 @@
 | `.opencode/agent/` | 7 个 agent：orchestrator + 6 领域 agent |
 | `templates/` | 节点输入/输出模板 |
 | `scripts/` | 工具脚本（脚手架 / manifest / tracker 校验 / 合同比对） |
-| `state/` | 运行状态：tracker / milestones / decisions / roadmap（优化方向统一待办，RT 编号） |
+| `state/` | 运行状态：tracker / milestones / decisions / roadmap（优化方向统一待办，RMP 编号） |
 | `work/` | 芯片工作区：`ip/`（复用 IP）+ `soc/`（SoC 集成） |
 
 ## 收敛环模型

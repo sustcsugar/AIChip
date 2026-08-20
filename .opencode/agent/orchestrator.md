@@ -39,4 +39,4 @@ mode: primary
 - 收敛判据速查：`doc/辅助文档/90-收敛判据速查表.md`
 - 人机职责矩阵：`doc/辅助文档/91-人机职责分配矩阵.md`
 - 设计基线：`doc/设计/2026-08-19-ai-chip-sop-design.md`
-- 优化方向 Roadmap：`state/state-roadmap.md`（RT 编号，roadmap-capture skill 登记）
+- 优化方向 Roadmap：`state/state-roadmap.md`（RMP 编号，roadmap-capture skill 登记）
