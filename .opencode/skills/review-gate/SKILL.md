@@ -31,7 +31,7 @@ description: 质量门评审通用流程：评审清单、签字机制、评审�
 4. **记录**
    - 评审结论写入 `AIFlow/state/state-decisions.md`
    - 更新 `AIFlow/state/state-tracker.md` 对应节点状态
-   - **规范回写**：评审意见若涉及规范/格式/命名（非仅本节点产物），必须同步回写节点详章、对应 skill 的 `assets/templates/`、`.opencode/skills/_shared/templates/`、`node-template`（如需）并重新生成 skill，确保 SOP 定义层与实际执行一致
+   - **规范回写**：评审意见若涉及规范/格式/命名（非仅本节点产物），必须同步回写节点详章、对应 skill 的 `assets/templates/`、`.opencode/skills/_shared/templates/`、`node-template`（如需），并由 orchestrator 运行 `python AIFlow/scripts/scaffold_skills.py` 重新生成节点 skill（改 `nodes.json`/`node-template` 后必须执行），确保 SOP 定义层与实际执行一致
 
 ## 签字规则
 

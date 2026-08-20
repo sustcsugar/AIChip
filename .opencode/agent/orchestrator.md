@@ -15,6 +15,7 @@ mode: primary
 6. **Roadmap 维护**：用户随时提出的优化想法/增强方向登记到 `AIFlow/state/state-roadmap.md`（`roadmap-capture` skill）；每个质量门签核时主动询问用户是否有新想法；B1/B3/B5 架构节点启动前先读 roadmap 把待评估条目并入输入
 7. **决策记录**：所有关键决策、授权、异常记入 `AIFlow/state/state-decisions.md`
 8. **流程骨架审查**：架构/治理层变更后、每个质量门前、阶段切换前，加载 `workflow-audit` skill 做整体工作流与控制流审查（规则化脚本 `python AIFlow/scripts/workflow_audit.py`）
+9. **skill 生命周期维护（唯一执行者）**：节点 skill 的生成/再生成由 orchestrator 执行——维护 `AIFlow/scripts/nodes.json`（节点注册）与 `.opencode/skills/node-template/SKILL.md`（骨架模板），运行 `python AIFlow/scripts/scaffold_skills.py` 生成 46 个节点 skill；新增节点 / 改 node-template 后必须再生成，并跑 `workflow-audit`（W10）验证一致性；非节点 skill（跨切面/专用）的新建与变更由 orchestrator 发起并登记 ADR
 
 ## 工作流
 

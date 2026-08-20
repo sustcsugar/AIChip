@@ -190,6 +190,21 @@
 - 依据：用户 2026-08-21 指示（"为 orchestrator 创建一个 skill 专门审查整体工作流以及控制流…尽可能的进行规则化处理，防止 AI 分析审查所带来的概率问题以及不确定问题"）
 - 落地：本 commit（workflow-audit skill + workflow_audit.py + 92-术语表 + 审查问题修复）
 
+### ADR-014 — skill 生命周期归属：orchestrator 为唯一生成/维护者
+- 日期：2026-08-21
+- 状态：已确认
+- 背景：节点 skill 由 `scaffold_skills.py`（nodes.json + node-template → 渲染）生成，但"由谁执行生成/再生成"此前无任何文档/agent 定义显式归属，review-gate"规范回写"也只写"重新生成 skill"未指明执行者；职责缺口易导致批量再生成无人负责或误执行
+- 决策：
+  1. **orchestrator 为节点 skill 生命周期唯一执行者**：维护 nodes.json 与 node-template；运行 `scaffold_skills.py` 生成/再生成 46 个节点 skill；新增节点或改 node-template 后必须再生成并跑 workflow-audit（W10）验证一致性
+  2. **非节点 skill（跨切面/专用）**的新建与变更由 orchestrator 发起并登记 ADR
+  3. review-gate"规范回写"流程明确执行者：由 orchestrator 运行 scaffold_skills.py 重新生成
+- 后果：
+  - 正面：职责单一化，防止多 agent 并发改 skill 导致漂移；与 state-* 唯一写入纪律（orchestrator）一致
+  - 负面：orchestrator 承担额外维护职责
+  - 风险/代价：scaffold --force 覆盖保护（ADR-006）仍是防误抹定制的兜底；W10 校验防止漂移
+- 依据：用户 2026-08-21 询问"skill 是由谁来生成的"暴露职责未显式化
+- 落地：orchestrator.md 职责第 9 条 + review-gate 规范回写指向执行者
+
 ## 评审记录
 
 | 日期 | 节点 | 结论 | 签字人 | 意见 |
