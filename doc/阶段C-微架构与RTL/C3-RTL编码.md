@@ -85,7 +85,7 @@
 2. 编码规范自检清零：无 inferred latch、无多驱动、无位宽不匹配、无非综合构造。
 3. 与 C1 对齐：模块端口清单 = C2 契约、Regmap 实现条数 = C1 Regmap 表、状态机状态 = C1 状态表，逐项核对一致。
 4. RTL 可综合：符合可综合子集（时序逻辑仅 `always_ff`、显式缺省分支、无 `initial`/`fork-join`）。
-5. 每模块有人工放行记录（`state/decisions.md` 或代码评审 comment）。
+5. 每模块有人工放行记录（`state/state-decisions.md` 或代码评审 comment）。
 
 ## 7. 质量门与签字
 
@@ -99,7 +99,7 @@
 - `work/soc/rtl/common/defines.svh`（公共参数/宏）
 - `work/soc/build/filelist.f`（由 manifest 生成的文件列表，编码末期刷新）
 - 编码自检记录：`work/soc/docs/reports/c3-selfcheck-<mod>.md`
-- `state/tracker.md` 更新（C3 → passed，按模块粒度可记录子状态）
+- `state/state-tracker.md` 更新（C3 → passed，按模块粒度可记录子状态）
 
 ## 9. 对应 skill 与 agent
 

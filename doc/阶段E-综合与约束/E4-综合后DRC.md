@@ -10,7 +10,7 @@
 
 ## 2. 输入产物（前置条件）
 
-- [ ] 前序节点产物（由 `state/tracker.md` 确认 passed）：E3 逻辑综合（检查通过）、E1 约束开发、E2 库环境
+- [ ] 前序节点产物（由 `state/state-tracker.md` 确认 passed）：E3 逻辑综合（检查通过）、E1 约束开发、E2 库环境
 - [ ] E3 门级网表 `work/soc/syn/output/top_netlist.v` 与综合数据库
 - [ ] E1 `top.sdc`（DRC 目标值来源）
 - [ ] E2 库环境的 DRC 缺省值信息

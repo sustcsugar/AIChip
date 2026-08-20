@@ -91,7 +91,7 @@
 - `work/soc/docs/cdc/clk-def.json`（时钟域与复位域定义，D 阶段与 E 阶段 SDC 复用）
 - `work/soc/docs/reports/c5-cdc.md`（跨域路径表、同步器清单、违例与修复记录）
 - `work/soc/docs/reports/c5-waiver.md`（waive 清单）
-- `state/tracker.md` 更新（C5 → passed）
+- `state/state-tracker.md` 更新（C5 → passed）
 
 ## 9. 对应 skill 与 agent
 

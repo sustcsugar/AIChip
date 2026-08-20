@@ -94,7 +94,7 @@ verilator --lint-only -Wall -f work/soc/build/filelist.f
 - `work/soc/docs/reports/c4-lint-<mod>.md`（模块级 lint 报告：分类统计 + 修复记录）
 - `work/soc/docs/reports/c4-lint-sys.md`（系统级 lint 报告）
 - `work/soc/docs/reports/c4-waiver.md`（waiver 清单）
-- `state/tracker.md` 更新（C4 → passed）
+- `state/state-tracker.md` 更新（C4 → passed）
 
 ## 9. 对应 skill 与 agent
 

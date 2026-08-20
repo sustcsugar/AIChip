@@ -17,7 +17,7 @@
 
 ## 2. 输入产物（前置条件）
 
-- [ ] H2 Place & Route 通过（route.def + DRC clean，`state/tracker.md` 中 H2 = passed）
+- [ ] H2 Place & Route 通过（route.def + DRC clean，`state/state-tracker.md` 中 H2 = passed）
 - [ ] SDC 时钟约束（create_clock / create_generated_clock、clock uncertainty、latency）
 - [ ] CTS 配置文件：clock 层选择、NDR（双倍宽/间距）、max skew/latency/transition 目标
 - [ ] CTS 工具（Innovus cts / ICC2 cts）与库（含 clock cell）
@@ -91,7 +91,7 @@
 - `work/soc/pnr/H3_cts/clock_qor.rpt`（skew/latency/transition）
 - `work/soc/pnr/H3_cts/cts_drc.rpt`（时钟 DRC，clean）
 - `work/soc/pnr/H3_cts/postcts_sta.rpt`（WNS/TNS + hold 检查）
-- 更新 `state/tracker.md`：H3 = passed（orchestrator 写入）
+- 更新 `state/state-tracker.md`：H3 = passed（orchestrator 写入）
 
 ## 9. 对应 skill 与 agent
 

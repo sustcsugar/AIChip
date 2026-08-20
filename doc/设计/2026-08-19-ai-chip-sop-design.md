@@ -182,7 +182,7 @@ G 签核与交付 → H 物理设计（可选扩展）
 ## 8. 状态跟踪
 
 ```
-state/tracker.md   ← orchestrator 唯一写入者
+state/state-tracker.md   ← orchestrator 唯一写入者
 [ C3 RTL编码 ] 状态=in_progress | waiting_review | passed | iterating
   收敛指标: lint=0 违例, 覆盖率=85%, 版本次数=2
   质量门: 待人工签字
@@ -234,7 +234,7 @@ D:\work\AIChip\
 ## 10. 使用流程
 
 1. 项目根启动 opencode，默认 agent = orchestrator。
-2. orchestrator 读 state/tracker.md → 决定当前节点 → 派发领域 agent（subagent）→ 加载节点 skill → 执行 → 产物写 work/。
+2. orchestrator 读 state/state-tracker.md → 决定当前节点 → 派发领域 agent（subagent）→ 加载节点 skill → 执行 → 产物写 work/。
 3. check_tracker.py 校验收敛判据 → 更新 tracker → 质量门处停下等人工签字。
 4. 判据不满足则节点置回 iterating，重新派发修复。
 

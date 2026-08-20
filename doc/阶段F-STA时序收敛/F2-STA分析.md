@@ -10,7 +10,7 @@
 
 ## 2. 输入产物（前置条件）
 
-- [ ] 前序节点产物（由 `state/tracker.md` 确认 passed）：F1 约束签核评审（人工签字）、E5 LEC、E4 DRC
+- [ ] 前序节点产物（由 `state/state-tracker.md` 确认 passed）：F1 约束签核评审（人工签字）、E5 LEC、E4 DRC
 - [ ] E3 门级网表 `top_netlist.v`；E2 全部 PVT/RC 角库
 - [ ] F1 签核版 SDC `work/soc/sta/constraints/soc_top.sdc`
 - [ ] 模式定义：功能模式（function）、扫描/测试模式（scan/shift/capture）、复位模式（若独立）

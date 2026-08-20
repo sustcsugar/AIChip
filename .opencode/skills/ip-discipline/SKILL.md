@@ -28,5 +28,5 @@ description: IP 只读纪律：强制任何 agent 不得修改 ip_manifest.json 
 
 - 若确需修改 IP（紧急 bug 且无发布流程）：
   1. 显式向人类报告，取得明确书面授权
-  2. 记录到 `state/decisions.md`（含理由与授权人）
+  2. 记录到 `state/state-decisions.md`（含理由与授权人）
   3. 修复必须回流到 IP 项目，确保 IP 项目内修复生效，避免只改 SoC 侧拷贝

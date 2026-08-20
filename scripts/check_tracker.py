@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""校验 state/tracker.md 节点状态与前后置条件。
+"""校验 state/state-tracker.md 节点状态与前后置条件。
 
 用法:
     python scripts/check_tracker.py                    # 检查全部节点
@@ -20,7 +20,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-TRACKER = ROOT / "state" / "tracker.md"
+TRACKER = ROOT / "state" / "state-tracker.md"
 NODES_JSON = ROOT / "scripts" / "nodes.json"
 
 

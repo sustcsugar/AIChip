@@ -13,7 +13,7 @@
 
 ## 2. 输入产物（前置条件）
 
-- [ ] B6 集成规划（passed）：IP 选型表、版本基线、复用策略（`state/tracker.md` 确认）
+- [ ] B6 集成规划（passed）：IP 选型表、版本基线、复用策略（`state/state-tracker.md` 确认）
 - [ ] A3 接口规格（passed）：引脚 / 总线 / 中断 / 存储映射规格冻结
 - [ ] B2 地址映射（passed）：SoC 地址映射表（Regmap 一致性比对依据）
 - [ ] B3 总线与互联选型（passed）：AXI/APB 协议版本、主从方向、位宽、ID 宽度
@@ -108,7 +108,7 @@ python scripts/check_tracker.py --summary
 ## 7. 质量门与签字
 
 - 质量门类型：**检查**（自动化比对 + orchestrator 收敛判据核验）
-- 检查未通过不得进入 C1；`state/tracker.md` 中 C0 状态置 `passed` 后方可派发下一节点。
+- 检查未通过不得进入 C1；`state/state-tracker.md` 中 C0 状态置 `passed` 后方可派发下一节点。
 - 比对报告与 manifest 变更作为检查依据归档。
 
 ## 8. 输出产物
@@ -116,7 +116,7 @@ python scripts/check_tracker.py --summary
 - `work/soc/ip_manifest.json`（更新：IP version/mode/path 固定，`soc_version` 递增）— 交付给 C3/C7/D 阶段消费
 - `work/soc/docs/reports/c0-contract-check-<ip>.md`（每 IP 一份合同比对报告，含 5 大检查项验证记录表）
 - `work/soc/docs/reports/c0-waiver.md`（如有不一致项的裁定记录与修正说明；无则注明"无"）
-- `state/tracker.md` 更新（C0 → passed），由 orchestrator 写入
+- `state/state-tracker.md` 更新（C0 → passed），由 orchestrator 写入
 - git 提交：manifest 变更 + 报告（commit message 标注 `C0`）
 
 ## 9. 对应 skill 与 agent

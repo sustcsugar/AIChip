@@ -20,7 +20,7 @@ description: 收敛判据检查：校验节点 DoD 是否满足、收集度量�
 4. **裁决**：
    - 全部达标 → `converged`，可进入质量门
    - 部分未达标 → `diverging`，列出差距项与修复建议
-5. **记录**：结果写入 `state/tracker.md` 对应节点的收敛指标字段
+5. **记录**：结果写入 `state/state-tracker.md` 对应节点的收敛指标字段
 
 ## 常用命令
 

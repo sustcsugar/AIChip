@@ -1,6 +1,6 @@
 # ADR 模板（架构决策记录）
 
-> 用途：`state/decisions.md` 决策日志的条目格式标准。每个关键决策登记一条，按 ADR-NNN 递增。
+> 用途：`state/state-decisions.md` 决策日志的条目格式标准。每个关键决策登记一条，按 ADR-NNN 递增。
 > 格式参考 Michael Nygard《Documenting Architecture Decisions》标准结构 + 本项目溯源字段。
 
 ## 模板

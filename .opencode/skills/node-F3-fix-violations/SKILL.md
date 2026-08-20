@@ -6,7 +6,7 @@ description: 修复时序违例（约束校正/插入单元/回退改 RTL）。�
 # Node F3: 违例修复
 
 > 本 skill 承载节点 F3 的执行工作流。节点完整定义（含人机职责）见 `doc/阶段F-STA时序收敛/F3-违例修复.md`。
-> 归属 agent：signoff-agent。执行前必须先读 `state/tracker.md` 确认节点处于 in_progress 且前置输入完整。
+> 归属 agent：signoff-agent。执行前必须先读 `state/state-tracker.md` 确认节点处于 in_progress 且前置输入完整。
 
 ## 1. 目的
 
@@ -26,7 +26,7 @@ description: 修复时序违例（约束校正/插入单元/回退改 RTL）。�
 
 ### Execute
 3. 按输入产物执行本节点工作
-4. 产物写入 `work/`（或 `doc/`）对应路径
+4. 产物写入 `work/`（或 `doc/`）对应路径；**生成项目文档前先查 `work/soc/docs/00-文档编号登记.md` 取全局序号（`<前缀>-<NNN>-<名称>.md`），生成后登记**（规范见 ADR-003）
 
 ### Measure
 5. 收集度量数据（数量/报告/指标）

@@ -6,7 +6,7 @@ description: {{DESCRIPTION}}。当需要执行或判断节点 {{ID}}（{{NAME}}�
 # Node {{ID}}: {{NAME}}
 
 > 本 skill 承载节点 {{ID}} 的执行工作流。节点完整定义（含人机职责）见 `doc/{{DOC}}`。
-> 归属 agent：{{AGENT}}。执行前必须先读 `state/tracker.md` 确认节点处于 in_progress 且前置输入完整。
+> 归属 agent：{{AGENT}}。执行前必须先读 `state/state-tracker.md` 确认节点处于 in_progress 且前置输入完整。
 
 ## 1. 目的
 
@@ -26,7 +26,7 @@ description: {{DESCRIPTION}}。当需要执行或判断节点 {{ID}}（{{NAME}}�
 
 ### Execute
 3. 按输入产物执行本节点工作
-4. 产物写入 `work/`（或 `doc/`）对应路径
+4. 产物写入 `work/`（或 `doc/`）对应路径；**生成项目文档前先查 `work/soc/docs/00-文档编号登记.md` 取全局序号（`<前缀>-<NNN>-<名称>.md`），生成后登记**（规范见 ADR-003）
 
 ### Measure
 5. 收集度量数据（数量/报告/指标）

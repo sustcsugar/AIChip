@@ -17,7 +17,7 @@
 
 ## 2. 输入产物（前置条件）
 
-- [ ] G3 基线冻结（release tag + 交付包，`state/tracker.md` 中 G3 = passed）
+- [ ] G3 基线冻结（release tag + 交付包，`state/state-tracker.md` 中 G3 = passed）
 - [ ] 综合 netlist（DC/GENUS 输出，含 `.ddc` / `.vg`）+ 库设置（E2/E3）
 - [ ] 签核 SDC 约束（F1 评审通过版）
 - [ ] 物理库（LEF、PDK tech file、macro LEF/GDS）、std cell LEF + timing/delay 库
@@ -96,7 +96,7 @@
 - `work/soc/pnr/H1_floorplan/floorplan.def`（或 `.fp`）
 - `work/soc/pnr/H1_floorplan/QoR_floorplan.rpt`（面积/利用率/congestion/IR-drop 预估）
 - 宏摆放示意图与 congestion 热图（png/pdf）
-- 更新 `state/tracker.md`：H1 = passed（orchestrator 写入）
+- 更新 `state/state-tracker.md`：H1 = passed（orchestrator 写入）
 
 ## 9. 对应 skill 与 agent
 

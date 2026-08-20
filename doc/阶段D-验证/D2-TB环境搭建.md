@@ -18,7 +18,7 @@
 - [ ] D1 vplan passed（含两级环境规划、复用资产清单）
 - [ ] B7 参考模型冻结 passed（golden 模型 + 版本，供 scoreboard 集成）
 - [ ] C2 模块接口契约 passed（端口、时序、握手，用于 TB 顶层连线）
-- [ ] C6 模块级 smoke passed（`state/tracker.md` 确认）
+- [ ] C6 模块级 smoke passed（`state/state-tracker.md` 确认）
 - [ ] C7 RTL 冻结 passed（feature complete，RTL 版本锁定）
 - [ ] `work/soc/ip_manifest.json`（mode 配置，决定 sys 级挂 model 还是 rtl）
 - [ ] 工具链可用：verilator / cocotb / iverilog（UVM 场景）/ python3 / make

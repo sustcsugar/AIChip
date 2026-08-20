@@ -13,7 +13,7 @@
 
 ## 2. 输入产物（前置条件）
 
-- [ ] C0–C6 全部 passed（`state/tracker.md` 确认）：合同已验证、微架构/契约/编码/lint/CDC/模块 smoke 齐备
+- [ ] C0–C6 全部 passed（`state/state-tracker.md` 确认）：合同已验证、微架构/契约/编码/lint/CDC/模块 smoke 齐备
 - [ ] B6 集成规划（passed）：soc_top 实例化清单（自研模块 + 复用 IP + 来源）
 - [ ] C0 的 `work/soc/ip_manifest.json`（passed）：IP 版本与 mode 已 pin
 - [ ] 系统级编译环境：`work/soc/build/` + `work/soc/verif/sys/`（系统级最小 TB 骨架）
@@ -93,7 +93,7 @@ git log --oneline -1
    - git tag `soc_rtl_freeze_<date>_<soc_version>` 已创建，hash 记录在集成报告中。
    - manifest（C0）与 RTL 处于同一 commit，可完整复现构建。
    - 基线说明写入集成报告，明确"后续修改需 ECR 流程"。
-3. 人工签字：`state/decisions.md` 记录 C7 放行签名。
+3. 人工签字：`state/state-decisions.md` 记录 C7 放行签名。
 
 ## 7. 质量门与签字
 
@@ -108,7 +108,7 @@ git log --oneline -1
 - `work/soc/docs/reports/c7-integration.md`（集成报告：清单核对、编译结果、smoke 结果、feature complete 结论）
 - `work/soc/docs/reports/c7-freeze.md`（freeze 基线记录：tag/hash/commit 说明/ECR 流程说明）
 - git：commit + freeze tag
-- `state/tracker.md` 更新（C 阶段全部 → passed，D 阶段解锁）
+- `state/state-tracker.md` 更新（C 阶段全部 → passed，D 阶段解锁）
 
 ## 9. 对应 skill 与 agent
 

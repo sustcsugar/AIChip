@@ -10,7 +10,7 @@
 
 ## 2. 输入产物（前置条件）
 
-- [ ] 前序节点产物（由 `state/tracker.md` 确认 passed）：E3 逻辑综合、E4 综合后 DRC（均检查通过）
+- [ ] 前序节点产物（由 `state/state-tracker.md` 确认 passed）：E3 逻辑综合、E4 综合后 DRC（均检查通过）
 - [ ] C7 冻结 RTL（golden，与综合用同版本，ip-discipline 只读消费）
 - [ ] E3 门级网表 `top_netlist.v`（revised）
 - [ ] E3 生成的 SVF（`top_svf.svf`，描述综合变换，帮助 LEC 匹配）

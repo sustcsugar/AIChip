@@ -8,7 +8,7 @@
 
 ## 2. 输入产物（前置条件）
 
-- [ ] 前序节点产物（由 `state/tracker.md` 确认 passed）
+- [ ] 前序节点产物（由 `state/state-tracker.md` 确认 passed）
 - [ ] 本节点所需外部输入
 
 ## 3. 执行步骤

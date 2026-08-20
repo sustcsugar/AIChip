@@ -17,7 +17,7 @@
 
 ## 2. 输入产物（前置条件）
 
-- [ ] H1 floorplan 通过（`.def` + QoR 报告，`state/tracker.md` 中 H1 = passed）
+- [ ] H1 floorplan 通过（`.def` + QoR 报告，`state/state-tracker.md` 中 H1 = passed）
 - [ ] 综合 netlist + SDC 约束（F1 评审版）
 - [ ] 物理库：std cell LEF/LEF5、macro LEF、route layer 定义（tech lef）、NDM/tech file
 - [ ] PG 网络定义（H1 `power_grid.tcl` 输出）
@@ -91,7 +91,7 @@
 - `work/soc/pnr/H2_place_route/route_drc.rpt`（DRC 违例清单，clean）
 - `work/soc/pnr/H2_place_route/congestion.rpt`、`utilization.rpt`
 - `work/soc/pnr/H2_place_route/prects_sta.rpt`（SPEF + WNS/TNS 基线）
-- 更新 `state/tracker.md`：H2 = passed（orchestrator 写入）
+- 更新 `state/state-tracker.md`：H2 = passed（orchestrator 写入）
 
 ## 9. 对应 skill 与 agent
 

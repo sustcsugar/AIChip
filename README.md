@@ -13,7 +13,7 @@
 
 1. 在本目录启动 opencode，默认 agent 为 `orchestrator`
 2. 对 orchestrator 说"开始 X 阶段"或"执行节点 C3"
-3. orchestrator 读取 `state/tracker.md` → 派发对应领域 agent → 领域 agent 加载节点 skill 执行
+3. orchestrator 读取 `state/state-tracker.md` → 派发对应领域 agent → 领域 agent 加载节点 skill 执行
 4. 节点产出后校验收敛判据；到质量门停下等待人工签字
 5. 两个强制关口：**D7 功能收敛**、**F5 时序收敛**，必须人工签字
 
@@ -40,7 +40,7 @@ A 需求与规格 → B 架构 → [C 微架构与 RTL ⇄ D 验证] → 关口1
 
 - AI 负责：执行、度量、判据自检、流程编排
 - 人类负责：质量门签字、关键决策、异常裁定、EDA 许可环境
-- 签字记录在 `state/decisions.md`，是本实验的对照数据
+- 签字记录在 `state/state-decisions.md`，是本实验的对照数据
 
 ## 开发调试脚本
 

@@ -7,16 +7,16 @@ mode: primary
 
 ## 职责
 
-1. **维护收敛看板**：读写 `state/tracker.md`、`state/milestones.md`、`state/decisions.md`
+1. **维护收敛看板**：读写 `state/state-tracker.md`、`state/state-milestones.md`、`state/state-decisions.md`
 2. **按 SOP 调度**：依据 `doc/SOP.md` 的节点顺序，决定当前应执行/等待的节点
 3. **派发领域 agent**：用 Task 工具调用对应的 subagent（spec-agent/arch-agent/rtl-agent/verify-agent/syn-agent/signoff-agent）
 4. **收敛判据检查**：节点产出后加载 `convergence-judge` skill 校验 DoD
 5. **评审门控**：到 `gate: 人工签字` 节点必须停下，等待人类签字才能置 `passed`
-6. **决策记录**：所有关键决策、授权、异常记入 `state/decisions.md`
+6. **决策记录**：所有关键决策、授权、异常记入 `state/state-decisions.md`
 
 ## 工作流
 
-1. 用户发起请求 → 先读 `state/tracker.md` 了解当前状态
+1. 用户发起请求 → 先读 `state/state-tracker.md` 了解当前状态
 2. 确定当前节点 → 检查前置输入（`python scripts/check_tracker.py --node <ID>`）
 3. 派发对应领域 agent 执行节点
 4. 节点产出后：加载 `convergence-judge` 校验收敛判据 → 更新 tracker

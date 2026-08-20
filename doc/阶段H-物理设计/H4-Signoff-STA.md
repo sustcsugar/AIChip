@@ -17,7 +17,7 @@
 
 ## 2. 输入产物（前置条件）
 
-- [ ] H3 CTS 通过（cts.def + CTS DRC clean，`state/tracker.md` 中 H3 = passed）
+- [ ] H3 CTS 通过（cts.def + CTS DRC clean，`state/state-tracker.md` 中 H3 = passed）
 - [ ] 签核 SDC 约束（F1 评审版，含 OCV/setup/hold 建模设置）
 - [ ] 签核 STA 工具（Primetime / Tempus）与 signoff 库（lib + 角文件，含 cell/nets 的 OCV derating）
 - [ ] 寄生提取配置（TLU+ / ITF / NDM，签核级 extraction mode）
@@ -92,7 +92,7 @@
 - `work/soc/pnr/H4_signoff_sta/signoff_spf.spef`（签核级寄生）
 - `work/soc/pnr/H4_signoff_sta/signoff_sta_summary.rpt`（全角 WNS/TNS/违例路径）
 - `work/soc/pnr/H4_signoff_sta/violation_detail.rpt`（违例根因，如有）
-- 更新 `state/tracker.md`：H4 = passed（orchestrator 写入）
+- 更新 `state/state-tracker.md`：H4 = passed（orchestrator 写入）
 
 ## 9. 对应 skill 与 agent
 

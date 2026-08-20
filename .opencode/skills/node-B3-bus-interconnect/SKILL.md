@@ -6,7 +6,7 @@ description: 选择总线协议与互联拓扑，给出量化依据。当需要�
 # Node B3: 总线与互联选型
 
 > 本 skill 承载节点 B3 的执行工作流。节点完整定义（含人机职责）见 `doc/阶段B-架构与集成规划/B3-总线与互联选型.md`。
-> 归属 agent：arch-agent。执行前必须先读 `state/tracker.md` 确认节点处于 in_progress 且前置输入完整。
+> 归属 agent：arch-agent。执行前必须先读 `state/state-tracker.md` 确认节点处于 in_progress 且前置输入完整。
 
 ## 1. 目的
 
@@ -26,7 +26,7 @@ description: 选择总线协议与互联拓扑，给出量化依据。当需要�
 
 ### Execute
 3. 按输入产物执行本节点工作
-4. 产物写入 `work/`（或 `doc/`）对应路径
+4. 产物写入 `work/`（或 `doc/`）对应路径；**生成项目文档前先查 `work/soc/docs/00-文档编号登记.md` 取全局序号（`<前缀>-<NNN>-<名称>.md`），生成后登记**（规范见 ADR-003）
 
 ### Measure
 5. 收集度量数据（数量/报告/指标）
