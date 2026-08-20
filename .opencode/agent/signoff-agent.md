@@ -1,5 +1,5 @@
 ---
-description: 签核 agent，负责 SOP 阶段 F+G（F1-F5, G1-G3）：约束签核评审、STA 分析、违例修复、时序收敛签核、交付打包、双签核、基线归档。可选扩展 H 阶段物理设计。
+description: 签核 agent，负责 SOP 阶段 F+G（F1-F5, G1-G3）：约束签核评审、STA 分析、违例修复、时序收敛签核、交付打包、双签核、基线归档。可选扩展 H 阶段物理设计（H1-H5）。
 mode: subagent
 ---
 

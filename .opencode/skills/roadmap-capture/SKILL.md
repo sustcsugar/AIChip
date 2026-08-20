@@ -2,7 +2,7 @@
 name: roadmap-capture
 description: >-
   优化方向统一登记 skill：当用户/团队在开发过程中提出任何芯片优化想法、增强方向、
-  "下一版可以…"、流程改进或技术预研议题时，按 AIFlow/state/state-roadmap.md 的 RT 结构登记。
+  "下一版可以…"、流程改进或技术预研议题时，按 AIFlow/state/state-roadmap.md 的 RMP 结构登记。
   维护统一 roadmap 清单（RMP-NNN 全局递增），登记后跑 AIFlow/scripts/roadmap_check.py 校验格式。
 ---
 
@@ -20,11 +20,11 @@ description: >-
 2. 按"条目结构"逐字段登记：标题 / 分类 / 状态 / 来源 / 动机 / 方案概述 / 期望收益 / 影响范围 / 关联 / 处置建议
 3. 状态默认 `idea`；分类在 下一版增强 / 架构备选 / 流程改进 / 技术预研 中选择
 4. 登记后运行 `python AIFlow/scripts/roadmap_check.py` 校验（编号唯一、字段齐全、状态/分类合法）
-5. 若与既有 ADR / OI / M 指标 / 其他 RT 相关，填写"关联"字段并在对应文档加一行指向
+5. 若与既有 ADR / OI / M 指标 / 其他 RMP 条目相关，填写"关联"字段并在对应文档加一行指向
 
 ## 纪律
 
 - **orchestrator 为唯一写入者**；其他 agent 捕获到想法后，起草后交 orchestrator 落账
-- 当前版本收敛范围内的问题**不登记为 RT**（走 OI 流程）；RT 是超出版本范围的增强 / 方向
+- 当前版本收敛范围内的问题**不登记为 RMP**（走 OI 流程）；RMP 是超出版本范围的增强 / 方向
 - 登记即留档：被否决 / 延后的条目保留并标注状态，不删除
 - 登记 ≠ 承诺实现：是否纳入版本由 B1/B3/B5 等评审节点评估

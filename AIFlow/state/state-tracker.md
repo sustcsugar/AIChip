@@ -5,7 +5,7 @@
 ## 阶段汇总
 | 阶段 | 节点 | 状态 |
 |------|------|------|
-| A | 5 | 全部 pending |
+| A | 5 | 3 passed / 2 pending |
 | B | 7 | 全部 pending |
 | C | 8 | 全部 pending |
 | D | 7 | 全部 pending |
