@@ -23,6 +23,7 @@ description: IP 只读纪律：强制任何 agent 不得修改 ip_manifest.json 
    - SoC 侧适配 → 在 `work/soc/rtl/glue_logic/` 或 `work/soc/rtl/soc_top/` 做适配，不改 IP 本身
 3. **升级版本**：IP 发布新版本后，在 manifest 更新 `version` 字段，并触发 C0 合同验证
 4. **引用检查**：SoC RTL 引用 IP 路径必须来自 manifest（`python scripts/build_manifest.py` 解析），禁止硬编码路径
+   - manifest 初始结构示例：`.opencode/skills/_shared/templates/ip_manifest.json`（B6 生成初版、C0 固定版本用）
 
 ## 异常处理
 

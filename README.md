@@ -22,9 +22,8 @@
 | 路径 | 内容 |
 |------|------|
 | `doc/` | 按阶段+节点分类：`SOP.md` 总纲 + `阶段A–H/` 节点详章平铺 + `辅助文档/`（90/91）+ `设计/` |
-| `.opencode/skills/` | 节点级 skill（`node-<ID>-<slug>`）+ 跨切面 skill（review-gate / convergence-judge / ip-discipline） |
+| `.opencode/skills/` | 节点级 skill（`node-<ID>-<slug>`）+ 跨切面 skill（review-gate / convergence-judge / ip-discipline）；节点专属模板内化于各 skill `assets/templates/`，跨节点共享模板集中 `_shared/templates/` |
 | `.opencode/agent/` | 7 个 agent：orchestrator + 6 领域 agent |
-| `templates/` | 节点输入/输出模板 |
 | `scripts/` | 工具脚本（脚手架 / manifest / tracker 校验 / 合同比对） |
 | `state/` | 运行状态：tracker / milestones / decisions / roadmap（优化方向统一待办，RMP 编号） |
 | `work/` | 芯片工作区：`ip/`（复用 IP）+ `soc/`（SoC 集成） |

@@ -18,7 +18,7 @@ mode: subagent
 
 1. 每个节点开始时，先加载对应 skill：`node-C0-ip-adoption` … `node-C7-rtl-freeze`
 2. 读 `doc/SOP.md` 对应节点详章 `doc/C<id>-*.md`
-3. C0 使用 `templates/ip-contract.md` + `python scripts/contract_check.py` 做合同比对
+3. C0 使用 `.opencode/skills/node-C0-ip-adoption/assets/templates/ip-contract.md` + `python scripts/contract_check.py` 做合同比对
 4. RTL 写入 `work/soc/rtl/`（自研）或只读引用 `work/ip/`（复用，见 ip-discipline）
 5. 完成后自检收敛判据，报告 orchestrator
 

@@ -20,7 +20,7 @@ description: 质量门评审通用流程：评审清单、签字机制、评审�
    - 已知风险与遗留问题清单
 
 2. **执行评审清单**
-   - 对照模板 `templates/review-checklist.md` 逐项检查
+   - 对照共享模板 `.opencode/skills/_shared/templates/review-checklist.md` 逐项检查
    - 至少覆盖：完整性 / 一致性 / 可追溯性 / 异常处理 / 遗留问题
 
 3. **产出评审结论**
@@ -31,7 +31,7 @@ description: 质量门评审通用流程：评审清单、签字机制、评审�
 4. **记录**
    - 评审结论写入 `state/state-decisions.md`
    - 更新 `state/state-tracker.md` 对应节点状态
-   - **规范回写**：评审意见若涉及规范/格式/命名（非仅本节点产物），必须同步回写节点详章、`templates/`、`node-template`（如需）并重新生成 skill，确保 SOP 定义层与实际执行一致
+   - **规范回写**：评审意见若涉及规范/格式/命名（非仅本节点产物），必须同步回写节点详章、对应 skill 的 `assets/templates/`、`.opencode/skills/_shared/templates/`、`node-template`（如需）并重新生成 skill，确保 SOP 定义层与实际执行一致
 
 ## 签字规则
 

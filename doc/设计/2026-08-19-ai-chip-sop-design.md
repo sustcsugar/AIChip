@@ -198,8 +198,11 @@ D:\work\AIChip\
 ├── README.md                         # 实验说明
 ├── .opencode/
 │   ├── skills/                       # ★ 节点级 + 跨切面 skill（自动加载）
-│   │   ├── node-template/SKILL.md
-│   │   ├── node-a1-req-scope/SKILL.md   …（每节点一个，全部平铺）
+│   │   ├── node-template/SKILL.md        # 节点 skill 脚手架；assets/templates/ 含节点详章模板
+│   │   ├── node-<id>-<slug>/SKILL.md     …（每节点一个；专属模板内化于各 skill assets/templates/）
+│   │   ├── _shared/templates/            # 跨节点共享模板（单一归属）
+│   │   │   ├── review-checklist.md  adr-template.md
+│   │   │   ├── convergence-report.md  ip_manifest.json
 │   │   ├── review-gate/SKILL.md
 │   │   ├── convergence-judge/SKILL.md
 │   │   └── ip-discipline/SKILL.md
@@ -215,17 +218,13 @@ D:\work\AIChip\
 │   ├── 90-收敛判据速查表.md
 │   ├── 91-人机职责分配矩阵.md
 │   └── 2026-08-19-ai-chip-sop-design.md   # 本设计文档
-├── templates/                        # 节点 I/O 模板
-│   ├── spec-system.md  spec-microarch.md  vplan.md
-│   ├── review-checklist.md  ip-contract.md  ip_manifest.json
-│   └── convergence-report.md
 ├── scripts/                          # 工具脚本
 │   ├── scaffold_skills.py            # 从模板批量生成节点 skill
 │   ├── build_manifest.py             # 解析 manifest → 文件列表
 │   ├── check_tracker.py              # 节点前后置/收敛判据校验
 │   └── contract_check.py             # IP 接口合同比对
 ├── state/                            # 运行状态（orchestrator 写入）
-│   ├── tracker.md  milestones.md  decisions.md
+│   ├── state-tracker.md  state-milestones.md  state-decisions.md  state-roadmap.md
 └── work/                             # 实际芯片工作区
     ├── ip/{mipi, usb, ddr, axi_uart}/
     └── soc/{docs, rtl, verif, ip_manifest.json, build}/
@@ -243,6 +242,6 @@ D:\work\AIChip\
 1. doc/SOP.md（总纲）+ doc/ 节点详章（每节点一文件）
 2. .opencode/skills/node-template + scaffold 脚本 + 全部节点 skill
 3. .opencode/agent/ 7 个 agent 定义
-4. templates/ scripts/ state/ 初始文件
+4. scripts/ state/ 初始文件（节点/共享模板内化至 .opencode/skills/ 资产，无顶层 templates/）
 5. README.md（含对照实验记录方法）
 6. opencode.json（default_agent 等）

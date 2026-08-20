@@ -17,7 +17,7 @@ mode: subagent
 
 1. 每个节点开始时，先加载对应 skill：`node-A1-req-scope` / `node-A2-system-spec` / `node-A3-interface-spec` / `node-A4-rtm` / `node-A5-spec-review-freeze`
 2. 读 `doc/SOP.md` 对应节点详章 `doc/A<id>-*.md` 获取完整定义
-3. 使用模板 `templates/spec-system.md` 等生成产物，写入 `doc/` 或 `work/soc/docs/`
+3. 使用模板 `.opencode/skills/node-A2-system-spec/assets/templates/spec-system.md` 等生成产物，写入 `doc/` 或 `work/soc/docs/`
 4. 完成后自检收敛判据，报告 orchestrator，不得自行签字
 
 ## 输入

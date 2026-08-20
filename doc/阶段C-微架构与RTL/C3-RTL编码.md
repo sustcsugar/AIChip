@@ -34,7 +34,7 @@
   4. **数据通路/握手**：按 C1 流水线与握手实现 valid/ready、停顿/背压。
   5. **CDC 隔离**：跨时钟域信号只经同步器/异步 FIFO 交接，禁止跨域组合直连。
 - 遵守可综合子集纪律：只用 `always_ff`/`always_comb`（禁 `always_latch` 遗留）、无混合边沿触发、无 `initial` 进综合、禁止块内阻塞赋值混用、位宽显式匹配、避免不可综合构造（`fork/join`、`$display` 仅限 TB）。
-- 每模块完成后**用 `templates/c3-selfcheck.md` 复制为 `work/soc/docs/reports/c3-selfcheck-<mod>.md` 逐项自检**（对照 `doc/阶段C-微架构与RTL/C3-编码规范.md` 十节），随后独立编译（lint-only + 编译）确认无语法/声明错误。
+- 每模块完成后**用 `.opencode/skills/node-C3-rtl-coding/assets/templates/c3-selfcheck.md` 复制为 `work/soc/docs/reports/c3-selfcheck-<mod>.md` 逐项自检**（对照 `doc/阶段C-微架构与RTL/C3-编码规范.md` 十节），随后独立编译（lint-only + 编译）确认无语法/声明错误。
 
 ### Measure
 - 每模块：RTL 行数、模块数、端口数、寄存器实现条数（与 C1 Regmap 比对）、状态机实现条数。

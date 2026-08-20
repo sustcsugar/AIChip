@@ -17,7 +17,7 @@
 - [ ] A3 接口规格（passed）：引脚 / 总线 / 中断 / 存储映射规格冻结
 - [ ] B2 地址映射（passed）：SoC 地址映射表（Regmap 一致性比对依据）
 - [ ] B3 总线与互联选型（passed）：AXI/APB 协议版本、主从方向、位宽、ID 宽度
-- [ ] 每颗 IP 的接口合同文档：`work/ip/<ip>/doc/interface-contract.md`（按 `templates/ip-contract.md` 生成，由 IP 项目维护）
+- [ ] 每颗 IP 的接口合同文档：`work/ip/<ip>/doc/interface-contract.md`（按 `.opencode/skills/node-C0-ip-adoption/assets/templates/ip-contract.md` 生成，由 IP 项目维护）
 - [ ] SoC 侧接口规格文档：`work/soc/docs/spec/spec-NNN-接口规格.md`
 - [ ] `work/ip/<ip>/` 项目目录已存在（含 `doc/`、`rtl/`、`model/`，当前为占位或最小实现）
 - [ ] `work/soc/ip_manifest.json` 初版已生成（可由 `scripts/build_manifest.py` 引导创建）
@@ -40,7 +40,7 @@
 - 对自动比对无法覆盖（`[?] 跳过`）的项，逐条人工核对并记录结论。
 - 不一致项分两类处置：SoC 规格错误 → 修正 SoC 规格；IP 合同错误 → 反馈 IP 项目修订后重新发布。任何情况下**不得直接改 IP 源码**。
 - 比对全部通过后更新 `work/soc/ip_manifest.json`：写死每颗 IP 的 `version` 与 `mode`，递增 `soc_version`，提交 git。
-- 输出合同检查报告（每 IP 一份），含 `templates/ip-contract.md` 第 8 节"合同验证记录"表。
+- 输出合同检查报告（每 IP 一份），含 `.opencode/skills/node-C0-ip-adoption/assets/templates/ip-contract.md` 第 8 节"合同验证记录"表。
 
 ### Measure
 - 每颗 IP：检查项数 `n_checked`、失败项 `n_fail`、跳过项 `n_skip`。

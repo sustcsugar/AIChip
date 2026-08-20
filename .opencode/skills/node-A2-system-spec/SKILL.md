@@ -21,7 +21,8 @@ description: 编写系统规格书：功能规格、性能指标（Fmax/吞吐/�
 
 ### Plan
 1. 读取输入产物，确认理解目标
-2. 若存在模板（`templates/`），先复制模板为工作文件
+2. 若本 skill 的 `assets/templates/` 存在模板，先复制为工作文件
+   - 本节点模板：`assets/templates/spec-system.md`（系统规格书模板，章节结构必须遵循）
 3. **读取本节点的规范/标准文档**（如 `doc/阶段C-微架构与RTL/C3-编码规范.md`，若详章指明存在），作为执行约束
 
 ### Execute

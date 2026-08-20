@@ -1,6 +1,6 @@
 # 关键决策记录（ADR）
 
-> orchestrator 维护。记录所有关键决策、评审结论、异常授权。**条目格式见 `templates/adr-template.md`**（Nygard 标准 + 项目溯源字段）。
+> orchestrator 维护。记录所有关键决策、评审结论、异常授权。**条目格式见 `.opencode/skills/_shared/templates/adr-template.md`**（Nygard 标准 + 项目溯源字段）。
 
 ## 决策日志
 
@@ -43,7 +43,7 @@
   - 负面：已有文档需一次性重命名同步；新节点需先查登记表
   - 风险/代价：登记表须保持唯一事实源，orchestrator 维护
 - 依据：用户 2026-08-19 评审指示
-- 落地：work/soc/docs/00-文档编号登记.md、A1 详章 §8、templates/spec-system.md
+- 落地：work/soc/docs/00-文档编号登记.md、A1 详章 §8、.opencode/skills/node-A2-system-spec/assets/templates/spec-system.md
 
 ### ADR-004 — 无工艺库阶段的收敛降级标准
 - 日期：2026-08-19
@@ -140,6 +140,22 @@
   - 风险/代价：登记 ≠ 承诺实现；评估入口在 B1/B3/B5 等节点，需在节点详章中引用
 - 依据：用户 2026-08-20 指示（统一待办/roadmap + skill 承载）
 - 落地：state/state-roadmap.md（RMP-001 MMIO Flash/XIP、RMP-002 高速 SPI）；.opencode/skills/roadmap-capture/SKILL.md；scripts/roadmap_check.py；orchestrator agent 职责更新；README/SOP 同步
+
+### ADR-011 — 流程资产内化：模板归位到 skill 资产（ADR-006 再评估落地）
+- 日期：2026-08-20
+- 状态：已确认
+- 背景：ADR-006 确立"skill 资产全外置"试运行并设三个再评估触发点；本次**用户主动要求**（触发点 c 满足）实施首次大规模流程架构优化与资产内化——顶层 `templates/` 与 skill 目录分离，模板散落工作区、skill 不自包含、跨节点共享模板无统一归属
+- 决策：
+  1. **单节点模板内化到对应 node skill 的 `assets/templates/`**（7 个）：spec-system→node-A2、spec-microarch→node-C1、vplan→node-D1、c3-selfcheck→node-C3、model-spec→node-B7、ip-contract→node-C0（C2/A1/A3 按需引用）、node-doc-template→node-template
+  2. **跨节点共享模板统一归入 `.opencode/skills/_shared/templates/`**（4 个初始示例）：review-checklist、adr-template、convergence-report、ip_manifest.json；跨切面 skill（review-gate/convergence-judge/ip-discipline）作为"用法持有者"在 SKILL.md 指向该目录
+  3. **删除顶层 `templates/`**；doc 详章 / agent / state / skill 全部引用迁移到新路径；node skill 通用模板行改为"本 skill `assets/templates/` 存在模板则复制"
+  4. **共享模板维护纪律**：orchestrator 唯一写入；新增/修改在 `_shared/templates/README.md` 登记；单节点模板优先内化 skill，仅 ≥2 节点共用才提升到 `_shared/`；运行时产物（`work/soc/ip_manifest.json`）保持在工作区，仅模板示例内化
+- 后果：
+  - 正面：skill 自包含（模板随 skill 走）、共享模板单一归属、工作区根目录收敛为 doc/scripts/state/work；换项目/环境时节点 skill 可直接携带模板
+  - 负面：引用路径变长（`.opencode/skills/_shared/…`）；一次性迁移需全量校验无残留
+  - 风险/代价：已生成产物（spec-004/005 等）不受影响（路径仅流程/文档引用）；scaffold_skills.py 再生成不会写回专属模板指针（A1/A2 定制保护机制已存在，见 ADR-006）
+- 依据：用户 2026-08-20 指示（"按照这个方案先实施…第一次大规模流程架构优化与资产内化…仔细排查治理层整个流程"）+ ADR-006 再评估触发点 c（用户主动要求）
+- 落地：本 commit（templates/ → `.opencode/skills/{node-*, _shared}/templates/` 迁移 + 全量引用替换 + 删除顶层 templates/）
 
 ## 评审记录
 
