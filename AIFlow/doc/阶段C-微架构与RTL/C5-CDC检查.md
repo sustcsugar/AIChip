@@ -16,7 +16,7 @@
 - [ ] C3 RTL 编码（passed）+ C4 lint（passed）：RTL 已 lint 清零
 - [ ] C1 微架构规格的"跨时钟域"章节（passed）：时钟域划分与同步策略声明
 - [ ] C2 模块接口契约（passed）：跨时钟域接口清单与同步约束
-- [ ] 时钟/复位定义文件：`docs/cdc/clk-def.json`（时钟域名称、频率、相位、复位域映射）
+- [ ] 时钟/复位定义文件（按节点 skill 规定的目录与命名，时钟域名称、频率、相位、复位域映射）
 - [ ] IP 侧同步方案声明（来自 `ip/<ip>/AIFlow/doc/interface-contract.md`，C0 已验证）
 
 ## 3. 执行步骤
@@ -55,9 +55,9 @@
   - 断言补充：在 C6 smoke TB 中挂 CDC 相关断言（如"同步器输入变化在快域禁止重迭"）。
 - 可选商用增强：SpyGlass CDC / Questa CDC（若实验室环境允许，作为交叉验证）。
 - 配置与报告：
-  - `docs/cdc/clk-def.json`（时钟域定义）
-  - `docs/reports/c5-cdc.md`（跨域路径表 + 违例清单）
-  - `docs/reports/c5-waiver.md`（CDC waive 清单）
+  - 时钟域定义文件（按节点 skill 规定的目录与命名）
+  - CDC 检查报告：跨域路径表 + 违例清单（按节点 skill 规定的目录与命名）
+  - CDC waive 清单（按节点 skill 规定的目录与命名）
 
 ## 5. 人机职责分配
 
@@ -88,9 +88,9 @@
 
 ## 8. 输出产物
 
-- `docs/cdc/clk-def.json`（时钟域与复位域定义，D 阶段与 E 阶段 SDC 复用）
-- `docs/reports/c5-cdc.md`（跨域路径表、同步器清单、违例与修复记录）
-- `docs/reports/c5-waiver.md`（waive 清单）
+- 时钟域与复位域定义（D 阶段与 E 阶段 SDC 复用）— 按节点 skill 规定的目录与命名
+- 跨域路径表、同步器清单、违例与修复记录 — 按节点 skill 规定的目录与命名
+- waive 清单 — 按节点 skill 规定的目录与命名
 - `AIFlow/state/state-tracker.md` 更新（C5 → passed）
 
 ## 9. 对应 skill 与 agent

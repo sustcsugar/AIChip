@@ -105,8 +105,8 @@ git log --oneline -1
 - `rtl/soc_top.sv`（系统级集成顶层）
 - `rtl/glue/`（glue 逻辑：复位/时钟/中断仲裁/pinmux）
 - `verif/sys/`（系统级最小 smoke TB 骨架，D 阶段扩展）
-- `docs/reports/c7-integration.md`（集成报告：清单核对、编译结果、smoke 结果、feature complete 结论）
-- `docs/reports/c7-freeze.md`（freeze 基线记录：tag/hash/commit 说明/ECR 流程说明）
+- 集成报告（清单核对、编译结果、smoke 结果、feature complete 结论）— 按节点 skill 规定的目录与命名
+- freeze 基线记录（tag/hash/commit 说明/ECR 流程说明）— 按节点 skill 规定的目录与命名
 - git：commit + freeze tag
 - `AIFlow/state/state-tracker.md` 更新（C 阶段全部 → passed，D 阶段解锁）
 

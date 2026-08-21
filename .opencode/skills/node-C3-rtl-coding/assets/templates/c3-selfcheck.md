@@ -1,6 +1,6 @@
 # C3 模块自检记录 — <module>
 
-> 模板：每模块复制一份为 `docs/reports/c3-selfcheck-<mod>.md`，编码后逐项勾选。
+> 模板：每模块复制一份为自检报告文件（按节点 skill 规定的目录与命名），编码后逐项勾选。
 > 依据：`AIFlow/doc/阶段C-微架构与RTL/C3-编码规范.md`。违规分级：Blocker 必修复 / Warning 必修复或 waiver / Info 可选。
 
 ## 模块信息

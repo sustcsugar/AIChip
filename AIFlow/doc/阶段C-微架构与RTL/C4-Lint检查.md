@@ -59,8 +59,8 @@ verilator --lint-only -Wall -f build/filelist.f
 # svlint rtl/<mod>/<mod>.sv
 ```
 
-- 报告输出：`docs/reports/c4-lint-<mod>.md`（模块级）与 `docs/reports/c4-lint-sys.md`（系统级）。
-- waiver 记录：`docs/reports/c4-waiver.md`。
+- 报告输出：模块级 lint 报告与系统级 lint 报告（按节点 skill 规定的目录与命名）。
+- waiver 记录：按节点 skill 规定的目录与命名。
 - lint 规则与豁免约定：`.opencode/skills/node-C4-lint/`。
 
 ## 5. 人机职责分配
@@ -91,9 +91,9 @@ verilator --lint-only -Wall -f build/filelist.f
 
 ## 8. 输出产物
 
-- `docs/reports/c4-lint-<mod>.md`（模块级 lint 报告：分类统计 + 修复记录）
-- `docs/reports/c4-lint-sys.md`（系统级 lint 报告）
-- `docs/reports/c4-waiver.md`（waiver 清单）
+- 模块级 lint 报告（分类统计 + 修复记录）— 按节点 skill 规定的目录与命名
+- 系统级 lint 报告 — 按节点 skill 规定的目录与命名
+- waiver 清单 — 按节点 skill 规定的目录与命名
 - `AIFlow/state/state-tracker.md` 更新（C4 → passed）
 
 ## 9. 对应 skill 与 agent

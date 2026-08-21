@@ -96,7 +96,7 @@
 
 - `verif/block/<mod>/`（每模块 smoke TB：源码 + Makefile）
 - `verif/block/<mod>/results/smoke_report.md`（用例结果、日志摘要、失败闭环）
-- `docs/reports/c6-block-summary.md`（全模块 smoke 汇总表）
+- 全模块 smoke 汇总表 — 按节点 skill 规定的目录与命名
 - `AIFlow/state/state-tracker.md` 更新（C6 → passed）
 
 ## 9. 对应 skill 与 agent

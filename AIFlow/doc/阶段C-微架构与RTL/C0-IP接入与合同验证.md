@@ -18,7 +18,7 @@
 - [ ] B2 地址映射（passed）：SoC 地址映射表（Regmap 一致性比对依据）
 - [ ] B3 总线与互联选型（passed）：AXI/APB 协议版本、主从方向、位宽、ID 宽度
 - [ ] 每颗 IP 的接口合同文档：`ip/<ip>/AIFlow/doc/interface-contract.md`（按 `.opencode/skills/node-C0-ip-adoption/assets/templates/ip-contract.md` 生成，由 IP 项目维护）
-- [ ] SoC 侧接口规格文档：`docs/spec/spec-NNN-接口规格.md`
+- [ ] SoC 侧接口规格文档（A3 产出，按节点 skill 规定的目录与命名）
 - [ ] `ip/<ip>/` 项目目录已存在（含 `AIFlow/doc/`、`rtl/`、`model/`，当前为占位或最小实现）
 - [ ] `ip_manifest.json` 初版已生成（可由 `AIFlow/scripts/build_manifest.py` 引导创建）
 
@@ -36,7 +36,7 @@
   3. **复位与时钟**：复位极性、同步/异步复位、时钟域数量与频率、门控与异步复位处理方式。
   4. **中断**：中断源数量、极性、使能控制、与 SoC 中断仲裁接口约定。
   5. **引脚与电源**：引脚复用、引脚电平、电源域要求、已知 erratum。
-- 运行 `python AIFlow/scripts/contract_check.py --ip <ip> --soc-spec docs/spec/spec-NNN-接口规格.md` 做自动比对。
+- 运行 `python AIFlow/scripts/contract_check.py --ip <ip> --soc-spec <SoC接口规格文件>` 做自动比对。
 - 对自动比对无法覆盖（`[?] 跳过`）的项，逐条人工核对并记录结论。
 - 不一致项分两类处置：SoC 规格错误 → 修正 SoC 规格；IP 合同错误 → 反馈 IP 项目修订后重新发布。任何情况下**不得直接改 IP 源码**。
 - 比对全部通过后更新 `ip_manifest.json`：写死每颗 IP 的 `version` 与 `mode`，递增 `soc_version`，提交 git。
@@ -60,7 +60,7 @@
 python AIFlow/scripts/contract_check.py --list
 
 # 单 IP 合同比对（必须同时给 --ip 与 --soc-spec）
-python AIFlow/scripts/contract_check.py --ip mipi --soc-spec docs/spec/spec-NNN-接口规格.md
+python AIFlow/scripts/contract_check.py --ip mipi --soc-spec <SoC接口规格文件>
 
 # 查看 manifest 中 IP 版本与 mode
 python AIFlow/scripts/build_manifest.py --ips
@@ -114,8 +114,8 @@ python AIFlow/scripts/check_tracker.py --summary
 ## 8. 输出产物
 
 - `ip_manifest.json`（更新：IP version/mode/path 固定，`soc_version` 递增）— 交付给 C3/C7/D 阶段消费
-- `docs/reports/c0-contract-check-<ip>.md`（每 IP 一份合同比对报告，含 5 大检查项验证记录表）
-- `docs/reports/c0-waiver.md`（如有不一致项的裁定记录与修正说明；无则注明"无"）
+- 每 IP 一份合同比对报告（含 5 大检查项验证记录表）— 按节点 skill 规定的目录与命名
+- 如有不一致项的裁定记录与修正说明（无则注明"无"）— 按节点 skill 规定的目录与命名
 - `AIFlow/state/state-tracker.md` 更新（C0 → passed），由 orchestrator 写入
 - git 提交：manifest 变更 + 报告（commit message 标注 `C0`）
 
