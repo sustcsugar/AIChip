@@ -1,35 +1,57 @@
-# SystemRDL 寄存器模板（C1 节点专用，ADR-026）
+# SystemRDL 全局地址与寄存器描述模板（C1 节点专用）
 
-> 唯一事实源：`docs/regmap/<module>.rdl`
 > 工具链：PeakRDL（peakrdl-html / peakrdl-regblock / peakrdl-uvm / peakrdl-c-header / peakrdl-python）
-> 对拍对象：spec-005 §6 冻结初版（偏移/位宽/复位值/访问属性一致）、docs/B2-addr-map.yaml（addrmap 基址一致）
+> 角色：SoC 地址空间 + 寄存器定义的**唯一事实源**，替代 B2 阶段的 YAML 地址映射与 Markdown 寄存器表格
+> 对拍：B2 阶段冻结的地址映射事实源（基址/大小逐条一致）；通过后 YAML + build_addr_map.py 退役
+
+## 全局 addrmap（顶层）
 
 ```systemrdl
-// <module> 寄存器组 — 上游: spec-005 §6 + arch-009 外设窗口
-// 位域约定: lsb0; 访问类型 RW/RO/W1C/W1S/RC/WO 见 SystemRDL 2.0
-addrmap <module> {
-    default regwidth = 32;          // 与 spec-005 §6 一致
-    default accesswidth = 32;
+// SoC 全局地址映射 — 唯一事实源
+// 基址/大小须与 B2 阶段冻结的地址映射事实源逐条一致
+// peakrdl 从此文件生成: axi_addr_pkg.sv / soc_addr.h / UVM RAL / HTML 手册
+addrmap soc_top {
+    default hw = r;
 
-    // ---- 控制/状态 ----
-    reg {
-        field { sw = rw; hw = r; } CTRL[3:0];     // 使能位域示例
-        field { sw = r;  hw = r; } RESERVED[7:4];
-        field { sw = w1c; hw = r; } IRQ_STATUS[15:8]; // W1C 示例
-    } CTRL_REG @ 0x000;                            // 偏移对齐 B2 yaml 窗口基址
+    // ---- RIB 域 ----
+    addrmap boot_rom {
+        reg { field { sw = r; hw = r; } DATA[31:0]; } BOOT_DATA @ 0x000;
+        mem { mementries = 1024; } ROM_SPACE @ 0x100;
+    } BOOT_ROM @ 0x0000_0000;      // 4KB，与 B2 一致
 
-    // ---- 数据 ----
-    reg {
-        field { sw = rw; hw = r; } DATA[31:0];
-    } DATA_REG @ 0x004;
+    // ---- AXI 域：SRAM（AXI4 全量，突发）----
+    addrmap sram {
+        reg { field { sw = rw; hw = r; } DATA[31:0]; } SRAM_DATA @ 0x000;
+        mem { mementries = 16384; } SRAM_SPACE @ 0x100;  // 64KB，与 B2 一致
+    } AXI_SRAM @ 0x2000_0000;
 
-    // 保留区: 显式保留地址范围，供对拍扫描（与 spec-005 §6 保留段一致）
-    mem { mementries = 32; } RESERVED_AREA @ 0x100;
+    // ---- AXI 域：外设窗口（经 AXI4→Lite 转换器，β 结构）----
+    addrmap uart {
+        default regwidth = 32;
+        reg {
+            field { sw = rw; hw = r; } CTRL[3:0];
+            field { sw = r;  hw = r; } RESERVED[7:4];
+            field { sw = w1c; hw = r; } IRQ_STATUS[15:8];
+        } CTRL_REG @ 0x000;
+        reg { field { sw = rw; hw = r; } DATA[31:0]; } DATA_REG @ 0x004;
+    } UART @ 0x4000_0000;           // 4KB 窗口，与 B2 一致
+
+    // ... 其余 7 外设同理 ...
+
+    // ---- 保留区 ----
+    mem { mementries = 4096; } RESERVED_AXI @ 0x4000_8000;
+    mem { mementries = 286720; } RESERVED_HIGH @ 0x5000_0000;
 };
 ```
 
-## 使用要点（对拍流程）
-1. 每个外设寄存器组一个 `.rdl` 文件，addrmap 基址 = B2 yaml 对应窗口基址（如 0x40000000 + 外设偏移）。
-2. `peakrdl html docs/regmap/<module>.rdl` 输出寄存器清单 → 与 spec-005 §6 表格逐项对拍（偏移/位宽/复位值/访问属性），记录对拍结果。
-3. 发现 spec-005 §6 冻结初版错误：**登记 friction 上报**，不擅改冻结文档；C1 评审裁定后走勘误流程。
-4. 下游消费：C3 用 peakrdl-regblock（或手写对齐）、D2 用 peakrdl-uvm/peakrdl-python、固件用 peakrdl-c-header。
+## 使用要点
+
+1. **编写顺序**：C1 节点先写此全局 .rdl（基址从 B2 冻结事实源抄入），再按模块拆分外设部分给 C2/C3 消费。
+2. **对拍验证**：`peakrdl html soc-top.rdl` → 寄存器手册 → 与 B2 冻结地址映射逐条比对（基址/大小/译码域）；**零差异 = 切换判据**。
+3. **退役触发**：对拍通过后，登记 friction→ 勘误 B2 详章（标注 YAML deprecated）→ `build_addr_map.py` 归档。
+4. **下游消费**：
+   - `peakrdl regblock` → RTL 寄存器块（C3）
+   - `peakrdl uvm` → UVM RAL 模型（D2）
+   - `peakrdl c-header` → C 头文件（固件，替代原 soc_addr.h）
+   - `peakrdl html` → 寄存器手册（文档）
+5. **地址常量**：peakrdl 从 addrmap 自动提取基址/大小常量，无需额外脚本。

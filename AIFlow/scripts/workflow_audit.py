@@ -338,6 +338,22 @@ def main() -> None:
     else:
         a.add(SEV_BLOCKER, "W18", "92-术语表不存在，无法自一致性校验")
 
+    # ---------- W19 详章/skill 资产禁含 docs/ 路径引用（ADR-021）----------
+    # 详章（AIFlow/doc/阶段*）与 skill 资产中不得引用 docs/ 项目产物路径（路径属于项目本体）；
+    # AIFlow/state/ 路径（治理骨架）允许引用，但不可引用其内容
+    w19_targets = list(DOC.rglob("阶段*/*.md")) + list(SKILLS.rglob("assets/*.*"))
+    for p in w19_targets:
+        if not p.is_file():
+            continue
+        txt = p.read_text(encoding="utf-8", errors="ignore")
+        hits = []
+        for i, line in enumerate(txt.splitlines(), 1):
+            if re.search(r"(?<!\`)docs/", line):
+                hits.append(f"L{i}: {line.strip()[:80]}")
+        if hits:
+            sev = SEV_WARN if "阶段" in str(p) else SEV_INFO
+            a.add(sev, "W19", f"含 docs/ 路径引用（ADR-021 违规）: {p.relative_to(ROOT)} ({len(hits)} 处) → {hits[:3]}")
+
     # ---------- W14 多余文档提示 ----------
     node_docs = {DOC / n["doc"] for n in load_nodes()}
     extra = []

@@ -29,12 +29,12 @@
 ### Execute
 - **编码前先读 `AIFlow/doc/阶段C-微架构与RTL/C3-编码规范.md`**（规范唯一真相源），按模块执行编码循环：
   1. **端口框架**：从 C2 契约生成完整端口声明（方向/位宽/时钟域一致）。
-  2. **寄存器**：按 C1 的 `.rdl` 唯一事实源（SystemRDL，ADR-026）实现读写逻辑（同步写、复位值、W1C/RO 等访问属性）；可选 `peakrdl-regblock` 生成 SystemVerilog 寄存器块（生成代码需过一次 advance-rtl-coding-guidance 规范对齐）；手写实现则须与 .rdl 逐字段对拍。
+  2. **寄存器**：按 C1 的 SystemRDL `.rdl` 唯一事实源（按 `AIFlow/state/state-decisions.md` 中工具链决策执行）实现读写逻辑（同步写、复位值、W1C/RO 等访问属性）；可选 `peakrdl-regblock` 生成 SystemVerilog 寄存器块（生成代码需过一次 advance-rtl-coding-guidance 规范对齐）；手写实现则须与 .rdl 逐字段对拍。
   3. **状态机**：按 C1 状态表编码（`typedef enum` 状态、`always_comb` 次态、`always_ff` 现态、缺省分支显式处理非法状态）。
   4. **数据通路/握手**：按 C1 流水线与握手实现 valid/ready、停顿/背压。
   5. **CDC 隔离**：跨时钟域信号只经同步器/异步 FIFO 交接，禁止跨域组合直连。
 - 遵守可综合子集纪律：只用 `always_ff`/`always_comb`（禁 `always_latch` 遗留）、无混合边沿触发、无 `initial` 进综合、禁止块内阻塞赋值混用、位宽显式匹配、避免不可综合构造（`fork/join`、`$display` 仅限 TB）。
-- 每模块完成后**用 `.opencode/skills/node-C3-rtl-coding/assets/templates/c3-selfcheck.md` 复制为 `docs/reports/c3-selfcheck-<mod>.md` 逐项自检**（对照 `AIFlow/doc/阶段C-微架构与RTL/C3-编码规范.md` 十节），随后独立编译（lint-only + 编译）确认无语法/声明错误。
+- 每模块完成后**用 `.opencode/skills/node-C3-rtl-coding/assets/templates/c3-selfcheck.md` 复制为编码自检记录（按节点 skill 规定的目录与命名）逐项自检**（对照 `AIFlow/doc/阶段C-微架构与RTL/C3-编码规范.md` 十节），随后独立编译（lint-only + 编译）确认无语法/声明错误。
 
 ### Measure
 - 每模块：RTL 行数、模块数、端口数、寄存器实现条数（与 C1 Regmap 比对）、状态机实现条数。
@@ -98,7 +98,7 @@
 - `rtl/<mod>/<mod>.sv`（每自研模块 RTL 源码）
 - `rtl/common/defines.svh`（公共参数/宏）
 - `build/filelist.f`（由 manifest 生成的文件列表，编码末期刷新）
-- 编码自检记录：`docs/reports/c3-selfcheck-<mod>.md`
+- 编码自检记录（按节点 skill 规定的目录与命名）
 - `AIFlow/state/state-tracker.md` 更新（C3 → passed，按模块粒度可记录子状态）
 
 ## 9. 对应 skill 与 agent
