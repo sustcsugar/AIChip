@@ -1,0 +1,16 @@
+module,subsystem,arch_role,bus_domain,source_candidate,interface_summary,perf_requirement
+BLOCK-01,core,bus_master,RIB,reuse_ip_tinyriscv_apache2,RIB-INST+RIB-DATA 主 / 中断端口(待C0) / JTAG 调试通路,CoreMark>=2.4@50MHz; 中断入口<=10周期(待C0)
+BLOCK-02,bus,bridge_RIB_slave_AXI_master,RIB+AXI,reuse_self_soc_ip,RIB 从 / AXI4 主 / 访问错误返回,PPAC-014 单次读<=10周期
+BLOCK-03,periph,axi_slave,AXI,reuse_or_self_B6,AXI4-Lite 从（β 已裁定 ADR-025，经 AXI4→Lite 转换） + UART tx/rx pad(AF1) + IRQ1/2,PPAC-004/005 9600-921600bps 100KB零丢失
+BLOCK-04,debug,non_bus_tap,async_TCK,reuse_or_self_B6,TAP TCK/TMS/TDI/TDO/TRST + IDCODE,FS-004 openocd读写; 访问机制待C0
+BLOCK-05,periph,axi_slave_ext_master,AXI,reuse_self,AXI4-Lite 从（β 已裁定 ADR-025，经 AXI4→Lite 转换） + SPI 4线 pad(AF1) + IRQ3,SCLK>=12.5MHz; 1KB零错误
+BLOCK-06,periph,axi_slave_ext_master,AXI,reuse_self,AXI4-Lite 从（β 已裁定 ADR-025，经 AXI4→Lite 转换） + IIC 2线开漏 pad(AF1) + IRQ4,100/400kbps NACK检测
+BLOCK-07,periph,axi_slave,AXI,reuse_self,AXI4-Lite 从（β 已裁定 ADR-025，经 AXI4→Lite 转换） + PWM_out[1:0] pad(AF1),8bit分辨率 1kHz-1MHz 0/100%边界
+BLOCK-08,periph,axi_slave_pinmux,AXI,reuse_self,AXI4-Lite 从（β 已裁定 ADR-025，经 AXI4→Lite 转换） + gpio[15:0] pad + PINMUX + IRQ7-10 edge,PPAC-020 16路; AF0时中断有效
+BLOCK-09,interrupt,axi_slave_int_aggregator,AXI,reuse_self,AXI4-Lite 从（β 已裁定 ADR-025，经 AXI4→Lite 转换） + 10源输入 + 聚合请求/向量→核,PPAC-011/019 仲裁<=3周期
+BLOCK-10,periph,axi_slave_int_source,AXI,reuse_tinyriscv_or_self_B6,AXI4-Lite 从（β 已裁定 ADR-025，经 AXI4→Lite 转换） + TIMER IRQ5,PPAC-012 ±1周期
+BLOCK-11,crg,clock_reset_source,AXI,reuse_self,clk_i/rst_n_i pad + AXI4-Lite 从（β 已裁定 ADR-025，经 AXI4→Lite 转换） + Fsys分布/L1L2L3复位/门控,PPAC-002 10-50MHz; PPAC-017/018
+BLOCK-12,boot,rib_slave_storage_firmware,RIB,reuse_self_fw,RIB 从(RO 4KB) + 固件级bootloader,PPAC-013 启动<=100ms(70%带宽评估)
+BLOCK-13,storage_offchip,external_device,none,board_device,SPI pad CS0/SCLK/MOSI/MISO 连接(无地址映射),64KB镜像读取支持启动流
+BLOCK-14,memory,axi_slave_storage,AXI,reuse_self_mem,AXI4 从（保留突发，β 已裁定 ADR-025） + 64KB(容量B2量化),PPAC-013/014 加载目标与运行数据
+AXI_IB_glue,bus,axi_interconnect_decoder,AXI,reuse_self_glue,4KB窗口译码 + 保留区访问错误(归属B3裁定并入BLOCK-02或独立) + AXI4→AXI4-Lite 转换（β 结构，归属随 R6 B3 裁定）,9从端口译码无冲突
