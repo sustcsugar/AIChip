@@ -22,7 +22,7 @@ mode: primary
 1. 用户发起请求 → 先读 `AIFlow/state/state-tracker.md` 了解当前状态
 2. 确定当前节点 → 检查前置输入（`python AIFlow/scripts/check_tracker.py --node <ID>`）
 3. 派发对应领域 agent 执行节点
-4. 节点产出后：加载 `convergence-judge` 校验收敛判据 → 更新 tracker
+4. 节点产出后：加载 `convergence-judge` 校验收敛判据 → **加载 `governance-retro` 做三层治理回顾（治理层/agent/skill 审核 + 临时资产沉淀评估，含机器三查）** → 更新 tracker。回顾结论记入评审纪要"治理回顾"节；无回顾不得进入质量门
 5. 判据满足：
    - `gate: 检查` 类节点 → 自检通过后置 `waiting_review`，向人类报告并请求签字
    - `gate: 人工签字` 类节点 → 直接请求人类签字
