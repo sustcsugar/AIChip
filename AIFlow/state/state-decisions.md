@@ -331,6 +331,15 @@
 - 执行：arch-008 v1.2（β 裁定落定，待裁字样清零）；module-list.csv 同步；roadmap RMP-003/004 → adopted
 - 依据：用户 2026-08-21 B1 质量门裁定（"选用A架构β方案，全量解决RMP-003，根据RMP-004以及当前节点的两次治理层错误，优化治理层"）
 
+### ADR-026 — 工具链与寄存器描述基线：verilator 仿真 + SystemRDL/PeakRDL 唯一事实源
+- 日期：2026-08-21
+- 状态：已确认（用户裁定）
+- 决策：
+  1. **仿真工具链采用 verilator**（RMP-005 → planned，C0 前 resolved）：verilator 为仿真工具，配套 iverilog/cocotb/yosys 按需；B2 起出现的退化校验（无仿真器冒烟）在工具链就绪后补验
+  2. **寄存器描述采用 Accellera SystemRDL 2.0 + PeakRDL 开源工具链**（RMP-006 → adopted，C1 落地）：`docs/regmap/*.rdl` 为寄存器唯一事实源，派生 RTL regblock（peakrdl-regblock，C3）、UVM RAL（peakrdl-uvm，D2）、Python 寄存器访问层（peakrdl-python）、C 头（peakrdl-c-header）、HTML 手册（peakrdl-html）；spec-005 §6 冻结初版与 B2-addr-map.yaml 为对拍参照，不取代
+- 执行：C1/C2/C3/D2 详章已更新（.rdl 产物、工具链、对拍口径）；node-C1 新增 `assets/templates/regmap-template.rdl`；RMP-005 → planned、RMP-006 → adopted
+- 依据：用户 2026-08-21 B2 质量门（"RMP-005 使用 verilator 作为仿真工具，RMP-006 现在确定使用此方案，需要更新相关节点以及 skill"）
+
 ## 评审记录
 
 | 日期 | 节点 | 结论 | 签字人 | 意见 |

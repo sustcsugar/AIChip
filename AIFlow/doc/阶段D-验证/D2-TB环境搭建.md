@@ -33,7 +33,8 @@
 ### Execute
 4. 搭建 `verif/common/`：AXI VIP、memory model、行为模型、sequence 库、时钟/复位公共组件。
 5. 搭建模块级环境 `verif/block/<mod>/`：TB 顶层、DUT 实例化、时钟复位生成、cocotb 入口 / UVM env、`tests/` 目录、Makefile 与编译文件清单。
-6. 搭建系统级环境 `verif/sys/`：`soc_top` 实例化 + AXI VIP + memory model 挂载，按 manifest mode（model / rtl）选择挂载对象。
+6. **寄存器模型（ADR-026）**：以 `docs/regmap/*.rdl` 为源，`peakrdl-uvm` 生成 UVM RAL 模型（预测镜像/后门访问），挂入模块级 env；cocotb 场景用 `peakrdl-python` 生成的 Python 寄存器访问层替代。
+7. 搭建系统级环境 `verif/sys/`：`soc_top` 实例化 + AXI VIP + memory model 挂载，按 manifest mode（model / rtl）选择挂载对象。
 7. **参考模型 + Scoreboard 集成**：
    - 模块级：实例化 `model/block/<mod>/` 的 golden 模型，与 DUT 同激励同输入，scoreboard 比对模块输出。
    - 系统级：实例化 `model/sys/` 的系统级模型，scoreboard 比对系统输出（含容差策略）。

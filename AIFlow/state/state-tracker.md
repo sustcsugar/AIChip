@@ -6,7 +6,7 @@
 | 阶段 | 节点 | 状态 |
 |------|------|------|
 | A | 5 | 5 passed / 0 pending |
-| B | 7 | 1 passed / 6 pending |
+| B | 7 | 1 passed / 1 waiting_review / 5 pending |
 | C | 8 | 全部 pending |
 | D | 7 | 全部 pending |
 | E | 6 | 全部 pending |
@@ -53,10 +53,10 @@
 - 质量门: 已签字（2026-08-21，ADR-025：方案 A + 从侧结构 β；RMP-003/004 采纳落地；治理回顾含 ADR-024 勘误）
 
 ## B2 地址映射
-- 状态: pending
-- 前置: TBD
-- 收敛指标: TBD
-- 质量门: 待人工签字
+- 状态: waiting_review
+- 前置: A5, B1
+- 收敛指标: build_addr_map.py 七项检查 PASS（orchestrator 独立复跑证实）；SRAM 64KB 维持（用量 56KB 余 14%）、ROM 4KB 维持；15 区域映射表+机器事实源 yaml+生成 SV/C 头；冻结基线零触碰
+- 质量门: 待人工签字（治理回顾：机器四查全绿；F-B2-01 详章-资产失配已补建脚本；F-B2-02 verilator 缺失退化校验→RMP-005 登记）
 
 ## B3 总线与互联选型
 - 状态: pending

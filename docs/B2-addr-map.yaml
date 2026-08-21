@@ -1,0 +1,180 @@
+# B2 地址映射唯一事实源（B2-addr-map.yaml）
+# 节点: B2 地址映射 | 归属: arch-agent | 上游: spec-005-memory-map.csv（spec-v1.0 冻结，只读）
+#       arch-008-system-arch.md v1.2（方案 A + 从侧结构 β，ADR-025）
+# 本文件是架构级细化（基址/大小与冻结基线一致，新增译码归属/错误响应建议/对齐属性）。
+# 冲突/重叠/对齐检查 + 代码生成: python AIFlow/scripts/build_addr_map.py --map docs/B2-addr-map.yaml --out rtl/inc/
+# 错误响应 err 字段口径（建议，最终 B3 统一）:
+#   DECERR  = 译码无匹配窗口（default slave）
+#   SLVERR  = 窗口内偏移未实现/访问属性违规（从设备侧）
+#   RIB_ERR = RIB 侧译码失败，由桥转换返回核（见 arch-008 §4.2）
+
+addr_width: 32
+align_granularity: 0x1000          # 4KB 译码粒度（AXI4 突发不跨 4KB 边界）
+decode:
+  rib_side:                        # RIB 域译码（核 RIB 互联，归属 C0/C1 细化）
+    rule: "addr[31:0] < 0x2000_0000 ? (匹配 MEM-01 -> ROM, 否则 RIB_ERR) : -> 桥(BLOCK-02)"
+  axi_ib:                          # AXI 域译码（AXI_IB，归属随 R6 待 B3）
+    rule: "0x2000_0000/64KB -> SRAM(AXI4 全量)；0x4000_0000/32KB -> 8 外设(经 AXI4→Lite 转换器, β 结构)；其余 -> DECERR"
+
+regions:
+  - mem_id: MEM-01
+    name: Boot ROM
+    base: 0x00000000
+    size: 0x1000
+    domain: RIB
+    block: BLOCK-12
+    access: RO
+    decode: RIB_SIDE
+    err: RIB_ERR        # 窗口内未实现偏移（ROM 全 4KB 实现，理论不触发；保留口径）
+    note: 复位取指入口，bootloader（容量 B2 量化确认 4KB 充分，见 arch-009 §2）
+  - mem_id: MEM-02
+    name: RIB 保留区
+    base: 0x00001000
+    size: 0x1FFFF000
+    domain: RIB
+    block: BLOCK-02
+    access: "-"
+    decode: RIB_SIDE
+    err: RIB_ERR
+    note: 保留地址空洞，访问返回总线错误（不挂死，FS-016 口径）
+  - mem_id: MEM-03
+    name: AXI_SRAM
+    base: 0x20000000
+    size: 0x10000
+    domain: AXI
+    block: BLOCK-14
+    access: RW
+    decode: AXI_IB
+    err: SLVERR         # 窗口内无未实现偏移（全 64KB 实现），保留口径
+    burst: allowed      # β 结构：AXI4 全量，保留突发（PPAC-013 加载路径）；突发不得跨 4KB 边界（AXI4 协议规则）
+    note: 固件加载目标/运行数据；容量 B2 量化确认维持 64KB（见 arch-009 §1）
+  - mem_id: MEM-04
+    name: AXI 保留区
+    base: 0x20010000
+    size: 0x1FFF0000
+    domain: AXI
+    block: BLOCK-02
+    access: "-"
+    decode: AXI_IB
+    err: DECERR
+    note: 保留地址空洞
+  - mem_id: MEM-05
+    name: UART
+    base: 0x40000000
+    size: 0x1000
+    domain: AXI
+    block: BLOCK-03
+    access: RW
+    decode: AXI_IB
+    err: SLVERR
+    via: lite_converter  # β 结构：经 AXI4→AXI4-Lite 转换器（AXI_IB glue，归属随 R6 待 B3）
+    note: 寄存器空间（regmap 见 spec-005 §6.1 / docs/B2-regmap.md）
+  - mem_id: MEM-06
+    name: SPI
+    base: 0x40001000
+    size: 0x1000
+    domain: AXI
+    block: BLOCK-05
+    access: RW
+    decode: AXI_IB
+    err: SLVERR
+    via: lite_converter
+    note: 寄存器空间 + SPI Flash PIO 通道（FS-005，PPAC-013 加载路径）
+  - mem_id: MEM-07
+    name: IIC
+    base: 0x40002000
+    size: 0x1000
+    domain: AXI
+    block: BLOCK-06
+    access: RW
+    decode: AXI_IB
+    err: SLVERR
+    via: lite_converter
+    note: 寄存器空间
+  - mem_id: MEM-08
+    name: PWM
+    base: 0x40003000
+    size: 0x1000
+    domain: AXI
+    block: BLOCK-07
+    access: RW
+    decode: AXI_IB
+    err: SLVERR
+    via: lite_converter
+    note: 寄存器空间
+  - mem_id: MEM-09
+    name: GPIO
+    base: 0x40004000
+    size: 0x1000
+    domain: AXI
+    block: BLOCK-08
+    access: RW
+    decode: AXI_IB
+    err: SLVERR
+    via: lite_converter
+    note: 寄存器空间（含 PINMUX）
+  - mem_id: MEM-10
+    name: INT
+    base: 0x40005000
+    size: 0x1000
+    domain: AXI
+    block: BLOCK-09
+    access: RW
+    decode: AXI_IB
+    err: SLVERR
+    via: lite_converter
+    note: 中断控制器寄存器（时延敏感：ISR 入口读向量，从机 1 拍响应，arch-008 §10.1）
+  - mem_id: MEM-11
+    name: TIMER
+    base: 0x40006000
+    size: 0x1000
+    domain: AXI
+    block: BLOCK-10
+    access: RW
+    decode: AXI_IB
+    err: SLVERR
+    via: lite_converter
+    note: 定时器寄存器
+  - mem_id: MEM-12
+    name: CLK_RST
+    base: 0x40007000
+    size: 0x1000
+    domain: AXI
+    block: BLOCK-11
+    access: RW
+    decode: AXI_IB
+    err: SLVERR
+    via: lite_converter
+    note: 时钟分频/门控/软复位（L2 软复位自清除，写路径握手 C1 细化）
+  - mem_id: MEM-13
+    name: 外设保留区
+    base: 0x40008000
+    size: 0x0FFF8000
+    domain: AXI
+    block: BLOCK-02
+    access: "-"
+    decode: AXI_IB
+    err: DECERR
+    note: 保留地址空洞
+  - mem_id: MEM-14
+    name: SPI Flash（外部器件）
+    base: null
+    size: null
+    domain: external
+    block: BLOCK-13
+    access: PIO
+    decode: NONE
+    err: N/A
+    note: 无地址映射，经 SPI master（BLOCK-05）PIO 访问；不参与译码
+  - mem_id: MEM-15
+    name: 未映射区
+    base: 0x50000000
+    size: 0xB0000000
+    domain: AXI
+    block: BLOCK-02
+    access: "-"
+    decode: AXI_IB
+    err: DECERR
+    note: 未映射区域
+
+# 中断向量表位置（B1 交接项裁定）: SRAM 顶部预留（ISR 入口经桥取指，PPAC-011 预算已含 ≤10 周期路径，arch-008 §4.3）

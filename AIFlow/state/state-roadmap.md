@@ -25,6 +25,31 @@
 
 ## Roadmap 条目
 
+### RMP-006 — SystemRDL 作为寄存器全局唯一事实源（技术预研）
+- 标题：SystemRDL 作为寄存器全局唯一事实源（PeakRDL 工具链）
+- 分类：技术预研（下一版增强候选 / 本版本 C1 前评估）
+- 状态：adopted（2026-08-21 用户裁定采用；C1 启动时落地：*.rdl 为寄存器唯一事实源 + peakrdl 工具链；C1/C2/C3/D2 详章与 node-C1 模板已更新，ADR-026）
+- 来源：用户，2026-08-21，B2 质量门期间提出
+- 动机：寄存器信息当前散落 spec-005 §6（Markdown 冻结初版）/B2-regmap.md，C1/C2/D 阶段将出现 RTL 手写寄存器堆、UVM RAL、固件头文件多处手工对齐，漂移风险高
+- 方案概述：Accellera SystemRDL 2.0（业界寄存器描述标准 DSL）+ PeakRDL 开源工具链（pip，纯 Python）：*.rdl 为唯一事实源 → 生成 SV regblock（C3）/ UVM RAL（D2）/ C 头（固件）/ HTML 手册；地址侧维持 B2-addr-map.yaml 或长期演进 RDL addrmap 全覆盖（C0/C1 实践后裁定）
+- 期望收益：寄存器单一事实源（ADR-018 同类漂移免疫）；RTL/验证/固件/文档四端自动同步；与 Python 工具链契合
+- 影响范围：C1/C2（建立 .rdl）、C3/D2（消费生成物）、spec-005 §6（对照源）、RMP-005（peakrdl 一并装）
+- 关联：RMP-005（工具链环境）、ADR-018（单一事实源教训）
+- 处置建议：**C0 结束/C1 启动前评估**：若采纳，C1 产物增加 .rdl 定义 + spec-005 §6 对拍校验脚本；B3~B7 不受影响
+- 调研报告：本条目即摘要，全文见 2026-08-21 会话（含 IP-XACT/ORDT 对比、迁移路径、风险）
+
+### RMP-005 — 开源 EDA 工具链环境准备（verilator/iverilog 等）
+- 标题：开源 EDA 工具链环境准备（verilator/iverilog 等）
+- 分类：流程改进
+- 状态：planned（2026-08-21 用户裁定：采用 verilator 为仿真工具；C0 前必须 resolved）
+- 来源：arch-agent friction log（B2：详章 DoD 要求 verilator --lint-only 冒烟，环境无 verilator/iverilog，退化校验），2026-08-21
+- 动机：B2 已出现首次退化校验（生成 SV 包仅做 ASCII/常量断言）；后续 C4/C6/D 阶段全面依赖 verilator+cocotb，E 阶段依赖 yosys，环境不就绪将连环退化
+- 方案概述：安装/验证开源工具链（**verilator 为仿真工具**、iverilog、cocotb、yosys，Windows/WSL 方案裁定），输出环境自检脚本（--version 全绿）
+- 期望收益：消除仿真/lint 类 DoD 的退化校验；C 阶段前就绪
+- 影响范围：开发环境、E2/D2 节点前置
+- 关联：ADR-004（开源降级口径）、RMP-003（同属环境类）、RMP-006（peakrdl 一并装）
+- 处置建议：**C0 前必须 resolved**，用户提供环境或授权 WSL 安装
+
 ### RMP-004 — 勘误/变更影响面管理：主文档↔配套产物配对清单 + 自验范围声明
 - 标题：勘误/变更影响面管理：主文档↔配套产物配对清单 + 自验范围声明
 - 分类：流程改进

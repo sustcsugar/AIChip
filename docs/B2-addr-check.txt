@@ -1,0 +1,29 @@
+=== B2 地址映射检查报告（自动生成）===
+数据源: docs/B2-addr-map.yaml | 区域总数: 15（mapped 14 + 非映射 1）
+功能窗口覆盖字节数: 102400 (0x19000) | mapped 区域总字节: 4294967296 (0x100000000)
+对齐粒度: 0x1000 | 地址空间: 32-bit
+--- ERROR: 0 ---
+--- WARNING ---
+  保留区大小非 2 的幂（填空洞，可接受）: MEM-02 size=0x1FFFF000
+  保留区大小非 2 的幂（填空洞，可接受）: MEM-04 size=0x1FFF0000
+  保留区大小非 2 的幂（填空洞，可接受）: MEM-13 size=0xFFF8000
+  保留区大小非 2 的幂（填空洞，可接受）: MEM-15 size=0xB0000000
+--- INFO ---
+  非映射外部器件: MEM-14(SPI Flash（外部器件）) 不参与译码
+--- 区域清单 ---
+  MEM-01  功能 0x00000000 +0x00001000  RIB     BLOCK-12  decode=RIB_SIDE err=RIB_ERR
+  MEM-02  保留 0x00001000 +0x1FFFF000  RIB     BLOCK-02  decode=RIB_SIDE err=RIB_ERR
+  MEM-03  功能 0x20000000 +0x00010000  AXI     BLOCK-14  decode=AXI_IB   err=SLVERR
+  MEM-04  保留 0x20010000 +0x1FFF0000  AXI     BLOCK-02  decode=AXI_IB   err=DECERR
+  MEM-05  功能 0x40000000 +0x00001000  AXI     BLOCK-03  decode=AXI_IB   err=SLVERR
+  MEM-06  功能 0x40001000 +0x00001000  AXI     BLOCK-05  decode=AXI_IB   err=SLVERR
+  MEM-07  功能 0x40002000 +0x00001000  AXI     BLOCK-06  decode=AXI_IB   err=SLVERR
+  MEM-08  功能 0x40003000 +0x00001000  AXI     BLOCK-07  decode=AXI_IB   err=SLVERR
+  MEM-09  功能 0x40004000 +0x00001000  AXI     BLOCK-08  decode=AXI_IB   err=SLVERR
+  MEM-10  功能 0x40005000 +0x00001000  AXI     BLOCK-09  decode=AXI_IB   err=SLVERR
+  MEM-11  功能 0x40006000 +0x00001000  AXI     BLOCK-10  decode=AXI_IB   err=SLVERR
+  MEM-12  功能 0x40007000 +0x00001000  AXI     BLOCK-11  decode=AXI_IB   err=SLVERR
+  MEM-13  保留 0x40008000 +0x0FFF8000  AXI     BLOCK-02  decode=AXI_IB   err=DECERR
+  MEM-15  保留 0x50000000 +0xB0000000  AXI     BLOCK-02  decode=AXI_IB   err=DECERR
+--- 结论 ---
+PASS: 无地址冲突、无重叠、全对齐、空间封闭

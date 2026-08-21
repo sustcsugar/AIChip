@@ -29,7 +29,7 @@
 ### Execute
 - **编码前先读 `AIFlow/doc/阶段C-微架构与RTL/C3-编码规范.md`**（规范唯一真相源），按模块执行编码循环：
   1. **端口框架**：从 C2 契约生成完整端口声明（方向/位宽/时钟域一致）。
-  2. **寄存器**：按 C1 Regmap 表实现读写逻辑（同步写、复位值、W1C/RO 等访问属性）。
+  2. **寄存器**：按 C1 的 `.rdl` 唯一事实源（SystemRDL，ADR-026）实现读写逻辑（同步写、复位值、W1C/RO 等访问属性）；可选 `peakrdl-regblock` 生成 SystemVerilog 寄存器块（生成代码需过一次 advance-rtl-coding-guidance 规范对齐）；手写实现则须与 .rdl 逐字段对拍。
   3. **状态机**：按 C1 状态表编码（`typedef enum` 状态、`always_comb` 次态、`always_ff` 现态、缺省分支显式处理非法状态）。
   4. **数据通路/握手**：按 C1 流水线与握手实现 valid/ready、停顿/背压。
   5. **CDC 隔离**：跨时钟域信号只经同步器/异步 FIFO 交接，禁止跨域组合直连。
