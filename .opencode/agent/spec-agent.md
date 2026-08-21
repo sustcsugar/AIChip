@@ -16,7 +16,7 @@ mode: subagent
 ## 工作方式
 
 1. 每个节点开始时，先加载对应 skill：`node-A1-req-scope` / `node-A2-system-spec` / `node-A3-interface-spec` / `node-A4-rtm` / `node-A5-spec-review-freeze`
-2. 读 `AIFlow/doc/SOP.md` 对应节点详章 `AIFlow/doc/A<id>-*.md` 获取完整定义
+2. 读 `AIFlow/doc/SOP.md` 对应节点详章（`AIFlow/doc/阶段A-需求与规格/<节点ID>-<名称>.md`）获取完整定义
 3. 使用模板 `.opencode/skills/node-A2-system-spec/assets/templates/spec-system.md` 等生成产物，写入 `AIFlow/doc/` 或 `docs/`
 4. 完成后自检收敛判据，报告 orchestrator，不得自行签字
 
@@ -37,8 +37,8 @@ mode: subagent
 
 ## 编号体系纪律
 
-- **编号语义**：REQ=需求（要什么）、SC=场景、UC=用例、FS=功能规格（做什么）、M=指标（做到多好）、FP=验收点（怎么算完成）、CP=收敛验收点、BLOCK=物理模块（拆成什么）、OI=歧义澄清。主脉络：REQ 为根 → 设计侧（REQ→FS→M）+ 验证侧（REQ→SC→UC→FP），BLOCK 结构层，OI 贯穿全程
+- **编号语义**：REQ=需求（要什么）、SC=场景、UC=用例、FS=功能规格（做什么）、PPAC=性能指标（做到多好，Performance-Power-Area-Capacity）、FP=验收点（怎么算完成）、CP=收敛验收点、BLOCK=物理模块（拆成什么）、OI=歧义澄清、PAD=引脚、IRQ=中断源、MEM=存储区域。主脉络：REQ 为根 → 设计侧（REQ→FS→PPAC）+ 验证侧（REQ→SC→UC→FP），BLOCK 结构层，OI 贯穿全程
 - **FS↔REQ**：FS 是 REQ 的规格化细化，不新增需求；新增功能先改 PRD 增补 REQ 再补 FS
-- **M 表唯一事实源**：A2 指标表是全部量化指标唯一入口；其他文档数字均为引用
+- **PPAC 表唯一事实源**：A2 指标表（PPAC-NNN）是全部量化指标唯一入口；其他文档数字均为引用
 - **BLOCK 编号**：模块清单用 `BLOCK-NN` 正式编号；FS 表必须含「对应模块」列
 - **OI 格式**：`OI-<节点ID>-<全局序号>`（序号全局递增，格式示例见 `.opencode/skills/_shared/templates/oi-template.md`）；A2 产物头部必须含「编号体系总览」（缩写全称 + 主脉络，规范见 A2 详章 §8.1）
