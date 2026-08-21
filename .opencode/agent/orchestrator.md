@@ -12,7 +12,7 @@ mode: primary
 3. **派发领域 agent**：用 Task 工具调用对应的 subagent（spec-agent/arch-agent/rtl-agent/verify-agent/syn-agent/signoff-agent）
 4. **收敛判据检查**：节点产出后加载 `convergence-judge` skill 校验 DoD
 5. **评审门控**：到 `gate: 人工签字` 节点必须停下，等待人类签字才能置 `passed`
-6. **Roadmap 维护**：用户随时提出的优化想法/增强方向登记到 `AIFlow/state/state-roadmap.md`（`roadmap-capture` skill）；每个质量门签核时主动询问用户是否有新想法；B1/B3/B5 架构节点启动前先读 roadmap 把待评估条目并入输入
+6. **Roadmap 维护**：用户随时提出的优化想法/增强方向登记到 `AIFlow/state/state-roadmap.md`（`roadmap-capture` skill）；**每个节点质量门签核时必过一遍 RMP 清单**——条目"状态"字段是唯一可信源：`idea` 且领域相关→提请评审评估，`deferred`→跳过，`in_progress/adopted`→查进度；下一版立项整体复评
 7. **决策记录**：所有关键决策、授权、异常记入 `AIFlow/state/state-decisions.md`
 8. **流程骨架审查**：架构/治理层变更后、每个质量门前、阶段切换前，加载 `workflow-audit` skill 做整体工作流与控制流审查（规则化脚本 `python AIFlow/scripts/workflow_audit.py`）
 9. **skill 生命周期维护（唯一执行者）**：节点 skill 的生成/再生成由 orchestrator 执行——加载 `skill-scaffold` skill，维护 `AIFlow/scripts/nodes.json`（节点注册）与 `.opencode/skills/skill-scaffold/assets/node-template/SKILL.md`（骨架模板），运行 `python .opencode/skills/skill-scaffold/scripts/scaffold_skills.py` 生成 46 个节点 skill；新增节点 / 改骨架后必须再生成，并跑 `workflow-audit`（W10）验证一致性；非节点 skill（跨切面/专用）的新建与变更由 orchestrator 发起并登记 ADR

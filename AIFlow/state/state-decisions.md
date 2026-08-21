@@ -248,6 +248,43 @@
 - 后果：A3 已签核产物勘误不影响接口实质（仅计数表述）；此类"度量值无单一事实源"错误今后由 A3-D7 机器拦截
 - 依据：用户 2026-08-21 指示（三项均执行）
 
+### ADR-019 — Roadmap 条目范围裁定 + 质量门 RMP 走查机制
+- 日期：2026-08-21（同日用户澄清修订）
+- 状态：已确认
+- 背景：SOP 原约定"架构节点（B1/B3/B5）启动前先读 roadmap 把待评估条目并入输入"，RMP-001/002 原状态为"idea（待 B1 评估）"
+- 决策：
+  1. **范围裁定（仅限既有两条）**：RMP-001/002 不在当前版本芯片实现，作为后续版本优化空间（状态 → deferred）
+  2. **质量门 RMP 走查机制（澄清后确立）**：每个节点完成、进入质量门时，orchestrator 必走查 roadmap 全部条目；**条目"状态"字段是唯一可信源**——`idea` 且领域相关 → 提请评审决定评估/否决/延后；`deferred` → 跳过；`in_progress/adopted` → 查进度；是否评估只看状态字段；下一版立项时整体复评
+  3. 评估入口不再绑定 B1/B3/B5 启动前读清单（原机制废止），改为质量门统一走查
+- 执行：roadmap.md 头部/状态流转规则、roadmap-capture skill、orchestrator.md 职责 #6、review-gate skill 流程 3.5 全部同步
+- 后果：roadmap 联动覆盖全部 46 节点质量门（不限于架构节点）；RMP-001/002 保持 deferred 直至状态变更
+- 依据：用户 2026-08-21 指示及同日澄清（"RMP 条目状态是唯一可信源"）
+
+### ADR-020 — OI 机制模板化 + spec-003 单一台账重构
+- 日期：2026-08-21
+- 状态：已确认
+- 背景：spec-003 原结构 §1.1/§1.2/§2 三表重复（已关闭条目同时在开放清单挂状态又在关闭表登记）、按节点分组割裂全局视角，用户要求模板化+结构化
+- 决策：① 新建 `.opencode/skills/_shared/templates/oi-template.md`（10 固定字段 + 生命周期 + OI↔RMP 边界）；② spec-003 重构为单一"OI 台账总表"（6 行 × 8 列，决策摘要语义零丢失），头尾保留状态摘要与说明；③ a1_check_req.py 同步兼容新旧结构
+- 验证：a1_check_req.py PASS（A1-D1~D5 全满足，open 0）；外部引用路径未变无需同步
+- 后果：后续节点新增 OI 统一按模板字段登记，消除重复结构；closed 决策摘要为不可删改历史证据
+- 依据：用户 2026-08-21 指示
+
+### ADR-021 — 资产边界纪律：skill/agent 为跨项目可复用资产，禁止依赖项目态
+- 日期：2026-08-21
+- 状态：已确认（用户裁定）
+- 背景：review-gate skill 中引用了 ADR-019（项目决策记录），用户明确资产边界规则——skill/agent 是跨项目可复用的治理层与专业知识沉淀，必须保持纯洁性
+- 决策（边界规则）：
+  1. **允许**：引用 `AIFlow/doc/` 深度资产（SOP/详章/辅助文档），深度资产可随时沉淀进 skill/agent
+  2. **禁止**：依赖 `AIFlow/state/` 中项目相关记录/决策/状态（ADR/OI/RMP 编号、tracker 内容）；禁止依赖 `docs/` 项目本体文档内容
+  3. 写入 state 文件（如"决策记录到 state-decisions.md"）属机制约定，不算依赖；但**不得引用具体编号内容**
+- 执行：
+  1. 跨切面 skill 清理：review-gate（去 ADR-019）、roadmap-capture（去 ADR-019 示例）、skill-scaffold（去 ADR-006/011/014/015）、workflow-audit（去 ADR-008/007）
+  2. agent 清理：orchestrator.md（去 RMP-001/002 示例）、spec-agent.md（去 OI-A1-001 示例与 ADR-008 标注）
+  3. 骨架模板去 ADR-003 引用 → **再生成全部 46 个节点 skill**（node-A1 手工 OI 块随之清理，回写通用化版本并指向 oi-template.md）
+  4. 复扫 `.opencode/skills/ + .opencode/agent/` 项目态引用清零；workflow_audit Blocker=0
+- 后果：skill/agent 可整体迁移到下一个芯片项目复用；项目决策演变只影响 AIFlow/state 与 docs，不再污染资产层
+- 依据：用户 2026-08-21 指示（"保持 skill/agent 的纯洁性和专业性"）
+
 ## 评审记录
 
 | 日期 | 节点 | 结论 | 签字人 | 意见 |

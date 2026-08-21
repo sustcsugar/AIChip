@@ -65,7 +65,7 @@ description: >-
 - S2 节点划分 / 依赖设计的合理性（不变量之外的合理性判断）
 - S3 控制流遗漏分支（异常路径、回退路径、可选阶段 H 的切换条件）
 - S4 术语与缩写使用规范（对照 `92-术语与缩写表`，是否有未登记缩写）
-- S5 语义一致性（文档间口径是否一致，如编号体系 ADR-008）
+- S5 语义一致性（文档间口径是否一致，如编号体系规范）
 
 ## 5. 报告模板（固定格式）
 
@@ -112,7 +112,7 @@ description: >-
 1. 任何 Blocker → 修复后重跑 M1，不得跳过
 2. Warning → 修复或写明理由（留档）
 3. 语义层结论 → 必须人工复核后才可作为放行依据
-4. 报告归档：写入 `AIFlow/state/`，命名遵循 ADR-007 的 `state-` 前缀（如 `state-workflow-audit-<日期>.md`），由 orchestrator 落账
+4. 报告归档：写入 `AIFlow/state/`，命名用 `state-` 前缀（如 `state-workflow-audit-<日期>.md`），由 orchestrator 落账
 5. 本 skill 自身属于治理资产，若审查发现流程/规范问题，按 review-gate 的"规范回写"纪律同步回写 SOP/详章/skill
 
 ## 参考

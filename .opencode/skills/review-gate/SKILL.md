@@ -28,6 +28,13 @@ description: 质量门评审通用流程：评审清单、签字机制、评审�
    - 有条件通过（conditionally pass）→ 列出必须修复项，节点置 `iterating`，修复后复审
    - 不通过（fail）→ 节点置 `iterating`，返回执行步骤修复
 
+3.5 **RMP 走查（质量门必做）**
+   - 走查 `AIFlow/state/state-roadmap.md` 全部条目，**条目"状态"字段为唯一可信源**：
+     - `idea` 且与本节点领域相关 → 向评审人提请：是否进入评估（改 planned）/ 否决（rejected）/ 延后（deferred）
+     - `deferred` → 跳过，不做内容猜测
+     - `in_progress / adopted` → 汇报执行进度
+   - 走查结论（含"无相关 idea 条目"）记入评审纪要
+
 4. **记录**
    - 评审结论写入 `AIFlow/state/state-decisions.md`
    - 更新 `AIFlow/state/state-tracker.md` 对应节点状态

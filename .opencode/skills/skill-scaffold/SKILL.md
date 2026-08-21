@@ -9,7 +9,7 @@ description: >-
 
 # Skill Scaffold — 节点 skill 生成能力
 
-> 适用者：orchestrator（唯一执行者，ADR-014）。能力随 skill 打包：模板 + 脚本 + 数据规范一站式。
+> 适用者：orchestrator（唯一执行者）。能力随 skill 打包：模板 + 脚本 + 数据规范一站式。
 > 生成机制：`nodes.json`（数据）× `assets/node-template/SKILL.md`（骨架）→ `scripts/scaffold_skills.py`（渲染）→ 46 个 `node-<ID>-<slug>/SKILL.md`。
 
 ## 何时使用
@@ -43,11 +43,11 @@ description: >-
 
 - 占位符：`{{ID}}` `{{NAME}}` `{{SLUG}}` `{{DESCRIPTION}}` `{{DOC}}` `{{AGENT}}` `{{DOD}}` `{{GATE_TYPE}}`
 - 公共步骤写进骨架（所有节点共享）；节点专属内容不写骨架（避免污染全部节点），按需在生成后手工定制
-- 定制保护：`--force` 覆盖前比对，发现手工定制差异会告警（ADR-006），`--yes` 跳过确认但会在报告中列出
+- 定制保护：`--force` 覆盖前比对，发现手工定制差异会告警，`--yes` 跳过确认但会在报告中列出
 
 ## 纪律
 
-- **orchestrator 为唯一执行者**（ADR-014）；其他 agent 不得直接运行生成脚本或批量修改 node skill
+- **orchestrator 为唯一执行者**；其他 agent 不得直接运行生成脚本或批量修改 node skill
 - 新增/删除节点：必须同步改 `nodes.json` + SOP 节点索引 + 速查表 90 + 职责矩阵 91，再生成并跑 workflow-audit 全量校验
 - 非节点 skill（跨切面/专用）不走本生成流程，由 orchestrator 手工创建并登记 ADR
 - 生成后若出现"未登记定制"告警（W10），先确认是否预期：预期则把节点加入 workflow_audit.py 的 KNOWN_CUSTOM 并在 ADR 留痕；非预期则回写骨架
@@ -56,4 +56,4 @@ description: >-
 
 - 数据规范：`references/nodes-schema.md`
 - 审计：`AIFlow/scripts/workflow_audit.py`（W10 脚手架一致性、W7/W15/W16 索引与覆盖）
-- 决策：ADR-006（定制保护）、ADR-011（资产内化）、ADR-014（唯一执行者）、ADR-015（本能力内化）
+- 决策依据：见项目 `AIFlow/state/state-decisions.md` 中的 skill 生命周期相关 ADR（资产内化 / 唯一执行者等，按项目实际记录查阅）

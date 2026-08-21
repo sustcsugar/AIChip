@@ -105,12 +105,21 @@ def main():
     uc_ids = [u[0] for u in uc_info]
     uc_dup = sorted({x for x in uc_ids if uc_ids.count(x) > 1})
 
-    # ---- 4. OI 集合（仅"开放问题清单"节中状态为 open 的条目；
-    #            已关闭登记表中的 OI 引用不视为未决）----
-    oi_block = section_until(oi_text, "## 1. 开放问题清单")
+    # ---- 4. OI 集合（OI 台账总表中状态为 open 的条目；
+    #            closed 条目的 OI 引用不视为未决）----
+    # v0.5 起结构对齐 oi-template.md：单一台账表，状态列在索引 5
+    oi_block = (section_until(oi_text, "## 1. OI 台账总表") or
+                section_until(oi_text, "## 1. 开放问题清单"))  # 兼容旧结构
     oi_rows = [r for r in table_rows(oi_block) if r and OI_RE.fullmatch(r[0])]
+    # 状态列位置：新结构（oi-template.md，8 列）在索引 5；旧结构（5 列）在索引 4
+    def _is_open(r):
+        if len(r) > 5:
+            return r[5].strip().lower() == "open"
+        if len(r) > 4:
+            return r[4].strip().lower() == "open"
+        return False
     oi_ids = sorted(
-        {r[0] for r in oi_rows if len(r) > 4 and r[4].strip().lower() == "open"},
+        {r[0] for r in oi_rows if _is_open(r)},
         key=lambda s: int(s.split("-")[1]),
     )
 
