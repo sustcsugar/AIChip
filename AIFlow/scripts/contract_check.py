@@ -11,7 +11,13 @@
 """
 import argparse
 import re
+import sys
 from pathlib import Path
+
+if sys.stdout and hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+if sys.stderr and hasattr(sys.stderr, "reconfigure"):
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
 ROOT = Path(__file__).resolve().parent.parent  # AIFlow/（共治管理层）
 IP_BASE = ROOT.parent / "ip"  # 芯片根 ip/

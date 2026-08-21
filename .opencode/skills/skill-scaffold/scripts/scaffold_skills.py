@@ -20,6 +20,12 @@ import os
 import re
 from pathlib import Path
 
+import sys
+if sys.stdout and hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+if sys.stderr and hasattr(sys.stderr, "reconfigure"):
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+
 # 脚本位于 .opencode/skills/skill-scaffold/scripts/，向上回溯 4 级 = 芯片根
 PROJECT_ROOT = Path(__file__).resolve().parents[4]
 NODES_JSON = PROJECT_ROOT / "AIFlow" / "scripts" / "nodes.json"          # 节点注册（共享数据，保持原位）
