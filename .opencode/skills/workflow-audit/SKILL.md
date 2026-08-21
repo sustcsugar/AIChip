@@ -36,7 +36,7 @@ description: >-
 | M2 | 节点依赖与判据 | `python AIFlow/scripts/check_tracker.py` | 输出"检查通过" |
 | M3 | Roadmap 结构 | `python AIFlow/scripts/roadmap_check.py` | 输出"检查通过" |
 | M4 | 脚手架一致性 | 含于 M1（W10） | 同 M1 |
-| M5 | 节点产物校验（如 A1-A3） | `a1_check_req.py` / `a2_check_metric.py` / `a3_check_interface.py` | 各自 PASS |
+| M5 | 节点产物校验（如 A1-A3） | `a1_check_req.py` / `a2_check_ppac.py` / `a3_check_interface.py` | 各自 PASS |
 
 **执行顺序 M1→M5；任一退出码 2 立即停止**，先修复 Blocker，不进入语义层。
 

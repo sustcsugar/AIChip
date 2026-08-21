@@ -6,9 +6,9 @@
     python AIFlow/scripts/a4_check_rtm.py --rtm docs/spec/spec-006-rtm.md --json
 
 校验规则（A4 详章 DoD：RTM 双向覆盖 100%）:
-    正向：每个 REQ ≥1 SPEC（FS/M）+ ≥1 TP；孤儿需求 = 0
+    正向：每个 REQ ≥1 SPEC（FS/PPAC）+ ≥1 TP；孤儿需求 = 0
     反向：每个 SPEC/TP ≥1 REQ 来源；孤儿规格/测试点 = 0
-交叉校验：矩阵 REQ 数 vs spec-001（20）；TP 数 vs 声明（34）；FS/M 来源非空
+交叉校验：矩阵 REQ 数 vs spec-001（20）；TP 数 vs 声明（34）；FS/PPAC 来源非空
 
 退出码: 0 = 通过；1 = 有孤儿/缺口
 """
@@ -37,7 +37,7 @@ def parse_matrix(rtm: Path) -> dict:
         cells = [c.strip() for c in line.strip("|").split("|")]
         if len(cells) >= 4 and cells[0].startswith("REQ-"):
             result[cells[0]] = {
-                "spec": re.findall(r"(?:FS|M)-\d+", cells[2]),
+                "spec": re.findall(r"(?:FS|PPAC)-\d+", cells[2]),
                 "tp": re.findall(r"TP-[\w-]+", cells[3]),
             }
     return result
@@ -60,7 +60,7 @@ def parse_tps(rtm: Path) -> dict:
         if len(cells) >= 5 and cells[0].startswith("TP-"):
             result[cells[0]] = {
                 "reqs": re.findall(r"REQ-\d+", cells[4]),
-                "specs": re.findall(r"(?:FS|M)-\d+", cells[4]),
+                "specs": re.findall(r"(?:FS|PPAC)-\d+", cells[4]),
             }
     return result
 
@@ -87,7 +87,7 @@ def main() -> None:
             req_nospec.append(req)
         if not m["tp"]:
             req_notp.append(req)
-    # 反向孤儿 SPEC：矩阵中出现的 SPEC 是否都有 REQ 来源？（SPEC 来源 = TP 来源列 + FS/M 表内建，这里校验矩阵内 SPEC 均被 REQ 引用）
+    # 反向孤儿 SPEC：矩阵中出现的 SPEC 是否都有 REQ 来源？（SPEC 来源 = TP 来源列 + FS/PPAC 表内建，这里校验矩阵内 SPEC 均被 REQ 引用）
     all_spec_in_matrix = sorted({s for m in matrix.values() for s in m["spec"]})
     all_tp_in_matrix = sorted({t for m in matrix.values() for t in m["tp"]})
 

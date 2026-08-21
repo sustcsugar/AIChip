@@ -26,7 +26,7 @@
 - [x] 遗留问题已列出（见 §3 Non-blocking 清单）
 
 ### 阶段特定项（规格类）
-- [x] 指标可量化、可测试（spec-004 M 表四要素：目标值/单位/测试方法/来源需求，a2_check_metric PASS）
+- [x] 指标可量化、可测试（spec-004 PPAC 表四要素：目标值/单位/测试方法/来源需求，a2_check_ppac PASS）
 - [x] RTM 双向覆盖（a4_check_rtm.py：双向 100%，孤儿 0）
 
 ### 客观证据汇总
@@ -34,7 +34,7 @@
 | 校验脚本 | 结果 |
 |----------|------|
 | `a1_check_req.py` | PASS（REQ 20 / SC 12 / UC 32 / OI 0） |
-| `a2_check_metric.py` | PASS（FS 20 / M 20 四要素 100%） |
+| `a2_check_ppac.py` | PASS（FS 20 / PPAC 20 四要素 100%） |
 | `a3_check_interface.py` | PASS（冲突零、遗漏空、UC 覆盖 32/32） |
 | `a4_check_rtm.py` | PASS（双向覆盖 100%，孤儿 0） |
 
@@ -77,3 +77,9 @@ docs/spec/spec-006-rtm.md + spec-006-rtm-report.md
 | 评审人（用户/规格负责人） | ____ | ____ |
 
 - 签字后动作：① tracker A5 → passed（阶段 A 完成）；② `git tag spec-v1.0` 冻结基线；③ 进入阶段 B（B1 系统架构）
+
+---
+
+## 变更记录
+
+- 2026-08-21：A5 waiting_review 期间执行术语规范变更（ADR-016）：性能指标编号前缀 `M-NNN` → `PPAC-NNN`（数字不变，共 20 项），涉及 spec-003/004/005/006 及校验脚本；本纪要引用已同步，RTM 双向覆盖经 `a4_check_rtm.py` 复验仍 100% PASS。

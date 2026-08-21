@@ -15,7 +15,7 @@
     2. 地址重叠      : memory-map.csv 中 mapped=yes 区域 base+size 无重叠、不越 32bit
     3. 中断号重复    : irq.csv 中 irq_num / irq_id 唯一
     4. 引用未定义信号: irq trigger_signal 若引用引脚必须存在于 pins.csv; BLOCK 引用合法
-    5. 位宽不一致    : 同名信号位宽一致; GPIO 通道数 >= 16 (M-020); 中断源数满足 M-019
+    5. 位宽不一致    : 同名信号位宽一致; GPIO 通道数 >= 16 (PPAC-020); 中断源数满足 PPAC-019
     6. 遗漏核对      : use-cases.md 全部 UC 在接口规格 §遗漏核对 表中有接口定义
 
 输出: 各检查项结论 + DoD 判定 (接口清单冻结, 无遗漏, 无冲突)
@@ -129,11 +129,11 @@ def check_pins(rows):
         if key in widths and widths[key] != w:
             issues.append(f"[P5] 位宽不一致: {pad} width={w}, 先前 {key} width={widths[key]}")
         widths[key] = w
-    # M-020: GPIO >= 16 通道
+    # PPAC-020: GPIO >= 16 通道
     gpio_n = sum(1 for p in pads if re.fullmatch(r"gpio\[\d+\]", p))
     if gpio_n < 16:
-        issues.append(f"[P5] GPIO 通道数 {gpio_n} < M-020 要求 16")
-    # M-019 需要的外部/定时器/软件中断源不在引脚层检查（irq 层检查）
+        issues.append(f"[P5] GPIO 通道数 {gpio_n} < PPAC-020 要求 16")
+    # PPAC-019 需要的外部/定时器/软件中断源不在引脚层检查（irq 层检查）
     return issues, pads, altfns
 
 
@@ -198,12 +198,12 @@ def check_irq(rows, pads, altfns):
     # 内部触发信号不得重复
     if len(internal_sigs) != len(rows):
         issues.append("[I4] 内部触发信号存在重复声明")
-    # M-019: 中断源数 >=6 (外部>=4 + 定时器1 + 软件1)
+    # PPAC-019: 中断源数 >=6 (外部>=4 + 定时器1 + 软件1)
     ext = sum(1 for r in rows if r.get("irq_name", "").startswith("GPIO_EXT"))
     tmr = sum(1 for r in rows if r.get("irq_name", "") == "TIMER0")
     sw = sum(1 for r in rows if r.get("irq_name", "") == "SW_INT")
     if len(rows) < 6 or ext < 4 or tmr < 1 or sw < 1:
-        issues.append(f"[I3] 中断源数不满足 M-019: 总数={len(rows)} 外部(GPIO)={ext} 定时器={tmr} 软件={sw} (需 >=6, 外部>=4, 定时器>=1, 软件>=1)")
+        issues.append(f"[I3] 中断源数不满足 PPAC-019: 总数={len(rows)} 外部(GPIO)={ext} 定时器={tmr} 软件={sw} (需 >=6, 外部>=4, 定时器>=1, 软件>=1)")
     return issues
 
 
@@ -220,6 +220,65 @@ def check_uc(uc_text, spec_text):
     missing = sorted(all_uc - covered, key=lambda s: (s.split("-")[1], int(s.split("-")[2])))
     extra = sorted(covered - all_uc)
     return all_uc, covered, missing, extra
+
+
+def check_periph_count(spec_text, mem_rows):
+    """A3-D7: 三方外设寄存器组计数一致性
+    §1.3 总览"寄存器接口初版 | N 外设寄存器组" == §6 小节数 (### 6.N)
+    == memory-map.csv 中外设寄存器窗口数 (region=AXI, access=R/W, base 在 0x4000_0000~0x4000_7FFF, size=4KB)
+    == §2.2 AXI-S-PERIPH 行 BLOCK 列表去重数; 且该行"(N 个从端口)"文案 N 与 BLOCK 数一致
+    """
+    issues = []
+    counts = {}
+    # 1) §1.3 总览
+    m13 = re.search(r"寄存器接口初版\s*\|\s*(\d+)\s*外设寄存器组", spec_text)
+    if not m13:
+        issues.append("[D7] §1.3 未找到 '寄存器接口初版 | N 外设寄存器组' 条目")
+    else:
+        counts["§1.3 总览"] = int(m13.group(1))
+    # 2) §6 小节数 (### 6.N 标题)
+    sec6 = section_until(spec_text, "## 6.")
+    n6 = len(re.findall(r"^###\s+6\.\d+", sec6, flags=re.M))
+    counts["§6 小节数"] = n6
+    # 3) memory-map.csv 外设寄存器窗口
+    nmap = 0
+    for r in mem_rows:
+        base = parse_hex(r.get("base_addr", ""))
+        size = parse_hex(r.get("size", ""))
+        if (r.get("region", "").strip() == "AXI"
+                and r.get("access", "").strip() == "R/W"
+                and base is not None and 0x4000_0000 <= base <= 0x4000_7FFF
+                and size == 0x1000):
+            nmap += 1
+    counts["memory-map.csv 4KB 外设窗口"] = nmap
+    # 4) §2.2 AXI-S-PERIPH 行
+    periph_line = ""
+    for ln in spec_text.splitlines():
+        if "AXI-S-PERIPH" in ln and ln.strip().startswith("|"):
+            periph_line = ln
+            break
+    if not periph_line:
+        issues.append("[D7] §2.2 未找到 AXI-S-PERIPH 行")
+        nblocks = None
+    else:
+        # 支持 BLOCK-03/05/06/... 斜杠缩写列表
+        blocks = []
+        for grp in re.findall(r"BLOCK-\d{2}(?:/\d{2})*", periph_line):
+            blocks.extend(f"BLOCK-{n}" for n in grp.split("/"))
+        blocks = sorted(set(blocks))
+        nblocks = len(blocks)
+        counts["§2.2 AXI-S-PERIPH 从端口"] = nblocks
+        m_n = re.search(r"（(\d+)\s*个从端口）", periph_line)
+        if not m_n:
+            issues.append("[D7] §2.2 AXI-S-PERIPH 行缺少 '（N 个从端口）' 文案")
+        elif int(m_n.group(1)) != nblocks:
+            issues.append(f"[D7] §2.2 从端口文案 N={m_n.group(1)} 与 BLOCK 列表实际 {nblocks} 个 ({', '.join(blocks)}) 不一致")
+    # 三方一致性
+    vals = set(counts.values())
+    if len(vals) > 1:
+        issues.append("[D7] 外设寄存器组计数三方不一致: " +
+                      "; ".join(f"{k}={v}" for k, v in counts.items()))
+    return issues, counts
 
 
 def main():
@@ -245,6 +304,7 @@ def main():
     m_issues = check_mem(mem_rows)
     i_issues = check_irq(irq_rows, pads, altfns)
     all_uc, covered, missing, extra = check_uc(uc_text, spec_text)
+    d7_issues, d7_counts = check_periph_count(spec_text, mem_rows)
 
     gpio_pat = re.compile(r"gpio\[\d+\]")
     gpio_cnt = sum(1 for p in pads if gpio_pat.fullmatch(p))
@@ -262,17 +322,20 @@ def main():
     print(f"[M 存储] 地址重叠/越界/引用: " + ("OK" if not m_issues else "; ".join(m_issues)))
     print(f"[I 中断] 号重复/引用/数量: " + ("OK" if not i_issues else "; ".join(i_issues)))
     print(f"[U 遗漏] UC 覆盖: " + ("OK, 无遗漏" if not missing and not extra else
-                                    ("缺失: " + ", ".join(missing) if missing else "") +
-                                    ("; 多余: " + ", ".join(extra) if extra else "")))
+                                     ("缺失: " + ", ".join(missing) if missing else "") +
+                                     ("; 多余: " + ", ".join(extra) if extra else "")))
+    print(f"[C 计数] 外设寄存器组三方一致性: " + ("OK (" + ", ".join(f"{k}={v}" for k, v in d7_counts.items()) + ")"
+                                     if not d7_issues else "; ".join(d7_issues)))
     print("-" * 62)
     print("DoD 判定 (A3: 接口清单冻结, 无遗漏, 无冲突):")
-    failed = bool(p_issues or m_issues or i_issues or missing)
+    failed = bool(p_issues or m_issues or i_issues or missing or d7_issues)
     print(f"  [A3-D1] 引脚名唯一/复用无冲突  : {'满足' if not p_issues else '未满足'}")
     print(f"  [A3-D2] 地址区间无重叠         : {'满足' if not m_issues else '未满足'}")
     print(f"  [A3-D3] 中断号唯一/数量达标    : {'满足' if not i_issues else '未满足'}")
     print(f"  [A3-D4] 引用信号均已定义       : {'满足' if not (p_issues or i_issues) else '未满足'}")
     print(f"  [A3-D5] 位宽一致               : {'满足' if not p_issues else '未满足'}")
     print(f"  [A3-D6] UC 无遗漏(全部有接口)  : {'满足' if not missing else '未满足'}")
+    print(f"  [A3-D7] 外设寄存器组三方计数一致: {'满足' if not d7_issues else '未满足'}")
     print("=" * 62)
     print("CONCLUSION: " + ("FAIL(存在冲突/遗漏, 需修正)" if failed else "PASS(冲突扫描零结果, 遗漏核对为空, 待人工评审签字)"))
     return 1 if failed else 0
