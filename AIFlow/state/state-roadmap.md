@@ -25,6 +25,30 @@
 
 ## Roadmap 条目
 
+### RMP-004 — 勘误/变更影响面管理：主文档↔配套产物配对清单 + 自验范围声明
+- 标题：勘误/变更影响面管理：主文档↔配套产物配对清单 + 自验范围声明
+- 分类：流程改进
+- 状态：adopted（2026-08-21 B1 质量门裁定采纳并落地：governance-retro 机器三查加第 4 查"产物配对一致性"+ 审核附加纪律两条（自验范围声明/变更影响面=配对组）；骨架 Judge 步骤强化自验声明 → 46 skill 再生成）
+- 来源：arch-agent friction log（B1 ADR-024 勘误遗漏 CSV），2026-08-21
+- 动机：arch-008 勘误只改了 .md，配套 module-list.csv 遗漏同步；agent 自验"通过"掩盖了检查范围不含 CSV 的盲区（检查对 ≠ 变更影响面）
+- 方案概述：①节点产物登记"主文档↔配套文件"配对关系（如 md↔csv），勘误 SOP 增加"关键词 grep 于产物配对全组"；②agent 自验报告必须显式声明检查了哪些文件，使范围遗漏可审计
+- 期望收益：消除多文件产物的部分勘误风险；自验可审计
+- 影响范围：节点 skill Measure/Judge 步骤措辞、governance-retro 审核表、文档登记表结构（可选加配对列）
+- 关联：ADR-023（friction log 机制）、ADR-024（本次勘误根因）
+- 处置建议：任一质量门评估后改 planned；最小实现为 governance-retro 审核表加"产物配对一致性"检查行
+
+### RMP-003 — 校验脚本 Windows 控制台中文乱码（输出编码统一 UTF-8）
+- 标题：校验脚本 Windows 控制台中文乱码（输出编码统一 UTF-8）
+- 分类：流程改进
+- 状态：adopted（2026-08-21 B1 质量门裁定全量解决，已落地：7 个脚本统一 stdout/stderr reconfigure UTF-8，GBK 控制台冒烟 10/10 通过；落地节点 B1）
+- 来源：arch-agent friction log（B1 执行），2026-08-21
+- 动机：check_tracker.py 等校验脚本在 Windows GBK 控制台输出中文乱码（如 scaffold 脚本曾因 ⚠ 字符 UnicodeEncodeError 崩溃），影响人机协同可读性与脚本健壮性
+- 方案概述：AIFlow/scripts/ 全部脚本统一 stdout/stderr 强制 UTF-8（`sys.stdout.reconfigure(encoding="utf-8")` 或 PYTHONIOENCODING 约定），消除平台差异
+- 期望收益：脚本输出跨平台可读；杜绝编码崩溃
+- 影响范围：AIFlow/scripts/*.py（约 10 个）、skill-scaffold/scripts
+- 关联：ADR-023（friction log 机制首次产出）
+- 处置建议：任一质量门评估后改 planned，一次性批量修复（30 分钟级）
+
 ### RMP-001 — 内存映射 SPI Flash 访问（MMIO 只读窗口 / XIP）
 - 标题：内存映射 SPI Flash 访问（MMIO 只读窗口 / XIP）
 - 分类：下一版增强（架构备选）
